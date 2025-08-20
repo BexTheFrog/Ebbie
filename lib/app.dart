@@ -1,4 +1,5 @@
 import 'package:ebbie/pages/homepage.dart';
+import 'package:ebbie/pages/pomodoro_page.dart';
 import 'package:flutter/material.dart';
 
 class Ebbie extends StatelessWidget {
@@ -9,8 +10,8 @@ class Ebbie extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      debugShowCheckedModeBanner: false,
+      home: const PomodoroApp(),
     );
   }
 }
-
