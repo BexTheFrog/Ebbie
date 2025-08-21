@@ -27,6 +27,6 @@ flutter:
     - assets/images/
 
   fonts:
-    - family: Schyler
+    - family: CerebriSansPro
       fonts:
         - asset: assets/fonts/CerebriSansPro-Bold.ttf
