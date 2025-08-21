@@ -5,13 +5,12 @@ import 'package:flutter/material.dart';
 class Ebbie extends StatelessWidget {
   const Ebbie({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      home: const PomodoroApp(),
+      title: 'Flutter Demo',
+      home: const MyHomePage(),
     );
   }
 }

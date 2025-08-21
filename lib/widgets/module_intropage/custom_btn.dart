@@ -33,7 +33,7 @@ class BtnForm extends StatelessWidget {
       child: Text(
         title,
         style: const TextStyle(
-          fontFamily: 'Cerebri Sans',
+          fontFamily: 'CerebriSansPro',
           fontSize: 15,
         ),
       ),
