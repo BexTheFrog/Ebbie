@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:ebbie/pages/homepage.dart';
 import 'package:ebbie/pages/pomodoro_page.dart';
-import 'package:flutter/material.dart';
+import 'package:ebbie/pages/profile_page.dart';
+import 'widgets/bottom_nav.dart';
 
 class Ebbie extends StatelessWidget {
   const Ebbie({super.key});
@@ -10,7 +12,7 @@ class Ebbie extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      home: const MyHomePage(),
+            home: const BottomNav(),
     );
   }
 }

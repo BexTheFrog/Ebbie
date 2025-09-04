@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-
 import '../widgets/module_intropage/module_profile.dart';
 
 void main() {
