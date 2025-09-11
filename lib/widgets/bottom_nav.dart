@@ -19,12 +19,24 @@ class _BottomNavState extends State<BottomNav> {
   final isDialOpen = ValueNotifier(false);
 
   // Defina as cores que você deseja usar aqui
-  final Color navBarColor = const Color(0xFF5D576B); // Cor da barra de navegação
-  final Color navBarIconsColor = const Color(0xFFF4F1BB); // Cor dos ícones da barra
-  final Color fabBackgroundColor = const Color(0xFF5D576B); // Cor do botão flutuante principal
-  final Color fabIconsColor = const Color(0xFFF4F1BB); // Cor do ícone do botão flutuante principal
-  final Color fabChildrenBackground = const Color(0xFF9BC1BC); // Cor dos botões filhos
-  final Color fabChildrenIconsColor = const Color(0xFFF4F1BB); // Cor dos ícones dos botões filhos
+  final Color navBarColor = const Color(
+    0xFF5D576B,
+  ); // Cor da barra de navegação
+  final Color navBarIconsColor = const Color(
+    0xFFF4F1BB,
+  ); // Cor dos ícones da barra
+  final Color fabBackgroundColor = const Color(
+    0xFF5D576B,
+  ); // Cor do botão flutuante principal
+  final Color fabIconsColor = const Color(
+    0xFFF4F1BB,
+  ); // Cor do ícone do botão flutuante principal
+  final Color fabChildrenBackground = const Color(
+    0xFF9BC1BC,
+  ); // Cor dos botões filhos
+  final Color fabChildrenIconsColor = const Color(
+    0xFFF4F1BB,
+  ); // Cor dos ícones dos botões filhos
 
   final items = <Widget>[
     const Icon(Icons.home_filled, size: 30),
@@ -42,7 +54,7 @@ class _BottomNavState extends State<BottomNav> {
       ),
     ),
     PomodoroPage(),
-    Placeholder(),
+    ProfilePage(),
   ];
 
   @override
@@ -57,11 +69,13 @@ class _BottomNavState extends State<BottomNav> {
             backgroundColor: Colors.white,
             body: screens[index],
             bottomNavigationBar: Theme(
-              data: Theme.of(context).copyWith(
-                iconTheme: IconThemeData(color: navBarIconsColor),
-              ),
+              data: Theme.of(
+                context,
+              ).copyWith(iconTheme: IconThemeData(color: navBarIconsColor)),
               child: CurvedNavigationBar(
-                buttonBackgroundColor: const Color(0xFF5D576B), // Cor de fundo do botão ativo
+                buttonBackgroundColor: const Color(
+                  0xFF5D576B,
+                ), // Cor de fundo do botão ativo
                 color: navBarColor, // Cor da barra de navegação
                 backgroundColor: Colors.transparent,
                 animationDuration: const Duration(milliseconds: 500),
@@ -79,8 +93,11 @@ class _BottomNavState extends State<BottomNav> {
               child: SpeedDial(
                 icon: Icons.add,
                 activeIcon: Icons.close,
-                backgroundColor: fabBackgroundColor, // Cor de fundo do botão principal
-                iconTheme: IconThemeData(color: fabIconsColor), // Cor do ícone do botão principal
+                backgroundColor:
+                    fabBackgroundColor, // Cor de fundo do botão principal
+                iconTheme: IconThemeData(
+                  color: fabIconsColor,
+                ), // Cor do ícone do botão principal
                 overlayColor: const Color.fromARGB(255, 255, 255, 255),
                 overlayOpacity: 0.5,
                 spacing: 10,

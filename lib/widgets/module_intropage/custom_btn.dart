@@ -4,11 +4,13 @@ import '../../../config/app_colors.dart';
 class BtnForm extends StatelessWidget {
   final String title;
   final Color cor;
+  final Function method;
 
   const BtnForm({
     super.key,
     required this.title,
     required this.cor,
+    required this.method,
   });
 
   @override
@@ -22,20 +24,15 @@ class BtnForm extends StatelessWidget {
           const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
         ),
         shape: WidgetStateProperty.all(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         ),
       ),
       onPressed: () {
-
+        method();
       },
       child: Text(
         title,
-        style: const TextStyle(
-          fontFamily: 'CerebriSansPro',
-          fontSize: 15,
-        ),
+        style: const TextStyle(fontFamily: 'CerebriSansPro', fontSize: 15),
       ),
     );
   }

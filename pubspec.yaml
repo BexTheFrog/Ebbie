@@ -28,7 +28,7 @@ flutter:
 
   assets:
     - assets/images/
-    - assets/images/logo.png
+
 
   fonts:
     - family: CerebriSansPro
