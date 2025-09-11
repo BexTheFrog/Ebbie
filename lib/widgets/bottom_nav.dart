@@ -34,7 +34,7 @@ class _BottomNavState extends State<BottomNav> {
   ];
 
   late final screens = [
-    ProfilePage(),
+    Placeholder(),
     const Center(
       child: Text(
         "Search",
@@ -42,7 +42,7 @@ class _BottomNavState extends State<BottomNav> {
       ),
     ),
     PomodoroPage(),
-    ProfilePage(),
+    Placeholder(),
   ];
 
   @override
