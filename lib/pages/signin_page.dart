@@ -1,0 +1,147 @@
+import 'package:ebbie/config/app_colors.dart';
+import 'package:ebbie/pages/homepage.dart';
+import 'package:ebbie/pages/intro_page.dart';
+import 'package:ebbie/widgets/module_intropage/custom_btn.dart';
+import 'package:ebbie/widgets/module_intropage/custom_form_field.dart';
+import 'package:ebbie/widgets/module_intropage/custom_form_label.dart';
+import 'package:flutter/material.dart';
+
+class SigninPage extends StatefulWidget {
+  const SigninPage({super.key});
+
+  @override
+  State<SigninPage> createState() => _SigninPageState();
+}
+
+class _SigninPageState extends State<SigninPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.pastelBeige,
+      body: ListView(
+        children: [
+          Stack(
+            children: [
+              Positioned(
+                top: 200,
+                right: 150,
+                width: 500,
+                child: Image.asset(
+                  'assets/images/pedaco.png',
+                  fit: BoxFit.cover,
+                ),
+              ),
+
+              Column(
+                children: [
+                  SizedBox(height: 100),
+
+                  Center(
+                    child: Image.asset(
+                      'assets/images/logo_azul.png',
+                      width: 125,
+                    ),
+                  ),
+
+                  SizedBox(height: 15),
+
+                  Container(
+                    padding: EdgeInsets.only(
+                      left: 10,
+                      top: 0,
+                      right: 10,
+                      bottom: 0,
+                    ),
+                    alignment: Alignment.topCenter,
+                    width: 330,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Text(
+                        "Registre-se e salve seu progresso",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'CerebriSansPro',
+                          fontSize: 24,
+                          color: AppColors.tealBlue,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: 15),
+
+                  Form(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(25, 0, 25, 5),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              LabelsForm(title: 'Nome:'),
+                              SizedBox(height: 5),
+                              CustomFormField(
+                                hintText: 'Seu nome...',
+                                state: false,
+                              ),
+                              SizedBox(height: 10),
+                              LabelsForm(title: 'Email:'),
+                              SizedBox(height: 5),
+                              CustomFormField(
+                                hintText: 'User@mail.com...',
+                                state: false,
+                              ),
+                              SizedBox(height: 10),
+                              LabelsForm(title: 'Senha:'),
+                              SizedBox(height: 5),
+                              CustomFormField(
+                                hintText: 'Senha...',
+                                state: true,
+                              ),
+                              SizedBox(height: 10),
+                              LabelsForm(title: 'Confirme sua senha:'),
+                              SizedBox(height: 5),
+                              CustomFormField(
+                                hintText: 'Confirme sua senha...',
+                                state: true,
+                              ),
+                              SizedBox(height: 15),
+                            ],
+                          ),
+                        ),
+
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            BtnForm(
+                              title: 'Criar Conta',
+                              cor: AppColors.darkSlate,
+                              method: () {},
+                            ),
+                            SizedBox(height: 10),
+                            BtnForm(
+                              title: 'Voltar',
+                              cor: AppColors.tealBlue,
+                              method: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => IntroPage(),
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
