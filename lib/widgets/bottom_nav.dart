@@ -4,6 +4,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 // Importando suas páginas
 import 'package:ebbie/pages/homepage.dart';
+import 'package:ebbie/pages/search_page.dart';
 import 'package:ebbie/pages/pomodoro_page.dart';
 import 'package:ebbie/pages/profile_page.dart';
 
@@ -47,12 +48,7 @@ class _BottomNavState extends State<BottomNav> {
 
   late final screens = [
     Placeholder(),
-    const Center(
-      child: Text(
-        "Search",
-        style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-      ),
-    ),
+    SearchPage(),
     PomodoroPage(),
     ProfilePage(),
   ];

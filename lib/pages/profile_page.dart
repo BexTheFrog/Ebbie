@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/custom_appbar.dart';
 import '../widgets/module_intropage/module_profile.dart';
 
 void main() {
@@ -19,60 +20,7 @@ class ProfilePage extends StatelessWidget {
       backgroundColor: Color(0xFFFFF9E9),
 
       // APP BAR
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(80),
-        child: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: const Color(0xFF5D576B),
-          flexibleSpace: SafeArea(
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                // Logo no centro
-                Image.asset('assets/images/logo.png', height: 50),
-
-                // Pontuação no canto superior direito
-                Align(
-  alignment: Alignment.centerRight,
-  child: Container(
-    margin: const EdgeInsets.only(right: 20),
-    padding: const EdgeInsets.symmetric(horizontal: 10),
-    height: 25,
-    decoration: BoxDecoration(
-      color: const Color.fromRGBO(247, 237, 226, 1),
-      borderRadius: BorderRadius.circular(15),
-      border: Border.all(
-        color: const Color(0xFFE9A751), // 👈 cor da borda
-        width: 2, // 👈 espessura da borda
-      ),
-    ),
-    child: Row(
-      mainAxisSize: MainAxisSize.min,
-      children: const [
-        Text(
-          '15',
-          style: TextStyle(
-            color: Color.fromRGBO(233, 167, 81, 1),
-            fontWeight: FontWeight.bold,
-            fontSize: 15,
-          ),
-        ),
-        SizedBox(width: 3),
-        Icon(
-          Icons.paid,
-          color: Color.fromRGBO(233, 167, 81, 1),
-          size: 16,
-        ),
-      ],
-    ),
-  ),
-),
-
-              ],
-            ),
-          ),
-        ),
-      ),
+      appBar: const CustomAppBar(coinCount: 15),
 
       // BODY PRINCIPAL COM SCROLL
       body: SingleChildScrollView(
@@ -191,11 +139,6 @@ class ProfilePage extends StatelessWidget {
                       ),
                     );
                   },
-                  child: Icon(
-                    Icons.drive_file_rename_outline,
-                    color: Colors.white,
-                    size: 26,
-                  ),
                 ),
               ),
             ],

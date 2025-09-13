@@ -1,5 +1,6 @@
 import 'package:ebbie/pages/intro_page.dart';
 import 'package:ebbie/pages/revision_page.dart';
+import 'package:ebbie/pages/search_page.dart';
 import 'package:ebbie/pages/signin_page.dart';
 import 'package:flutter/material.dart';
 import 'package:ebbie/pages/homepage.dart';
@@ -15,7 +16,7 @@ class Ebbie extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Ebbie',
-      home: IntroPage(),
+      home: BottomNav(),
     );
   }
 }
