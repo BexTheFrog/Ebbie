@@ -19,7 +19,7 @@ class Ebbie extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Ebbie',
       // home: BottomNav(),
-      home: BottomNav(),
+      home: RevisionPage(),
     );
   }
 }
