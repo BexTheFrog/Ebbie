@@ -20,6 +20,7 @@ class Ebbie extends StatelessWidget {
       title: 'Ebbie',
       // home: BottomNav(),
       home: IntroPage(),
+
     );
   }
 }
