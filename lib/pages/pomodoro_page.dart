@@ -141,88 +141,79 @@ class _PomodoroPageState extends State<PomodoroPage> {
       backgroundColor: const Color(0xFFFDF7E4),
       body: Column(
         children: [
-          const SizedBox(height: 30),
+          SizedBox(height: 35),
           GestureDetector(
             onTap: nextMode,
-            child: Container(
-              width: currentMode == PomodoroMode.foco ? 100 : 160,
-              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 15),
-              decoration: BoxDecoration(
-                color: currentMode == PomodoroMode.foco
-                    ? const Color(0xFFEA6D5A)
-                    : currentMode == PomodoroMode.pausaCurta
-                    ? const Color(0xFFD3D0A0)
-                    : const Color(0xFF9BC1BC),
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    currentMode == PomodoroMode.foco
-                        ? Icons.psychology
-                        : currentMode == PomodoroMode.pausaCurta
-                        ? Icons.local_cafe
-                        : Icons.coffee,
-                    color: Colors.white,
-                    size: 25,
-                  ),
-                  const SizedBox(width: 5),
-                  Text(
-                    currentMode == PomodoroMode.foco
-                        ? "Foco"
-                        : currentMode == PomodoroMode.pausaCurta
-                        ? "Pausa Curta"
-                        : "Pausa Longa",
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-
-          SizedBox(
-            height: 405,
-            child: Stack(
-              alignment: Alignment.topCenter,
-              children: [
-                FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Text(
-                    minutes,
-                    style: const TextStyle(
-                      fontSize: 205,
-                      color: Color.fromRGBO(155, 193, 188, 1),
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 5,
-                    ),
-                  ),
+            child: IntrinsicWidth(
+              child: Container(
+                height: 50,
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                decoration: BoxDecoration(
+                  color: currentMode == PomodoroMode.foco
+                      ? const Color(0xFFEA6D5A)
+                      : currentMode == PomodoroMode.pausaCurta
+                      ? const Color(0xFFD3D0A0)
+                      : const Color(0xFF9BC1BC),
+                  borderRadius: BorderRadius.circular(30),
                 ),
-                Positioned(
-                  top: 180,
-                  child: FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Text(
-                      seconds,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      currentMode == PomodoroMode.foco
+                          ? Icons.psychology
+                          : currentMode == PomodoroMode.pausaCurta
+                          ? Icons.local_cafe
+                          : Icons.coffee,
+                      color: Colors.white,
+                      size: 25,
+                    ),
+                    const SizedBox(width: 5),
+                    Text(
+                      currentMode == PomodoroMode.foco
+                          ? "Foco"
+                          : currentMode == PomodoroMode.pausaCurta
+                          ? "Pausa Curta"
+                          : "Pausa Longa",
                       style: const TextStyle(
-                        fontSize: 205,
-                        color: Color.fromRGBO(155, 193, 188, 1),
+                        color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        letterSpacing: 3,
+                        fontSize: 18,
                       ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
 
-          const SizedBox(height: 60), // espaço antes dos controles
-          // Controles
+          SizedBox(height: 35),
+
+          Column(
+            children: [
+              Text(
+                minutes,
+                style: TextStyle(
+                  height: 0.9,
+                  fontSize: 200,
+                  color: Color.fromRGBO(155, 193, 188, 1),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                seconds,
+                style: TextStyle(
+                  height: 0.9,
+                  fontSize: 200,
+                  color: Color.fromRGBO(155, 193, 188, 1),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+
+          SizedBox(height: 35),
+
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
