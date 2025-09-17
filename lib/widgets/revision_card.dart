@@ -5,10 +5,10 @@ class RevisionCard extends StatelessWidget {
   final String subtitle;
 
   const RevisionCard({
-    Key? key,
+    super.key,
     required this.title,
     required this.subtitle,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -79,10 +79,10 @@ class _CardButton extends StatelessWidget {
   final IconData icon;
 
   const _CardButton({
-    Key? key,
+    super.key,
     required this.text,
     required this.icon,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

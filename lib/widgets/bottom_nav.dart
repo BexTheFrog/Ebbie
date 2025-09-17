@@ -3,7 +3,6 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 // Importando suas páginas
-import 'package:ebbie/pages/homepage.dart';
 import 'package:ebbie/pages/search_page.dart';
 import 'package:ebbie/pages/pomodoro_page.dart';
 import 'package:ebbie/pages/profile_page.dart';

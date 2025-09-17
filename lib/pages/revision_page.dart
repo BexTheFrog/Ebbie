@@ -4,7 +4,7 @@ import 'package:ebbie/widgets/revision_card.dart';
 import 'package:flutter/material.dart';
 
 class RevisionPage extends StatelessWidget {
-  const RevisionPage({Key? key}) : super(key: key);
+  const RevisionPage({super.key});
 
   @override
   Widget build(BuildContext context) {
