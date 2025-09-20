@@ -1,6 +1,8 @@
+import 'package:ebbie/pages/email_page.dart';
+import 'package:ebbie/pages/name_page.dart';
 import 'package:ebbie/pages/profile_page.dart';
 import 'package:ebbie/pages/revision_page.dart';
-import 'package:ebbie/pages/settings_page.dart';
+import 'package:ebbie/pages/password_page.dart';
 import 'package:flutter/material.dart';
 
 import 'widgets/bottom_nav.dart';
@@ -14,7 +16,7 @@ class Ebbie extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Ebbie',
       // home: BottomNav(),
-      home: BottomNav(),
+      home: NamePage(),
     );
   }
 }
