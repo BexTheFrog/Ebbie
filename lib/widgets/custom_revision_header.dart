@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class GramaticaHeader extends StatelessWidget {
-  const GramaticaHeader({Key? key}) : super(key: key);
+  const GramaticaHeader({super.key});
 
   @override
   Widget build(BuildContext context) {

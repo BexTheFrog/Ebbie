@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final int coinCount;
 
-  const CustomAppBar({Key? key, this.coinCount = 0}) : super(key: key);
+  const CustomAppBar({super.key, this.coinCount = 0});
 
   @override
   Widget build(BuildContext context) {

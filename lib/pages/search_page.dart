@@ -14,7 +14,7 @@ class SearchPage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          children: const [
+          children: [
             //==== BARRA DE PESQUISA
             TextField(
               decoration: InputDecoration(
@@ -37,11 +37,11 @@ class SearchPage extends StatelessWidget {
                 ),
               ),
             ),
-             SizedBox(height: 5),
+             SizedBox(height: 25),
 
              CustomDropdownMenu(),
 
-             EmptySearchState(),
+             Expanded(child: EmptySearchState()),
           ],
         ),
       ),
