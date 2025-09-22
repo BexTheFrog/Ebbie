@@ -1,49 +1,63 @@
 import 'package:flutter/material.dart';
 import '../../../config/app_colors.dart';
 
- 
-class CustomFormField extends StatelessWidget {
+class CustomFormField extends StatefulWidget {
   final String hintText;
-  final bool state;
+  final bool isPassword;
 
- 
   const CustomFormField({
     super.key,
     required this.hintText,
-    required this.state,
-
+    required this.isPassword,
   });
+
+  @override
+  State<CustomFormField> createState() => _CustomFormFieldState();
+}
+
+class _CustomFormFieldState extends State<CustomFormField> {
+  late bool _obscureText;
+
+  @override
+  void initState() {
+    super.initState();
+    _obscureText = widget.isPassword;
+  }
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-                      width: 350,
-                      child: TextFormField(
-                        obscureText: state,
-                        decoration: InputDecoration(
-                          hintText: hintText,
-                          hintStyle: TextStyle(
-                            color: Color.fromRGBO(158, 157, 157, 1)
-                          ), // Fica fixo como placeholder
-                          filled: true,
-                          fillColor: AppColors.pastelBeige, // evita flutuar
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(15)),
-                            borderSide: BorderSide(
-                              color: AppColors.tealBlue,
-                              width: 3,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(15)),
-                            borderSide: BorderSide(
-                              color: AppColors.tealBlue,
-                              width: 3,
-                            ),
-                          ),
-                        ),
-                      ),
-
+      width: 350,
+      child: TextFormField(
+        obscureText: _obscureText,
+        decoration: InputDecoration(
+          hintText: widget.hintText,
+          hintStyle: const TextStyle(color: Color.fromRGBO(158, 157, 157, 1)),
+          filled: true,
+          fillColor: AppColors.pastelBeige,
+          suffixIcon: widget.isPassword
+              ? GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _obscureText = !_obscureText;
+                    });
+                  },
+                  child: Icon(
+                    _obscureText ? Icons.visibility_off : Icons.visibility,
+                    color: AppColors.tealBlue,
+                  ),
+                )
+              : null,
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(15)),
+            borderSide: BorderSide(color: AppColors.tealBlue, width: 3),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(15)),
+            borderSide: BorderSide(color: AppColors.tealBlue, width: 3),
+          ),
+        ),
+      ),
     );
   }
 }

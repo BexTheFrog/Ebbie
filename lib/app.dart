@@ -1,7 +1,10 @@
 import 'package:ebbie/pages/revision_page.dart';
 import 'package:ebbie/pages/teste_page.dart';
 import 'package:flutter/material.dart';
-
+import 'package:ebbie/pages/homepage.dart';
+import 'package:ebbie/pages/pomodoro_page.dart';
+import 'package:ebbie/pages/profile_page.dart';
+import 'package:ebbie/pages/subject_page.dart';
 import 'widgets/bottom_nav.dart';
 
 class Ebbie extends StatelessWidget {
@@ -13,7 +16,8 @@ class Ebbie extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Ebbie',
       // home: BottomNav(),
-      home: TestePage(),
+      home: IntroPage(),
+
     );
   }
 }
