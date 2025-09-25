@@ -1,22 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const PomodoroApp());
-}
-
-class PomodoroApp extends StatelessWidget {
-  const PomodoroApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: PomodoroPage(),
-    );
-  }
-}
-
 enum PomodoroMode { foco, pausaCurta, pausaLonga }
 
 class PomodoroPage extends StatefulWidget {
@@ -27,6 +11,104 @@ class PomodoroPage extends StatefulWidget {
 }
 
 class _PomodoroPageState extends State<PomodoroPage> {
+  OverlayEntry? _overlayEntry;
+
+  OverlayEntry _createOverlayEntry(BuildContext context) {
+    return OverlayEntry(
+      builder: (context) => Stack(
+        children: [
+          GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: () {
+              _hideOverlay();
+            },
+          ),
+
+          Positioned(
+            top: 150,
+            left: 29,
+
+            child: Material(
+              // color: Colors.transparent,
+              child: Container(
+                width: 370,
+                height: 600,
+                padding: EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Color.fromRGBO(247, 237, 226, 1),
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.3),
+                      blurRadius: 5,
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Definir tempo pomoEbbie",
+                      style: TextStyle(
+                        color: Color.fromRGBO(93, 87, 108, 0.700),
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 30),
+
+                    _buildOption("Foco", 25, () {
+                      setState(() {
+                        currentMode = PomodoroMode.foco;
+                        totalSeconds = 25 * 60;
+                        remainingSeconds = totalSeconds;
+                        isRunning = false;
+                        timer?.cancel();
+                      });
+                      _hideOverlay();
+                    }),
+
+                    _buildOption("Pausa Curta", 5, () {
+                      setState(() {
+                        currentMode = PomodoroMode.pausaCurta;
+                        totalSeconds = 5 * 60;
+                        remainingSeconds = totalSeconds;
+                        isRunning = false;
+                        timer?.cancel();
+                      });
+                      _hideOverlay();
+                    }),
+
+                    _buildOption("Pausa Longa", 15, () {
+                      setState(() {
+                        currentMode = PomodoroMode.pausaLonga;
+                        totalSeconds = 15 * 60;
+                        remainingSeconds = totalSeconds;
+                        isRunning = false;
+                        timer?.cancel();
+                      });
+                      _hideOverlay();
+                    }),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showOverlay() {
+    _overlayEntry = _createOverlayEntry(context);
+    Overlay.of(context).insert(_overlayEntry!);
+  }
+
+  void _hideOverlay() {
+    _overlayEntry?.remove();
+    _overlayEntry = null;
+  }
+
   PomodoroMode currentMode = PomodoroMode.foco;
   int totalSeconds = 25 * 60;
   int remainingSeconds = 25 * 60;
@@ -217,17 +299,26 @@ class _PomodoroPageState extends State<PomodoroPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: const Color(0xFFD3D0A0),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                height: 70,
-                width: 70,
-                child: const Icon(
-                  Icons.more_horiz,
-                  color: Colors.white,
-                  size: 35,
+              GestureDetector(
+                onTap: () {
+                  if (_overlayEntry == null) {
+                    _showOverlay();
+                  } else {
+                    _hideOverlay();
+                  }
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFD3D0A0),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  height: 70,
+                  width: 70,
+                  child: const Icon(
+                    Icons.more_horiz,
+                    color: Colors.white,
+                    size: 35,
+                  ),
                 ),
               ),
               const SizedBox(width: 15),
