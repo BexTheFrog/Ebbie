@@ -1,5 +1,4 @@
 import 'package:ebbie/config/app_colors.dart';
-import 'package:ebbie/pages/homepage.dart';
 import 'package:ebbie/pages/intro_page.dart';
 import 'package:ebbie/widgets/module_intropage/custom_btn.dart';
 import 'package:ebbie/widgets/module_intropage/custom_form_field.dart';
@@ -21,20 +20,21 @@ class _SigninPageState extends State<SigninPage> {
       body: ListView(
         children: [
           Stack(
+            clipBehavior: Clip.none,
             children: [
               Positioned(
-                top: 200,
-                right: 150,
-                width: 500,
+                top: 180,
+                right: 145,
+                width: 475,
                 child: Image.asset(
                   'assets/images/pedaco.png',
-                  fit: BoxFit.cover,
+                  fit: BoxFit.fill,
                 ),
               ),
 
               Column(
                 children: [
-                  SizedBox(height: 100),
+                  SizedBox(height: 50),
 
                   Center(
                     child: Image.asset(
@@ -82,28 +82,28 @@ class _SigninPageState extends State<SigninPage> {
                               SizedBox(height: 5),
                               CustomFormField(
                                 hintText: 'Seu nome...',
-                                state: false,
+                                isPassword: false,
                               ),
                               SizedBox(height: 10),
                               LabelsForm(title: 'Email:'),
                               SizedBox(height: 5),
                               CustomFormField(
                                 hintText: 'User@mail.com...',
-                                state: false,
+                                isPassword: false,
                               ),
                               SizedBox(height: 10),
                               LabelsForm(title: 'Senha:'),
                               SizedBox(height: 5),
                               CustomFormField(
                                 hintText: 'Senha...',
-                                state: true,
+                                isPassword: true,
                               ),
                               SizedBox(height: 10),
                               LabelsForm(title: 'Confirme sua senha:'),
                               SizedBox(height: 5),
                               CustomFormField(
                                 hintText: 'Confirme sua senha...',
-                                state: true,
+                                isPassword: true,
                               ),
                               SizedBox(height: 15),
                             ],
@@ -123,12 +123,7 @@ class _SigninPageState extends State<SigninPage> {
                               title: 'Voltar',
                               cor: AppColors.tealBlue,
                               method: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => IntroPage(),
-                                  ),
-                                );
+                                Navigator.pop(context);
                               },
                             ),
                           ],

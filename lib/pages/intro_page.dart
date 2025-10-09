@@ -98,12 +98,12 @@ class _IntroPageState extends State<IntroPage> {
                           SizedBox(height: 5),
                           CustomFormField(
                             hintText: 'Usuario@mail.com',
-                            state: false,
+                            isPassword: false,
                           ),
                           SizedBox(height: 20),
                           LabelsForm(title: 'Senha:'),
                           SizedBox(height: 5),
-                          CustomFormField(hintText: 'Senha', state: true),
+                          CustomFormField(hintText: 'Senha', isPassword: true),
                           SizedBox(height: 40),
                           Center(
                             child: BtnForm(

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:ebbie/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 
 enum PomodoroMode { foco, pausaCurta, pausaLonga }
