@@ -58,38 +58,38 @@ class _PomodoroPageState extends State<PomodoroPage> {
                     ),
                     SizedBox(height: 30),
 
-                    _buildOption("Foco", 25, () {
-                      setState(() {
-                        currentMode = PomodoroMode.foco;
-                        totalSeconds = 25 * 60;
-                        remainingSeconds = totalSeconds;
-                        isRunning = false;
-                        timer?.cancel();
-                      });
-                      _hideOverlay();
-                    }),
+                    // _buildOption("Foco", 25, () {
+                    //   setState(() {
+                    //     currentMode = PomodoroMode.foco;
+                    //     totalSeconds = 25 * 60;
+                    //     remainingSeconds = totalSeconds;
+                    //     isRunning = false;
+                    //     timer?.cancel();
+                    //   });
+                    //   _hideOverlay();
+                    // }),
 
-                    _buildOption("Pausa Curta", 5, () {
-                      setState(() {
-                        currentMode = PomodoroMode.pausaCurta;
-                        totalSeconds = 5 * 60;
-                        remainingSeconds = totalSeconds;
-                        isRunning = false;
-                        timer?.cancel();
-                      });
-                      _hideOverlay();
-                    }),
+                    // _buildOption("Pausa Curta", 5, () {
+                    //   setState(() {
+                    //     currentMode = PomodoroMode.pausaCurta;
+                    //     totalSeconds = 5 * 60;
+                    //     remainingSeconds = totalSeconds;
+                    //     isRunning = false;
+                    //     timer?.cancel();
+                    //   });
+                    //   _hideOverlay();
+                    // }),
 
-                    _buildOption("Pausa Longa", 15, () {
-                      setState(() {
-                        currentMode = PomodoroMode.pausaLonga;
-                        totalSeconds = 15 * 60;
-                        remainingSeconds = totalSeconds;
-                        isRunning = false;
-                        timer?.cancel();
-                      });
-                      _hideOverlay();
-                    }),
+                    // _buildOption("Pausa Longa", 15, () {
+                    //   setState(() {
+                    //     currentMode = PomodoroMode.pausaLonga;
+                    //     totalSeconds = 15 * 60;
+                    //     remainingSeconds = totalSeconds;
+                    //     isRunning = false;
+                    //     timer?.cancel();
+                    //   });
+                    //   _hideOverlay();
+                    // }),
                   ],
                 ),
               ),

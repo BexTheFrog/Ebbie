@@ -1,6 +1,7 @@
-import 'package:ebbie/widgets/custom_appbar.dart';
+
 import 'package:ebbie/widgets/custom_revision_header.dart';
 import 'package:ebbie/widgets/revision_card.dart';
+import 'package:ebbie/widgets/revision_page_appbar.dart';
 import 'package:flutter/material.dart';
 
 class RevisionPage extends StatelessWidget {
@@ -9,7 +10,7 @@ class RevisionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(coinCount: 15),
+      appBar: const RevisionPageAppbar(),
       backgroundColor: const Color(0xFFFFF9E9),
       body: SingleChildScrollView(
         child: Column(
