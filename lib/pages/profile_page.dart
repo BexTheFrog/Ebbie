@@ -24,8 +24,8 @@ class ProfilePage extends StatelessWidget {
               children: [
                 SizedBox(height: 50),
                 _buildProfileContainer(context),
-                SizedBox(height: 30),
-                AchievementsProfile(),
+                // SizedBox(height: 30),
+                // AchievementsProfile(), SE A BEATRIZ ALGUM DIA TOCAR NO PROJETO DE NOVO TA AQUI
                 SizedBox(height: 50),
                 ModuleProfile(),
                 SizedBox(height: 80),

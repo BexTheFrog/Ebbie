@@ -1,3 +1,9 @@
+import 'package:ebbie/pages/about_page.dart';
+import 'package:ebbie/pages/accessibility_page.dart';
+import 'package:ebbie/pages/cheat_page.dart';
+import 'package:ebbie/pages/password_page.dart';
+import 'package:ebbie/pages/profile_page.dart';
+import 'package:ebbie/pages/subject_page.dart';
 import 'package:flutter/material.dart';
 import 'package:ebbie/widgets/settings_appbar.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -118,21 +124,29 @@ class SettingsPage extends StatelessWidget {
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        trailing: Container(
-                          width: 30,
-                          height: 30,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF9BC1BC),
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: const Color(0xFFF4F1BB),
-                              width: 3,
+                        trailing: GestureDetector(
+                          onTap: (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const PasswordPage()),
+                            );
+                          },
+                          child: Container(
+                            width: 30,
+                            height: 30,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF9BC1BC),
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                color: const Color(0xFFF4F1BB),
+                                width: 3,
+                              ),
                             ),
-                          ),
-                          child: Icon(
-                            Icons.arrow_forward_rounded,
-                            size: 20,
-                            color: borderColor,
+                            child: Icon(
+                              Icons.arrow_forward_rounded,
+                              size: 20,
+                              color: borderColor,
+                            ),
                           ),
                         ),
                       ),
@@ -172,74 +186,73 @@ class SettingsPage extends StatelessWidget {
                 child: Column(
                   children: [
                     // Notificações
-                    Container(
-                      margin: const EdgeInsets.only(bottom: 0),
-                      decoration: BoxDecoration(
-                        color: backgroundColor,
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          topRight: Radius.circular(10),
-                        ),
-                        border: Border.all(color: borderColor, width: 3),
-                      ),
-                      child: ListTile(
-                        title: Text(
-                          "Notificações",
-                          style: TextStyle(
-                            color: borderColor,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        trailing: Container(
-                          width: 30,
-                          height: 30,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF9BC1BC),
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: Color(0xFFF4F1BB),
-                              width: 3,
-                            ),
-                          ),
-                          child: Icon(
-                            Icons.arrow_forward_rounded,
-                            size: 20,
-                            color: borderColor,
-                          ),
-                        ),
-                      ),
-                    ),
+                    // Container(
+                    //   margin: const EdgeInsets.only(bottom: 0),
+                    //   decoration: BoxDecoration(
+                    //     color: backgroundColor,
+                    //     borderRadius: const BorderRadius.only(
+                    //       topLeft: Radius.circular(10),
+                    //       topRight: Radius.circular(10),
+                    //     ),
+                    //     border: Border.all(color: borderColor, width: 3),
+                    //   ),
+                    //   child: ListTile(
+                    //     title: Text(
+                    //       "Notificações",
+                    //       style: TextStyle(
+                    //         color: borderColor,
+                    //         fontWeight: FontWeight.w500,
+                    //       ),
+                    //     ),
+                    //     trailing: Container(
+                    //       width: 30,
+                    //       height: 30,
+                    //       decoration: BoxDecoration(
+                    //         color: const Color(0xFF9BC1BC),
+                    //         borderRadius: BorderRadius.circular(8),
+                    //         border: Border.all(
+                    //           color: Color(0xFFF4F1BB),
+                    //           width: 3,
+                    //         ),
+                    //       ),
+                    //       child: Icon(
+                    //         Icons.arrow_forward_rounded,
+                    //         size: 20,
+                    //         color: borderColor,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
         
-                    // Vibração
-                    Container(
-                      margin: const EdgeInsets.only(bottom: 0),
-                      decoration: BoxDecoration(
-                        color: backgroundColor,
-                        border: Border.all(color: borderColor, width: 3),
-                      ),
-                      child: ListTile(
-                        title: Text(
-                          "Vibração",
-                          style: TextStyle(
-                            color: borderColor,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        trailing: Text(
-                          "Ativado",
-                          style: TextStyle(fontSize: 14, color: borderColor),
-                        ),
-                      ),
-                    ),
+                    // // Vibração
+                    // Container(
+                    //   margin: const EdgeInsets.only(bottom: 0),
+                    //   decoration: BoxDecoration(
+                    //     color: backgroundColor,
+                    //     border: Border.all(color: borderColor, width: 3),
+                    //   ),
+                    //   child: ListTile(
+                    //     title: Text(
+                    //       "Vibração",
+                    //       style: TextStyle(
+                    //         color: borderColor,
+                    //         fontWeight: FontWeight.w500,
+                    //       ),
+                    //     ),
+                    //     trailing: Text(
+                    //       "Ativado",
+                    //       style: TextStyle(fontSize: 14, color: borderColor),
+                    //     ),
+                    //   ),
+                    // ),
         
                     // Acessibilidade
                     Container(
                       margin: const EdgeInsets.only(bottom: 16),
                       decoration: BoxDecoration(
                         color: backgroundColor,
-                        borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(10),
-                          bottomRight: Radius.circular(10),
+                        borderRadius: BorderRadius.circular(10
+                          
                         ),
                         border: Border.all(color: borderColor, width: 3),
                       ),
@@ -251,21 +264,29 @@ class SettingsPage extends StatelessWidget {
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        trailing: Container(
-                          width: 30,
-                          height: 30,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF9BC1BC),
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: Color(0xFFF4F1BB),
-                              width: 3,
+                        trailing: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => AccessibilityPage()),
+                            );
+                          },
+                          child: Container(
+                            width: 30,
+                            height: 30,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF9BC1BC),
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                color: Color(0xFFF4F1BB),
+                                width: 3,
+                              ),
                             ),
-                          ),
-                          child: Icon(
-                            Icons.arrow_forward_rounded,
-                            size: 20,
-                            color: borderColor,
+                            child: Icon(
+                              Icons.arrow_forward_rounded,
+                              size: 20,
+                              color: borderColor,
+                            ),
                           ),
                         ),
                       ),
@@ -343,75 +364,83 @@ class SettingsPage extends StatelessWidget {
                       ),
                     ),
         
-                    // Medalhas
-                    Container(
-                      margin: const EdgeInsets.only(bottom: 0),
-                      decoration: BoxDecoration(
-                        color: backgroundColor,
-                        border: Border.all(color: borderColor, width: 3),
-                      ),
-                      child: ListTile(
-                        title: Text(
-                          "Medalhas",
-                          style: TextStyle(
-                            color: borderColor,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        trailing: Container(
-                          width: 30,
-                          height: 30,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF9BC1BC),
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: Color(0xFFF4F1BB),
-                              width: 3,
-                            ),
-                          ),
-                          child: Icon(
-                            Icons.arrow_forward_rounded,
-                            size: 20,
-                            color: borderColor,
-                          ),
-                        ),
-                      ),
-                    ),
+                    // // Medalhas
+                    // Container(
+                    //   margin: const EdgeInsets.only(bottom: 0),
+                    //   decoration: BoxDecoration(
+                    //     color: backgroundColor,
+                    //     border: Border.all(color: borderColor, width: 3),
+                    //   ),
+                    //   child: ListTile(
+                    //     title: Text(
+                    //       "Medalhas",
+                    //       style: TextStyle(
+                    //         color: borderColor,
+                    //         fontWeight: FontWeight.w500,
+                    //       ),
+                    //     ),
+                    //     trailing: Container(
+                    //       width: 30,
+                    //       height: 30,
+                    //       decoration: BoxDecoration(
+                    //         color: const Color(0xFF9BC1BC),
+                    //         borderRadius: BorderRadius.circular(8),
+                    //         border: Border.all(
+                    //           color: Color(0xFFF4F1BB),
+                    //           width: 3,
+                    //         ),
+                    //       ),
+                    //       child: Icon(
+                    //         Icons.arrow_forward_rounded,
+                    //         size: 20,
+                    //         color: borderColor,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
         
-                    // CheatMenu
-                    Container(
-                      margin: const EdgeInsets.only(bottom: 0),
-                      decoration: BoxDecoration(
-                        color: backgroundColor,
-                        border: Border.all(color: borderColor, width: 3),
-                      ),
-                      child: ListTile(
-                        title: Text(
-                          "CheatMenu",
-                          style: TextStyle(
-                            color: borderColor,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        trailing: Container(
-                          width: 30,
-                          height: 30,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF9BC1BC),
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: Color(0xFFF4F1BB),
-                              width: 3,
-                            ),
-                          ),
-                          child: Icon(
-                            Icons.arrow_forward_rounded,
-                            size: 20,
-                            color: borderColor,
-                          ),
-                        ),
-                      ),
-                    ),
+                    // // CheatMenu
+                    // Container(
+                    //   margin: const EdgeInsets.only(bottom: 0),
+                    //   decoration: BoxDecoration(
+                    //     color: backgroundColor,
+                    //     border: Border.all(color: borderColor, width: 3),
+                    //   ),
+                    //   child: ListTile(
+                    //     title: Text(
+                    //       "CheatMenu",
+                    //       style: TextStyle(
+                    //         color: borderColor,
+                    //         fontWeight: FontWeight.w500,
+                    //       ),
+                    //     ),
+                    //     trailing: GestureDetector(
+                    //       onTap: () {
+                    //         Navigator.push(
+                    //           context,
+                    //           MaterialPageRoute(builder: (context) => CheatPage()),
+                    //         );
+                    //       },
+                    //       child: Container(
+                    //         width: 30,
+                    //         height: 30,
+                    //         decoration: BoxDecoration(
+                    //           color: const Color(0xFF9BC1BC),
+                    //           borderRadius: BorderRadius.circular(8),
+                    //           border: Border.all(
+                    //             color: Color(0xFFF4F1BB),
+                    //             width: 3,
+                    //           ),
+                    //         ),
+                    //         child: Icon(
+                    //           Icons.arrow_forward_rounded,
+                    //           size: 20,
+                    //           color: borderColor,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
         
                     // Sobre Nós
                     Container(
@@ -432,21 +461,29 @@ class SettingsPage extends StatelessWidget {
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        trailing: Container(
-                          width: 30,
-                          height: 30,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF9BC1BC),
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: Color(0xFFF4F1BB),
-                              width: 3,
+                        trailing: GestureDetector(
+                          onTap: (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => AboutUsPage()),
+                            );
+                          },
+                          child: Container(
+                            width: 30,
+                            height: 30,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF9BC1BC),
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                color: Color(0xFFF4F1BB),
+                                width: 3,
+                              ),
                             ),
-                          ),
-                          child: Icon(
-                            Icons.arrow_forward_rounded,
-                            size: 20,
-                            color: borderColor,
+                            child: Icon(
+                              Icons.arrow_forward_rounded,
+                              size: 20,
+                              color: borderColor,
+                            ),
                           ),
                         ),
                       ),
