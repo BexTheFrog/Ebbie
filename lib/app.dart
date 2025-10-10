@@ -1,3 +1,4 @@
+import 'package:ebbie/pages/acessibilidade_page.dart';
 import 'package:ebbie/pages/email_page.dart';
 import 'package:ebbie/pages/intro_page.dart';
 import 'package:ebbie/pages/name_page.dart';
@@ -22,6 +23,8 @@ class Ebbie extends StatelessWidget {
       title: 'Ebbie',
       home: IntroPage(),
 
+      // home: BottomNav(),
+      home: AcessibilidadePage(),
     );
   }
 }

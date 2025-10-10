@@ -14,85 +14,300 @@ class PomodoroPage extends StatefulWidget {
 class _PomodoroPageState extends State<PomodoroPage> {
   OverlayEntry? _overlayEntry;
 
+  int focusMinutes = 25;
+  int shortBreakMinutes = 5;
+  int longBreakMinutes = 15;
+
+  PomodoroMode currentMode = PomodoroMode.foco;
+  int totalSeconds = 25 * 60;
+  int remainingSeconds = 25 * 60;
+  Timer? timer;
+  bool isRunning = false;
+
+  bool autoStartBreak = false;
+  PomodoroMode selectedBreakType = PomodoroMode.pausaCurta;
+  bool autoStartFocus = false;
+
   OverlayEntry _createOverlayEntry(BuildContext context) {
+    final focoController = TextEditingController(text: focusMinutes.toString());
+    final curtaController = TextEditingController(
+      text: shortBreakMinutes.toString(),
+    );
+    final longaController = TextEditingController(
+      text: longBreakMinutes.toString(),
+    );
+
     return OverlayEntry(
       builder: (context) => Stack(
         children: [
           GestureDetector(
             behavior: HitTestBehavior.translucent,
-            onTap: () {
-              _hideOverlay();
-            },
+            onTap: _hideOverlay,
+            child: Container(color: Colors.black.withOpacity(0.4)),
           ),
-
-          Positioned(
-            top: 150,
-            left: 29,
-
+          Center(
             child: Material(
-              // color: Colors.transparent,
+              color: Colors.transparent,
               child: Container(
                 width: 370,
-                height: 600,
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: Color.fromRGBO(247, 237, 226, 1),
-                  borderRadius: BorderRadius.circular(10),
+                  color: const Color.fromRGBO(247, 237, 226, 1),
+                  borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.3),
-                      blurRadius: 5,
+                      blurRadius: 10,
                     ),
                   ],
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Definir tempo pomoEbbie",
-                      style: TextStyle(
-                        color: Color.fromRGBO(93, 87, 108, 0.700),
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                child: StatefulBuilder(
+                  builder: (context, setOverlayState) => Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text(
+                        "Personalizar tempos",
+                        style: TextStyle(
+                          color: Color.fromRGBO(93, 87, 108, 1),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 30),
+                      const SizedBox(height: 25),
 
-                    // _buildOption("Foco", 25, () {
-                    //   setState(() {
-                    //     currentMode = PomodoroMode.foco;
-                    //     totalSeconds = 25 * 60;
-                    //     remainingSeconds = totalSeconds;
-                    //     isRunning = false;
-                    //     timer?.cancel();
-                    //   });
-                    //   _hideOverlay();
-                    // }),
+   
+                      _buildTimeEditor(
+                        "Foco",
+                        focoController,
+                        const Color(0xFFEA6D5A),
+                      ),
+                      const SizedBox(height: 15),
+                      _buildTimeEditor(
+                        "Pausa Curta",
+                        curtaController,
+                        const Color(0xFFD3D0A0),
+                      ),
+                      const SizedBox(height: 15),
+                      _buildTimeEditor(
+                        "Pausa Longa",
+                        longaController,
+                        const Color(0xFF9BC1BC),
+                      ),
+                      const SizedBox(height: 25),
 
-                    // _buildOption("Pausa Curta", 5, () {
-                    //   setState(() {
-                    //     currentMode = PomodoroMode.pausaCurta;
-                    //     totalSeconds = 5 * 60;
-                    //     remainingSeconds = totalSeconds;
-                    //     isRunning = false;
-                    //     timer?.cancel();
-                    //   });
-                    //   _hideOverlay();
-                    // }),
+                      Row(
+                        children: [
+                          Checkbox(
+                            value: autoStartBreak,
+                            onChanged: (value) {
+                              setOverlayState(() {
+                                autoStartBreak = value ?? false;
+                              });
+                            },
+                          ),
+                          const Text(
+                            "Iniciar pausa automaticamente",
+                            style: TextStyle(
+                              color: Color.fromRGBO(93, 87, 108, 1),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
 
-                    // _buildOption("Pausa Longa", 15, () {
-                    //   setState(() {
-                    //     currentMode = PomodoroMode.pausaLonga;
-                    //     totalSeconds = 15 * 60;
-                    //     remainingSeconds = totalSeconds;
-                    //     isRunning = false;
-                    //     timer?.cancel();
-                    //   });
-                    //   _hideOverlay();
-                    // }),
-                  ],
+                      if (autoStartBreak)
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 8,
+                          ),
+                          margin: const EdgeInsets.only(bottom: 15),
+                          decoration: BoxDecoration(
+                            color: const Color.fromRGBO(240, 232, 219, 1),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Tipo de pausa:",
+                                style: TextStyle(
+                                  color: Color.fromRGBO(93, 87, 108, 1),
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  Checkbox(
+                                    value:
+                                        selectedBreakType ==
+                                        PomodoroMode.pausaCurta,
+                                    onChanged: (value) {
+                                      if (value == true) {
+                                        setOverlayState(() {
+                                          selectedBreakType =
+                                              PomodoroMode.pausaCurta;
+                                        });
+                                      }
+                                    },
+                                  ),
+                                  const Text("Pausa Curta"),
+                                  const SizedBox(width: 20),
+                                  Checkbox(
+                                    value:
+                                        selectedBreakType ==
+                                        PomodoroMode.pausaLonga,
+                                    onChanged: (value) {
+                                      if (value == true) {
+                                        setOverlayState(() {
+                                          selectedBreakType =
+                                              PomodoroMode.pausaLonga;
+                                        });
+                                      }
+                                    },
+                                  ),
+                                  const Text("Pausa Longa"),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+
+                      Row(
+                        children: [
+                          Checkbox(
+                            value: autoStartFocus,
+                            onChanged: (value) {
+                              setOverlayState(() {
+                                autoStartFocus = value ?? false;
+                              });
+                            },
+                          ),
+                          const Text(
+                            "Iniciar foco automaticamente",
+                            style: TextStyle(
+                              color: Color.fromRGBO(93, 87, 108, 1),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      const SizedBox(height: 15),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          TextButton(
+                            onPressed: _hideOverlay,
+                            child: const Text(
+                              "Cancelar",
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFFEA6D5A),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                focusMinutes =
+                                    int.tryParse(focoController.text) ??
+                                    focusMinutes;
+                                shortBreakMinutes =
+                                    int.tryParse(curtaController.text) ??
+                                    shortBreakMinutes;
+                                longBreakMinutes =
+                                    int.tryParse(longaController.text) ??
+                                    longBreakMinutes;
+
+                                if (currentMode == PomodoroMode.foco) {
+                                  totalSeconds = focusMinutes * 60;
+                                } else if (currentMode ==
+                                    PomodoroMode.pausaCurta) {
+                                  totalSeconds = shortBreakMinutes * 60;
+                                } else {
+                                  totalSeconds = longBreakMinutes * 60;
+                                }
+
+                                remainingSeconds = totalSeconds;
+                                isRunning = false;
+                                timer?.cancel();
+                              });
+                              _hideOverlay();
+                            },
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 8,
+                              ),
+                              child: Text(
+                                "Salvar",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTimeEditor(
+    String label,
+    TextEditingController controller,
+    Color color,
+  ) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.2),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            label,
+            style: TextStyle(
+              color: color,
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+          ),
+          SizedBox(
+            width: 70,
+            child: TextField(
+              controller: controller,
+              keyboardType: TextInputType.number,
+              textAlign: TextAlign.center,
+              decoration: InputDecoration(
+                hintText: "min",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: color.withOpacity(0.7)),
+                ),
+                isDense: true,
+                contentPadding: const EdgeInsets.symmetric(vertical: 8),
+              ),
+              style: TextStyle(color: color, fontWeight: FontWeight.bold),
             ),
           ),
         ],
@@ -110,12 +325,6 @@ class _PomodoroPageState extends State<PomodoroPage> {
     _overlayEntry = null;
   }
 
-  PomodoroMode currentMode = PomodoroMode.foco;
-  int totalSeconds = 25 * 60;
-  int remainingSeconds = 25 * 60;
-  Timer? timer;
-  bool isRunning = false;
-
   void startTimer() {
     if (timer != null && timer!.isActive) return;
 
@@ -127,6 +336,25 @@ class _PomodoroPageState extends State<PomodoroPage> {
       } else {
         timer?.cancel();
         setState(() => isRunning = false);
+
+        if (currentMode == PomodoroMode.foco && autoStartBreak) {
+          if (selectedBreakType == PomodoroMode.pausaCurta) {
+            currentMode = PomodoroMode.pausaCurta;
+            totalSeconds = shortBreakMinutes * 60;
+          } else {
+            currentMode = PomodoroMode.pausaLonga;
+            totalSeconds = longBreakMinutes * 60;
+          }
+          remainingSeconds = totalSeconds;
+          startTimer();
+        } else if ((currentMode == PomodoroMode.pausaCurta ||
+                currentMode == PomodoroMode.pausaLonga) &&
+            autoStartFocus) {
+          currentMode = PomodoroMode.foco;
+          totalSeconds = focusMinutes * 60;
+          remainingSeconds = totalSeconds;
+          startTimer();
+        }
       }
     });
   }
@@ -148,13 +376,13 @@ class _PomodoroPageState extends State<PomodoroPage> {
     setState(() {
       if (currentMode == PomodoroMode.foco) {
         currentMode = PomodoroMode.pausaCurta;
-        totalSeconds = 5 * 60;
+        totalSeconds = shortBreakMinutes * 60;
       } else if (currentMode == PomodoroMode.pausaCurta) {
         currentMode = PomodoroMode.pausaLonga;
-        totalSeconds = 15 * 60;
+        totalSeconds = longBreakMinutes * 60;
       } else {
         currentMode = PomodoroMode.foco;
-        totalSeconds = 25 * 60;
+        totalSeconds = focusMinutes * 60;
       }
       remainingSeconds = totalSeconds;
       isRunning = false;
@@ -168,11 +396,63 @@ class _PomodoroPageState extends State<PomodoroPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(coinCount: 15),
-      backgroundColor: const Color(0xFFF7EDE2),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(80),
+        child: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: const Color.fromRGBO(93, 87, 108, 1),
+          flexibleSpace: SafeArea(
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Image.asset('assets/images/logo.png', height: 50),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Container(
+                    margin: const EdgeInsets.only(right: 20),
+                    padding: const EdgeInsets.all(3),
+                    decoration: BoxDecoration(
+                      color: const Color.fromRGBO(233, 167, 81, 1),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                        color: const Color.fromRGBO(247, 237, 226, 1),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      height: 25,
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            '15',
+                            style: TextStyle(
+                              color: Color.fromRGBO(233, 167, 81, 1),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            ),
+                          ),
+                          SizedBox(width: 3),
+                          Icon(
+                            Icons.paid,
+                            color: Color.fromRGBO(233, 167, 81, 1),
+                            size: 16,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+      backgroundColor: const Color(0xFFFDF7E4),
       body: Column(
         children: [
-          SizedBox(height: 35),
+          const SizedBox(height: 35),
           GestureDetector(
             onTap: nextMode,
             child: IntrinsicWidth(
@@ -217,14 +497,13 @@ class _PomodoroPageState extends State<PomodoroPage> {
               ),
             ),
           ),
-
-          SizedBox(height: 35),
+          const SizedBox(height: 50),
 
           Column(
             children: [
               Text(
                 minutes,
-                style: TextStyle(
+                style: const TextStyle(
                   height: 0.9,
                   fontSize: 200,
                   color: Color.fromRGBO(155, 193, 188, 1),
@@ -233,7 +512,7 @@ class _PomodoroPageState extends State<PomodoroPage> {
               ),
               Text(
                 seconds,
-                style: TextStyle(
+                style: const TextStyle(
                   height: 0.9,
                   fontSize: 200,
                   color: Color.fromRGBO(155, 193, 188, 1),
@@ -242,8 +521,7 @@ class _PomodoroPageState extends State<PomodoroPage> {
               ),
             ],
           ),
-
-          SizedBox(height: 35),
+          const SizedBox(height: 50),
 
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
