@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "682925477949",
+    "project_id": "ebbie-68045",
+    "storage_bucket": "ebbie-68045.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:682925477949:android:6748b1fdc5ef75eb3a1a54",
+        "android_client_info": {
+          "package_name": "com.example.ebbie"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWhy_bmuNBkNCx-KdzfprtrejMF4uebCw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

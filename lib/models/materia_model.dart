@@ -1,4 +1,5 @@
 import 'package:ebbie/models/modulo_model.dart';
+import 'package:ebbie/services/shared_preferences.dart';
 
 class MateriaModel {
   String? id;
