@@ -104,6 +104,15 @@ class _CustomDropdownMenuState extends State<CustomDropdownMenu> {
   }
 
   @override
+  void dispose() {
+    // Se o overlay ainda estiver aberto, fecha antes de destruir o widget
+    if (_overlayEntry != null) {
+      _overlayEntry!.remove();
+      _overlayEntry = null;
+    }
+    super.dispose();
+  }
+
   Widget build(BuildContext context) {
     return CompositedTransformTarget(
       link: _layerLink, // conecta o botão ao dropdown

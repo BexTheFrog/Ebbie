@@ -20,6 +20,7 @@ dependencies:
 
   flutter_launcher_icons: ^0.14.4
   dropdown_button2: ^2.3.9
+  url_launcher: ^6.3.2
 
 dev_dependencies:
   flutter_test:
