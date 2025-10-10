@@ -3,6 +3,7 @@ import 'package:ebbie/pages/email_page.dart';
 import 'package:ebbie/pages/intro_page.dart';
 import 'package:ebbie/pages/name_page.dart';
 import 'package:ebbie/pages/profile_page.dart';
+import 'package:ebbie/pages/revisionExpand.dart';
 import 'package:ebbie/pages/revision_page.dart';
 import 'package:ebbie/pages/password_page.dart';
 import 'package:ebbie/pages/search_page.dart';
@@ -21,10 +22,7 @@ class Ebbie extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Ebbie',
-      home: IntroPage(),
-
-      // home: BottomNav(),
-      home: AcessibilidadePage(),
+      home: BottomNav(),
     );
   }
 }

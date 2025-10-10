@@ -7,4 +7,5 @@ class AppColors {
   static const Color tealBlue = Color(0xFF9BC1BC);
   static const Color darkSlate = Color(0xFF5D576B);
   static const Color pastelBeige = Color(0xFFF7EDE2);
+  static const Color yellowPicked = Color(0xFFF6BD60);
 }

@@ -4,25 +4,11 @@ class UserModel {
   String email;
   String senha;
   int carteira;
-  List<String> medalhas;
 
-  UserModel(
-    this.id,
-    this.nome,
-    this.email,
-    this.senha,
-    this.carteira,
-    this.medalhas,
-  );
+  UserModel(this.id, this.nome, this.email, this.senha, this.carteira);
 
   Map<String, dynamic> mapUser() {
-    return {
-      'nome': nome,
-      'email': email,
-      'senha': senha,
-      'carteira': carteira,
-      'medalhas': medalhas,
-    };
+    return {'nome': nome, 'email': email, 'senha': senha, 'carteira': carteira};
   }
 
   factory UserModel.factoryUser(String id, Map<String, dynamic> map) {
@@ -32,7 +18,6 @@ class UserModel {
       map['email'],
       map['senha'],
       map['carteira'],
-      List<String>.from(map['medalhas'] ?? []),
     );
   }
 }
