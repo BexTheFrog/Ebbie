@@ -23,7 +23,7 @@
 
 //         // 🔹 Espaço reservado para futuras medalhas
 //         SizedBox(
-//           height: 130, 
+//           height: 130,
 //           child: Container(
 //             width: double.infinity,
 //             decoration: BoxDecoration(

@@ -1,45 +1,51 @@
-# Miscellaneous
-*.class
-*.log
-*.pyc
-*.swp
-.DS_Store
-.atom/
-.build/
-.buildlog/
-.history
-.svn/
-.swiftpm/
-migrate_working_dir/
-
-# IntelliJ related
-*.iml
-*.ipr
-*.iws
-.idea/
-
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
-
-# Flutter/Dart/Pub related
-**/doc/api/
-**/ios/Flutter/.last_build_id
-.dart_tool/
+# Flutter build outputs
+/build/
 .flutter-plugins
 .flutter-plugins-dependencies
+.packages
+.dart_tool/
 .pub-cache/
-.pub/
-/build/
 
-# Symbolication related
-app.*.symbols
+# IntelliJ / Android Studio
+*.iml
+.idea/
+*.ipr
+*.iws
+*.bak
 
-# Obfuscation related
-app.*.map.json
+# VS Code
+.vscode/
 
-# Android Studio will place build artifacts here
-/android/app/debug
-/android/app/profile
-/android/app/release
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Linux
+*.swp
+*.swo
+
+# Generated files
+ios/Flutter/Flutter.podspec
+ios/Flutter/Generated.xcconfig
+ios/Runner/GeneratedPluginRegistrant.*
+macos/Flutter/GeneratedPluginRegistrant.swift
+linux/flutter/generated_plugin_registrant.cc
+linux/flutter/generated_plugins.cmake
+windows/flutter/generated_plugin_registrant.cc
+windows/flutter/generated_plugins.cmake
+
+# Firebase config (add manually only if needed)
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+
+# Pub
+pubspec.lock
+
+# Logs
+*.log
+
+# Other
+coverage/
+test_output/
