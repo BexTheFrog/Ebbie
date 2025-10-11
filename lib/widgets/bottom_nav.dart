@@ -7,6 +7,7 @@ import 'package:ebbie/pages/search_page.dart';
 import 'package:ebbie/pages/pomodoro_page.dart';
 import 'package:ebbie/pages/profile_page.dart';
 import 'package:ebbie/pages/settings_page.dart';
+import 'package:ebbie/pages/homepage.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key});
@@ -35,7 +36,7 @@ class _BottomNavState extends State<BottomNav> {
   ];
 
   late final screens = [
-    Placeholder(),
+    MyHomePage(),
     SearchPage(),
     PomodoroPage(),
     ProfilePage(),

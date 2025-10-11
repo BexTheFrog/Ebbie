@@ -6,7 +6,7 @@ import 'package:ebbie/pages/profile_page.dart';
 import 'package:ebbie/pages/subject_page.dart';
 import 'package:flutter/material.dart';
 import 'package:ebbie/widgets/settings_appbar.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
