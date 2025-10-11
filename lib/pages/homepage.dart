@@ -1,6 +1,5 @@
 import 'package:ebbie/config/app_colors.dart';
 import 'package:ebbie/widgets/custom_appbar.dart';
-import 'package:ebbie/widgets/module_forms/custom_form_review.dart';
 import 'package:ebbie/widgets/module_homepage/custom_review_card.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -16,25 +15,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   DateTime _diaAtual = DateTime.now();
   DateTime? _diaSelecionado;
-
-  void _showAddTaskOverlay(BuildContext context, DateTime day) {
-    final overlay = Overlay.of(context);
-    OverlayEntry? entry;
-
-    entry = OverlayEntry(
-      builder: (context) => CustomFormReview(
-        day: day,
-        onCancel: () => entry?.remove(),
-        onSave: (nome, descricao, prioridade) {
-          final date = DateTime(day.year, day.month, day.day);
-          setState(() {});
-          entry?.remove();
-        },
-      ),
-    );
-
-    overlay?.insert(entry);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +55,6 @@ class _MyHomePageState extends State<MyHomePage> {
                         setState(() {
                           _diaSelecionado = selectedDay;
                         });
-                        _showAddTaskOverlay(context, selectedDay);
                       },
                       calendarFormat: CalendarFormat.month,
                       startingDayOfWeek: StartingDayOfWeek.sunday,
@@ -108,14 +87,12 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         titleTextFormatter: (date, locale) {
                           final DateTime now = DateTime.now();
-                          final isCurrentYear = date.year == now.year;
-                          final String monthName = MaterialLocalizations.of(
+                          final anoAtual = date.year == now.year;
+                          final String nomeMes = MaterialLocalizations.of(
                             context,
                           ).formatMonthYear(date).split(' ')[0].toUpperCase();
 
-                          return isCurrentYear
-                              ? monthName
-                              : '$monthName ${date.year}';
+                          return anoAtual ? nomeMes : '$nomeMes ${date.year}';
                         },
                       ),
                       daysOfWeekStyle: DaysOfWeekStyle(
