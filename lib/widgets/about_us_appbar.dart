@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-class NameAppbar extends StatelessWidget implements PreferredSizeWidget {
-  const NameAppbar({super.key});
+class AboutUsAppbar extends StatelessWidget implements PreferredSizeWidget {
+  final int coinCount;
+
+  const AboutUsAppbar({super.key, this.coinCount = 0});
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +47,7 @@ class NameAppbar extends StatelessWidget implements PreferredSizeWidget {
               //TITULO CENTRAL
               const Center(
                 child: Text(
-                  'NOME',
+                  'SOBRE NÓS',
                   style: TextStyle(
                     color: Color(0xFFF4F1BB),
                     fontSize: 20,

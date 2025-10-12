@@ -1,14 +1,7 @@
-import 'package:ebbie/pages/email_page.dart';
-import 'package:ebbie/pages/name_page.dart';
-import 'package:ebbie/pages/profile_page.dart';
-import 'package:ebbie/pages/revision_page.dart';
-import 'package:ebbie/pages/password_page.dart';
+import 'package:ebbie/pages/bottom_nav.dart';
+import 'package:ebbie/pages/pet_page.dart';
 import 'package:flutter/material.dart';
-import 'package:ebbie/pages/homepage.dart';
-import 'package:ebbie/pages/pomodoro_page.dart';
-import 'package:ebbie/pages/profile_page.dart';
-import 'package:ebbie/pages/subject_page.dart';
-import 'widgets/bottom_nav.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 class Ebbie extends StatelessWidget {
   const Ebbie({super.key});
@@ -18,10 +11,14 @@ class Ebbie extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Ebbie',
-      // home: BottomNav(),
-
-      home: IntroPage(),
-
+      locale: const Locale('pt', 'BR'),
+      supportedLocales: const [Locale('pt', 'BR')],
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      home: BottomNav(),
     );
   }
 }

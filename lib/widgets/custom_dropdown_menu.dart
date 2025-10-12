@@ -13,11 +13,7 @@ class _CustomDropdownMenuState extends State<CustomDropdownMenu> {
   String? selectedValue;
 
   // Lista de opções disponíveis no dropdown
-  final List<String> items = [
-    'Opção 1',
-    'Opção 2',
-    'Opção 3',
-  ];
+  final List<String> items = ['Opção 1', 'Opção 2', 'Opção 3'];
 
   // Responsável por alinhar o dropdown ao botão
   final LayerLink _layerLink = LayerLink();
@@ -34,7 +30,7 @@ class _CustomDropdownMenuState extends State<CustomDropdownMenu> {
     } else {
       // Se estiver fechado → cria e adiciona no Overlay
       _overlayEntry = _createOverlayEntry();
-      Overlay.of(context)!.insert(_overlayEntry!);
+      Overlay.of(context).insert(_overlayEntry!);
     }
   }
 
@@ -80,15 +76,22 @@ class _CustomDropdownMenuState extends State<CustomDropdownMenu> {
                   child: Container(
                     // Se for a opção selecionada → fundo branco
                     color: isSelected ? Colors.white : Colors.transparent,
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
                     child: Row(
                       children: [
                         Text(
                           item,
                           style: TextStyle(
                             // Texto verde se for selecionado, branco se não
-                            color: isSelected ? const Color(0xFF9BC1BB) : Colors.white,
-                            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                            color: isSelected
+                                ? const Color(0xFF9BC1BB)
+                                : Colors.white,
+                            fontWeight: isSelected
+                                ? FontWeight.bold
+                                : FontWeight.normal,
                           ),
                         ),
                       ],
@@ -104,6 +107,16 @@ class _CustomDropdownMenuState extends State<CustomDropdownMenu> {
   }
 
   @override
+  void dispose() {
+    // Se o overlay ainda estiver aberto, fecha antes de destruir o widget
+    if (_overlayEntry != null) {
+      _overlayEntry!.remove();
+      _overlayEntry = null;
+    }
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return CompositedTransformTarget(
       link: _layerLink, // conecta o botão ao dropdown
@@ -115,14 +128,11 @@ class _CustomDropdownMenuState extends State<CustomDropdownMenu> {
           color: const Color(0xFF9BC1BB),
           borderRadius: const BorderRadius.only(
             bottomLeft: Radius.circular(2),
-            bottomRight: Radius.circular(2 ),
+            bottomRight: Radius.circular(2),
             topRight: Radius.circular(5),
             topLeft: Radius.circular(5),
           ),
-          border: Border.all(
-            color: const Color(0xFF9BC1BC),
-            width: 2,
-          ),
+          border: Border.all(color: const Color(0xFF9BC1BC), width: 2),
         ),
         child: Row(
           children: [

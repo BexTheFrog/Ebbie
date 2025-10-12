@@ -24,23 +24,11 @@ class CardGridPage extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => const RevisionPage()),
               );
             },
-            child: const CustomCard(
-              icon: Icons.book,
-              label: 'Gramática',
-            ),
+            child: const CustomCard(icon: Icons.book, label: 'Gramática'),
           ),
-          const CustomCard(
-            icon: Icons.library_books,
-            label: 'Vocabulário',
-          ),
-          const CustomCard(
-            icon: Icons.record_voice_over,
-            label: 'Fonética',
-          ),
-          const CustomCard(
-            icon: Icons.add,
-            label: 'Adicionar',
-          ),
+          const CustomCard(icon: Icons.library_books, label: 'Vocabulário'),
+          const CustomCard(icon: Icons.record_voice_over, label: 'Fonética'),
+          const CustomCard(icon: Icons.add, label: 'Adicionar'),
         ],
       ),
     );
@@ -51,11 +39,7 @@ class CustomCard extends StatelessWidget {
   final IconData icon;
   final String label;
 
-  const CustomCard({
-    super.key,
-    required this.icon,
-    required this.label,
-  });
+  const CustomCard({super.key, required this.icon, required this.label});
 
   @override
   Widget build(BuildContext context) {
@@ -70,11 +54,7 @@ class CustomCard extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              icon,
-              size: 48,
-              color: const Color(0xFFF4F1BB),
-            ),
+            Icon(icon, size: 48, color: const Color(0xFFF4F1BB)),
             const SizedBox(height: 12),
             Text(
               label,
@@ -82,6 +62,7 @@ class CustomCard extends StatelessWidget {
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: Color(0xFFF4F1BB),
+                fontFamily: 'CerebriSansPro',
               ),
             ),
           ],

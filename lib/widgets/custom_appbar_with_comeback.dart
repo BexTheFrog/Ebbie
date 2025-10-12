@@ -1,9 +1,12 @@
+import 'package:ebbie/config/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
-class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+class CustomAppBarWithComeback extends StatelessWidget
+    implements PreferredSizeWidget {
   final int coinCount;
 
-  const CustomAppBar({super.key, this.coinCount = 0});
+  const CustomAppBarWithComeback({super.key, this.coinCount = 0});
 
   @override
   Widget build(BuildContext context) {
@@ -11,6 +14,18 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       preferredSize: const Size.fromHeight(80),
       child: AppBar(
         automaticallyImplyLeading: false,
+        leading: IconButton(
+          padding: EdgeInsets.only(top: 22),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            LucideIcons.circleArrowLeft,
+            color: AppColors.pastelYellow,
+            size: 35,
+          ),
+        ),
+        leadingWidth: 75,
         backgroundColor: const Color.fromRGBO(93, 87, 108, 1),
         flexibleSpace: SafeArea(
           child: Stack(

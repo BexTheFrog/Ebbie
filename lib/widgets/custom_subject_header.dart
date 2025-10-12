@@ -14,6 +14,7 @@ class SubjectHeader extends StatelessWidget {
             fontWeight: FontWeight.bold,
             color: Color(0xFF9BC1BC),
             letterSpacing: 2,
+            fontFamily: 'CerebriSansPro',
           ),
         ),
         const SizedBox(height: 10),

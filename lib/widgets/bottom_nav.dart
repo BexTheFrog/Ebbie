@@ -1,3 +1,4 @@
+import 'package:ebbie/pages/pet_page.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -7,6 +8,7 @@ import 'package:ebbie/pages/search_page.dart';
 import 'package:ebbie/pages/pomodoro_page.dart';
 import 'package:ebbie/pages/profile_page.dart';
 import 'package:ebbie/pages/settings_page.dart';
+import 'package:ebbie/pages/homepage.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key});
@@ -35,7 +37,7 @@ class _BottomNavState extends State<BottomNav> {
   ];
 
   late final screens = [
-    Placeholder(),
+    MyHomePage(),
     SearchPage(),
     PomodoroPage(),
     ProfilePage(),
@@ -53,12 +55,13 @@ class _BottomNavState extends State<BottomNav> {
             backgroundColor: Colors.white,
             body: screens[index],
             bottomNavigationBar: Theme(
-              data: Theme.of(context).copyWith(
-                iconTheme: IconThemeData(color: navBarIconsColor),
-              ),
+              data: Theme.of(
+                context,
+              ).copyWith(iconTheme: IconThemeData(color: navBarIconsColor)),
               child: CurvedNavigationBar(
                 // AJUSTE A ALTURA DA BARRA DE NAVEGAÇÃO AQUI:
-                height: 60.0, // ← VALOR PADRÃO É 75.0, REDUZA PARA DEIXAR MAIS BAIXA
+                height:
+                    60.0, // ← VALOR PADRÃO É 75.0, REDUZA PARA DEIXAR MAIS BAIXA
                 buttonBackgroundColor: const Color(0xFF5D576B),
                 color: navBarColor,
                 backgroundColor: Colors.transparent,
@@ -96,6 +99,12 @@ class _BottomNavState extends State<BottomNav> {
                     backgroundColor: fabChildrenBackground,
                     label: "Pet",
                     labelStyle: TextStyle(color: Colors.black),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => PetPage()),
+                      );
+                    },
                   ),
                   SpeedDialChild(
                     child: Icon(Icons.settings, color: fabChildrenIconsColor),

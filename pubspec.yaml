@@ -20,6 +20,15 @@ dependencies:
 
   flutter_launcher_icons: ^0.14.4
   dropdown_button2: ^2.3.9
+  table_calendar: ^3.2.0
+  flutter_localizations:
+    sdk: flutter
+  lucide_icons_flutter: ^3.1.1
+  intl: ^0.20.2
+  flutter_form_builder: ^10.1.0
+  url_launcher: ^6.3.2
+  percent_indicator: ^4.2.5
+  persistent_bottom_nav_bar: ^6.2.1
 
 dev_dependencies:
   flutter_test:
@@ -37,6 +46,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/cortex/
 
 
   fonts:

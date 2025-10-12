@@ -1,5 +1,4 @@
 import 'package:ebbie/config/app_colors.dart';
-import 'package:ebbie/pages/intro_page.dart';
 import 'package:ebbie/widgets/module_intropage/custom_btn.dart';
 import 'package:ebbie/widgets/module_intropage/custom_form_field.dart';
 import 'package:ebbie/widgets/module_intropage/custom_form_label.dart';

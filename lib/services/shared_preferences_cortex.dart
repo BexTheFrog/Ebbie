@@ -13,7 +13,7 @@ Future<void> salvarPet(CortexModel pet) async {
 
 Future<CortexModel> carregarPet() async {
   final prefs = await SharedPreferences.getInstance();
-  final nome = prefs.getString('nome') ?? "Bolt";
+  final nome = prefs.getString('nome') ?? "Cortex";
   final fome = prefs.getInt('fome') ?? 50;
   final fit = prefs.getInt('fit') ?? 50;
   final higiene = prefs.getInt('higiene') ?? 50;
