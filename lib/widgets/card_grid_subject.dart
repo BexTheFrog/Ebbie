@@ -1,5 +1,7 @@
+import 'package:ebbie/widgets/module_forms/custom_dialog_add_section.dart';
 import 'package:flutter/material.dart';
 import 'package:ebbie/pages/revision_page.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class CardGridPage extends StatelessWidget {
   const CardGridPage({super.key});
@@ -24,11 +26,11 @@ class CardGridPage extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => const RevisionPage()),
               );
             },
-            child: const CustomCard(icon: Icons.book, label: 'Gramática'),
+            child: const CustomCard(label: 'Gramática'),
           ),
-          const CustomCard(icon: Icons.library_books, label: 'Vocabulário'),
-          const CustomCard(icon: Icons.record_voice_over, label: 'Fonética'),
-          const CustomCard(icon: Icons.add, label: 'Adicionar'),
+          const CustomCard(label: 'Vocabulário'),
+          const CustomCard(label: 'Fonética'),
+          const CustomCardAdd(label: 'Adicionar'),
         ],
       ),
     );
@@ -36,10 +38,10 @@ class CardGridPage extends StatelessWidget {
 }
 
 class CustomCard extends StatelessWidget {
-  final IconData icon;
   final String label;
+  final Function? dialog;
 
-  const CustomCard({super.key, required this.icon, required this.label});
+  const CustomCard({super.key, required this.label, this.dialog});
 
   @override
   Widget build(BuildContext context) {
@@ -51,21 +53,86 @@ class CustomCard extends StatelessWidget {
       ),
       color: const Color(0xFF9BC1BC),
       child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, size: 48, color: const Color(0xFFF4F1BB)),
-            const SizedBox(height: 12),
-            Text(
-              label,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFFF4F1BB),
-                fontFamily: 'CerebriSansPro',
+        child: GestureDetector(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                LucideIcons.bookMarked,
+                size: 48,
+                color: const Color(0xFFF4F1BB),
               ),
-            ),
-          ],
+              const SizedBox(height: 12),
+              Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFFF4F1BB),
+                  fontFamily: 'CerebriSansPro',
+                ),
+              ),
+            ],
+          ),
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext dialogContext) {
+                return CustomDialogAddSection();
+              },
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class CustomCardAdd extends StatelessWidget {
+  final String label;
+  final Function? dialog;
+
+  const CustomCardAdd({super.key, required this.label, this.dialog});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 6,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: const BorderSide(color: Color(0xFFF4F1BB), width: 3),
+      ),
+      color: const Color(0xFF9BC1BC),
+      child: Center(
+        child: GestureDetector(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                LucideIcons.circlePlus,
+                size: 48,
+                color: const Color(0xFFF4F1BB),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFFF4F1BB),
+                  fontFamily: 'CerebriSansPro',
+                ),
+              ),
+            ],
+          ),
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext dialogContext) {
+                return CustomDialogAddSection();
+              },
+            );
+          },
         ),
       ),
     );

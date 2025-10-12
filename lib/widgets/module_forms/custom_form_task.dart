@@ -18,7 +18,11 @@ class _CustomFormFieldTaskState extends State<CustomFormFieldTask> {
       child: TextFormField(
         decoration: InputDecoration(
           hintText: widget.hintText,
-          hintStyle: const TextStyle(color: AppColors.tealBlue),
+          hintStyle: const TextStyle(
+            color: AppColors.tealBlue,
+            fontFamily: 'CerebriSansPro',
+            fontWeight: FontWeight.bold,
+          ),
           filled: true,
           fillColor: AppColors.pastelBeige,
           enabledBorder: OutlineInputBorder(

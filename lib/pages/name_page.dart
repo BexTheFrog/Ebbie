@@ -1,4 +1,4 @@
-import 'package:ebbie/widgets/name_appbar.dart';
+import 'package:ebbie/widgets/custom_appbar_no_icon.dart.dart';
 import 'package:flutter/material.dart';
 
 class NamePage extends StatefulWidget {
@@ -37,7 +37,7 @@ class _NamePageState extends State<NamePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: NameAppbar(),
+      appBar: CustomAppbarNoIcon(segment: "Nome"),
       backgroundColor: appBackgroundColor,
       body: SafeArea(
         child: Padding(
@@ -54,6 +54,7 @@ class _NamePageState extends State<NamePage> {
                     fontSize: 26,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF5D576B),
+                    fontFamily: 'CerebriSansPro',
                   ),
                 ),
               ),
@@ -70,8 +71,10 @@ class _NamePageState extends State<NamePage> {
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                     hintText: "Nome User already saved...",
-                    hintStyle:
-                        TextStyle(color: borderColor.withOpacity(0.7)),
+                    hintStyle: TextStyle(
+                      color: borderColor.withOpacity(0.7),
+                      fontFamily: 'CerebriSansPro',
+                    ),
                     contentPadding: const EdgeInsets.symmetric(
                       horizontal: 16,
                       vertical: 16,
@@ -102,7 +105,10 @@ class _NamePageState extends State<NamePage> {
                           )
                         : null,
                   ),
-                  style: TextStyle(color: borderColor),
+                  style: TextStyle(
+                    color: borderColor,
+                    fontFamily: 'CerebriSansPro',
+                  ),
                 ),
               ),
             ],

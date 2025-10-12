@@ -1,5 +1,11 @@
+import 'package:ebbie/pages/revisionExpand.dart';
 import 'package:ebbie/pages/revision_page.dart';
+import 'package:ebbie/pages/subject_page.dart';
+import 'package:ebbie/widgets/module_forms/custom_dialog_add_module.dart';
+import 'package:ebbie/widgets/module_forms/custom_form_add.dart';
+import 'package:ebbie/widgets/module_forms/custom_form_task.dart';
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class ModuleProfile extends StatelessWidget {
   const ModuleProfile({super.key});
@@ -28,6 +34,7 @@ class ModuleProfile extends StatelessWidget {
           height: 130,
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
+            clipBehavior: Clip.none,
             child: Row(
               children: [
                 const SizedBox(width: 8),
@@ -48,7 +55,7 @@ class ModuleProfile extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const RevisionPage(),
+                        builder: (context) => const SubjectPage(),
                       ),
                     );
                   },
@@ -95,6 +102,7 @@ class ModuleProfile extends StatelessWidget {
           children: [
             // Cabeçalho colorido com título e lápis
             Container(
+              height: 50,
               padding: const EdgeInsets.all(8),
               decoration: const BoxDecoration(
                 color: Color(0xFFED6A5A),
@@ -138,8 +146,8 @@ class ModuleProfile extends StatelessWidget {
                       );
                     },
                     child: const Icon(
-                      Icons.edit_note_rounded,
-                      size: 32,
+                      LucideIcons.squarePen,
+                      size: 18,
                       color: Colors.white,
                     ),
                   ),
@@ -175,16 +183,9 @@ class ModuleProfile extends StatelessWidget {
           // showDialog placeholder para adicionar módulo
           showDialog(
             context: context,
-            builder: (_) => AlertDialog(
-              title: const Text('Adicionar módulo'),
-              content: const Text('Aqui você poderá criar um novo módulo.'),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('Fechar'),
-                ),
-              ],
-            ),
+            builder: (BuildContext dialogContext) {
+              return CustomDialogAddModule();
+            },
           );
         },
         child: Container(
@@ -218,6 +219,7 @@ class ModuleProfile extends StatelessWidget {
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
+                    fontFamily: 'CerebriSansPro',
                   ),
                 ),
               ),

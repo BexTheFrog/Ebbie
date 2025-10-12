@@ -1,3 +1,4 @@
+import 'package:ebbie/widgets/custom_appbar_no_icon.dart.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -29,10 +30,7 @@ class AboutUsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Sobre Nós'),
-        backgroundColor: const Color(0xFF5D576B),
-      ),
+      appBar: CustomAppbarNoIcon(segment: 'Sobre Nós'),
       backgroundColor: const Color(0xFFF7EDE2),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -69,8 +67,10 @@ class AboutUsPage extends StatelessWidget {
             Expanded(
               child: ListView.separated(
                 itemCount: members.length,
-                separatorBuilder: (context, index) => const SizedBox(height: 16),
-                itemBuilder: (context, index) => _buildMemberCard(context, members[index]),
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 16),
+                itemBuilder: (context, index) =>
+                    _buildMemberCard(context, members[index]),
               ),
             ),
           ],
@@ -136,11 +136,7 @@ class AboutUsPage extends StatelessWidget {
                   color: const Color(0xFF5D576B),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Icon(
-                  Icons.code,
-                  color: Colors.white,
-                  size: 24,
-                ),
+                child: const Icon(Icons.code, color: Colors.white, size: 24),
               ),
             ),
           ],

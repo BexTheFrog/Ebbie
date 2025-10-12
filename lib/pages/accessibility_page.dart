@@ -1,4 +1,4 @@
-import 'package:ebbie/widgets/accessibility_appar.dart';
+import 'package:ebbie/widgets/custom_appbar_no_icon.dart.dart';
 import 'package:flutter/material.dart';
 // importa o seu Custom AppBar
 
@@ -8,7 +8,9 @@ class AccessibilityPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AccessibilityAppar(), // usa o AppBar que você criou
+      appBar: CustomAppbarNoIcon(
+        segment: "Acessibilidade",
+      ), // usa o AppBar que você criou
       backgroundColor: const Color(0xFFF7EDE2), // cor de fundo suave
       body: const Center(
         child: Text(

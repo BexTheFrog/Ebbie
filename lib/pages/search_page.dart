@@ -1,3 +1,4 @@
+import 'package:ebbie/config/app_colors.dart';
 import 'package:flutter/material.dart';
 import '../widgets/custom_appbar.dart';
 import '../widgets/custom_dropdown_menu.dart';
@@ -19,29 +20,30 @@ class SearchPage extends StatelessWidget {
             TextField(
               decoration: InputDecoration(
                 hintText: 'Buscar...',
+                hintStyle: TextStyle(color: AppColors.darkSlate.withAlpha(150)),
                 filled: true,
-                fillColor: Colors.white,
+                fillColor: Color(0xFFF7EDE2),
                 contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
                 suffixIcon: Icon(Icons.search, color: Color(0xFF9BC1BC)),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(12)),
-                  borderSide: BorderSide(color: Color(0xFF9BC1BC), width: 2),
+                  borderSide: BorderSide(color: Color(0xFF9BC1BC), width: 3),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(12)),
-                  borderSide: BorderSide(color: Color(0xFF9BC1BC), width: 2),
+                  borderSide: BorderSide(color: Color(0xFF9BC1BC), width: 3),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(12)),
-                  borderSide: BorderSide(color: Color(0xFF9BC1BC), width: 2),
+                  borderSide: BorderSide(color: Color(0xFF9BC1BC), width: 3),
                 ),
               ),
             ),
-             SizedBox(height: 25),
+            SizedBox(height: 25),
 
-             CustomDropdownMenu(),
+            CustomDropdownMenu(),
 
-             Expanded(child: EmptySearchState()),
+            Expanded(child: EmptySearchState()),
           ],
         ),
       ),
