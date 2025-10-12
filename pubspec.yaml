@@ -27,6 +27,7 @@ dependencies:
   intl: ^0.20.2
   flutter_form_builder: ^10.1.0
   url_launcher: ^6.3.2
+  percent_indicator: ^4.2.5
 
 dev_dependencies:
   flutter_test:
@@ -44,6 +45,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/cortex/
 
 
   fonts:

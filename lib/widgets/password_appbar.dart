@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class PasswordAppbar extends StatelessWidget implements PreferredSizeWidget {
+  const PasswordAppbar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,6 @@ class PasswordAppbar extends StatelessWidget implements PreferredSizeWidget {
           child: Stack(
             alignment: Alignment.center,
             children: [
-
               //BOTAO VOLTAR
               Positioned(
                 left: 32,
@@ -21,12 +21,18 @@ class PasswordAppbar extends StatelessWidget implements PreferredSizeWidget {
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: const Color(0x3BF5D576B), // fundo leve
+                    color: const Color(0x3bf5d576b), // fundo leve
                     borderRadius: BorderRadius.circular(8), // arredondamento
-                    border: Border.all(color: const Color(0xFFF4F1BB), width: 3), // borda
+                    border: Border.all(
+                      color: const Color(0xFFF4F1BB),
+                      width: 3,
+                    ), // borda
                   ),
                   child: IconButton(
-                    icon: const Icon(Icons.arrow_back, color: Color(0xFFF4F1BB)),
+                    icon: const Icon(
+                      Icons.arrow_back,
+                      color: Color(0xFFF4F1BB),
+                    ),
                     onPressed: () {
                       Navigator.pop(context);
                     },
@@ -35,7 +41,6 @@ class PasswordAppbar extends StatelessWidget implements PreferredSizeWidget {
                   ),
                 ),
               ),
-
 
               //TITULO CENTRAL
               const Center(
@@ -48,16 +53,13 @@ class PasswordAppbar extends StatelessWidget implements PreferredSizeWidget {
                   ),
                 ),
               ),
-
-
-              
-
             ],
           ),
         ),
       ),
     );
   }
+
   @override
   Size get preferredSize => const Size.fromHeight(80);
 }

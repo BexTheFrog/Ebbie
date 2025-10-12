@@ -1,5 +1,4 @@
 import 'package:ebbie/config/app_colors.dart';
-import 'package:ebbie/widgets/custom_appbar.dart';
 import 'package:ebbie/widgets/custom_appbar_with_comeback.dart';
 import 'package:flutter/material.dart';
 

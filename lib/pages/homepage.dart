@@ -13,7 +13,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  DateTime _diaAtual = DateTime.now();
+  final DateTime _diaAtual = DateTime.now();
   DateTime? _diaSelecionado;
 
   @override
@@ -113,8 +113,9 @@ class _MyHomePageState extends State<MyHomePage> {
                             locale,
                           ).format(date).toUpperCase();
                           // Remove ponto final
-                          if (day.endsWith('.'))
+                          if (day.endsWith('.')) {
                             day = day.substring(0, day.length - 1);
+                          }
                           return day;
                         },
                       ),
