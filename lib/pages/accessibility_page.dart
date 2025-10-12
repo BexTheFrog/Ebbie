@@ -1,6 +1,6 @@
 import 'package:ebbie/widgets/accessibility_appar.dart';
 import 'package:flutter/material.dart';
-import 'accessibility_page.dart'; // importa o seu Custom AppBar
+// importa o seu Custom AppBar
 
 class AccessibilityPage extends StatelessWidget {
   const AccessibilityPage({super.key});

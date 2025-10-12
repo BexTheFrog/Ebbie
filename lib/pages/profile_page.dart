@@ -1,4 +1,3 @@
-import 'package:ebbie/widgets/achievements_profile.dart';
 import 'package:ebbie/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import '../widgets/module_profile.dart';

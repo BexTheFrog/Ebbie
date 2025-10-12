@@ -1,12 +1,8 @@
 import 'package:ebbie/pages/about_page.dart';
 import 'package:ebbie/pages/accessibility_page.dart';
-import 'package:ebbie/pages/cheat_page.dart';
 import 'package:ebbie/pages/password_page.dart';
-import 'package:ebbie/pages/profile_page.dart';
-import 'package:ebbie/pages/subject_page.dart';
 import 'package:flutter/material.dart';
 import 'package:ebbie/widgets/settings_appbar.dart';
-
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -39,7 +35,7 @@ class SettingsPage extends StatelessWidget {
                   ),
                 ),
               ),
-        
+
               // Container com sombra para o grupo Conta
               Container(
                 decoration: BoxDecoration(
@@ -49,7 +45,10 @@ class SettingsPage extends StatelessWidget {
                     BoxShadow(
                       color: Colors.black.withOpacity(0.15),
                       blurRadius: 8,
-                      offset: const Offset(10, -1), // Controla quanto para baixo
+                      offset: const Offset(
+                        10,
+                        -1,
+                      ), // Controla quanto para baixo
                       spreadRadius: -5, // Controla quanto "corta" de cima
                     ),
                   ],
@@ -81,7 +80,7 @@ class SettingsPage extends StatelessWidget {
                         onTap: () {},
                       ),
                     ),
-        
+
                     // Nome
                     Container(
                       margin: const EdgeInsets.only(bottom: 0),
@@ -104,7 +103,7 @@ class SettingsPage extends StatelessWidget {
                         onTap: () {},
                       ),
                     ),
-        
+
                     // Senha
                     Container(
                       margin: const EdgeInsets.only(bottom: 16),
@@ -125,10 +124,12 @@ class SettingsPage extends StatelessWidget {
                           ),
                         ),
                         trailing: GestureDetector(
-                          onTap: (){
+                          onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => const PasswordPage()),
+                              MaterialPageRoute(
+                                builder: (context) => const PasswordPage(),
+                              ),
                             );
                           },
                           child: Container(
@@ -154,7 +155,7 @@ class SettingsPage extends StatelessWidget {
                   ],
                 ),
               ),
-        
+
               // --- Preferências ---
               Padding(
                 padding: const EdgeInsets.only(left: 12.0, bottom: 8),
@@ -168,7 +169,7 @@ class SettingsPage extends StatelessWidget {
                   ),
                 ),
               ),
-        
+
               // Container com sombra para o grupo Preferências
               Container(
                 decoration: BoxDecoration(
@@ -178,7 +179,10 @@ class SettingsPage extends StatelessWidget {
                     BoxShadow(
                       color: Colors.black.withOpacity(0.15),
                       blurRadius: 8,
-                      offset: const Offset(10, -1), // Controla quanto para baixo
+                      offset: const Offset(
+                        10,
+                        -1,
+                      ), // Controla quanto para baixo
                       spreadRadius: -5, // Controla quanto "corta" de cima
                     ),
                   ],
@@ -223,7 +227,7 @@ class SettingsPage extends StatelessWidget {
                     //     ),
                     //   ),
                     // ),
-        
+
                     // // Vibração
                     // Container(
                     //   margin: const EdgeInsets.only(bottom: 0),
@@ -245,15 +249,13 @@ class SettingsPage extends StatelessWidget {
                     //     ),
                     //   ),
                     // ),
-        
+
                     // Acessibilidade
                     Container(
                       margin: const EdgeInsets.only(bottom: 16),
                       decoration: BoxDecoration(
                         color: backgroundColor,
-                        borderRadius: BorderRadius.circular(10
-                          
-                        ),
+                        borderRadius: BorderRadius.circular(10),
                         border: Border.all(color: borderColor, width: 3),
                       ),
                       child: ListTile(
@@ -268,7 +270,9 @@ class SettingsPage extends StatelessWidget {
                           onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => AccessibilityPage()),
+                              MaterialPageRoute(
+                                builder: (context) => AccessibilityPage(),
+                              ),
                             );
                           },
                           child: Container(
@@ -294,7 +298,7 @@ class SettingsPage extends StatelessWidget {
                   ],
                 ),
               ),
-        
+
               // --- Extras ---
               Padding(
                 padding: const EdgeInsets.only(left: 12.0, bottom: 8),
@@ -308,7 +312,7 @@ class SettingsPage extends StatelessWidget {
                   ),
                 ),
               ),
-        
+
               // Container com sombra para o grupo Extras
               Container(
                 decoration: BoxDecoration(
@@ -318,7 +322,10 @@ class SettingsPage extends StatelessWidget {
                     BoxShadow(
                       color: Colors.black.withOpacity(0.15),
                       blurRadius: 8,
-                      offset: const Offset(10, -1), // Controla quanto para baixo
+                      offset: const Offset(
+                        10,
+                        -1,
+                      ), // Controla quanto para baixo
                       spreadRadius: -5, // Controla quanto "corta" de cima
                     ),
                   ],
@@ -363,7 +370,7 @@ class SettingsPage extends StatelessWidget {
                         ),
                       ),
                     ),
-        
+
                     // // Medalhas
                     // Container(
                     //   margin: const EdgeInsets.only(bottom: 0),
@@ -398,7 +405,7 @@ class SettingsPage extends StatelessWidget {
                     //     ),
                     //   ),
                     // ),
-        
+
                     // // CheatMenu
                     // Container(
                     //   margin: const EdgeInsets.only(bottom: 0),
@@ -441,7 +448,7 @@ class SettingsPage extends StatelessWidget {
                     //     ),
                     //   ),
                     // ),
-        
+
                     // Sobre Nós
                     Container(
                       margin: const EdgeInsets.only(bottom: 8),
@@ -462,10 +469,12 @@ class SettingsPage extends StatelessWidget {
                           ),
                         ),
                         trailing: GestureDetector(
-                          onTap: (){
+                          onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => AboutUsPage()),
+                              MaterialPageRoute(
+                                builder: (context) => AboutUsPage(),
+                              ),
                             );
                           },
                           child: Container(
@@ -493,7 +502,6 @@ class SettingsPage extends StatelessWidget {
               ),
             ],
           ),
-          
         ),
       ),
     );

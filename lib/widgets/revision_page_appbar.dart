@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-class RevisionPageAppbar extends StatelessWidget implements PreferredSizeWidget {
+class RevisionPageAppbar extends StatelessWidget
+    implements PreferredSizeWidget {
   const RevisionPageAppbar({super.key});
 
   @override
@@ -17,10 +18,7 @@ class RevisionPageAppbar extends StatelessWidget implements PreferredSizeWidget 
               children: [
                 // LOGO CENTRAL
                 Center(
-                  child: Image.asset(
-                    'assets/images/logo.png',
-                    height: 50,
-                  ),
+                  child: Image.asset('assets/images/logo.png', height: 50),
                 ),
 
                 // BOTÃO VOLTAR à esquerda
@@ -33,12 +31,18 @@ class RevisionPageAppbar extends StatelessWidget implements PreferredSizeWidget 
                       width: 40,
                       height: 40,
                       decoration: BoxDecoration(
-                        color: const Color(0x3BF5D576B),
+                        color: const Color(0x3bf5d576b),
                         borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: const Color(0xFFF4F1BB), width: 3),
+                        border: Border.all(
+                          color: const Color(0xFFF4F1BB),
+                          width: 3,
+                        ),
                       ),
                       child: IconButton(
-                        icon: const Icon(Icons.arrow_back, color: Color(0xFFF4F1BB)),
+                        icon: const Icon(
+                          Icons.arrow_back,
+                          color: Color(0xFFF4F1BB),
+                        ),
                         onPressed: () {
                           Navigator.pop(context);
                         },

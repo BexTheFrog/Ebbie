@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:ebbie/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 
 enum PomodoroMode { foco, pausaCurta, pausaLonga }
@@ -75,7 +74,6 @@ class _PomodoroPageState extends State<PomodoroPage> {
                       ),
                       const SizedBox(height: 25),
 
-   
                       _buildTimeEditor(
                         "Foco",
                         focoController,
