@@ -1,4 +1,5 @@
-import 'package:ebbie/widgets/email_appbar.dart';
+import 'package:ebbie/widgets/custom_appbar_no_icon.dart.dart';
+
 import 'package:flutter/material.dart';
 
 class EmailPage extends StatefulWidget {
@@ -37,7 +38,7 @@ class _EmailPageState extends State<EmailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: EmailAppbar(),
+      appBar: CustomAppbarNoIcon(segment: 'Email'),
       backgroundColor: appBackgroundColor,
       body: SafeArea(
         child: Padding(
@@ -54,6 +55,7 @@ class _EmailPageState extends State<EmailPage> {
                     fontSize: 26,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF5D576B),
+                    fontFamily: 'CerebriSansPro',
                   ),
                 ),
               ),
@@ -70,8 +72,10 @@ class _EmailPageState extends State<EmailPage> {
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                     hintText: "User@mail.com User already saved...",
-                    hintStyle:
-                        TextStyle(color: borderColor.withOpacity(0.7)),
+                    hintStyle: TextStyle(
+                      color: borderColor.withOpacity(0.7),
+                      fontFamily: 'CerebriSansPro',
+                    ),
                     contentPadding: const EdgeInsets.symmetric(
                       horizontal: 16,
                       vertical: 16,
@@ -102,7 +106,10 @@ class _EmailPageState extends State<EmailPage> {
                           )
                         : null,
                   ),
-                  style: TextStyle(color: borderColor),
+                  style: TextStyle(
+                    color: borderColor,
+                    fontFamily: 'CerebriSansPro',
+                  ),
                 ),
               ),
             ],

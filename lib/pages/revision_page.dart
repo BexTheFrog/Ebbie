@@ -1,4 +1,4 @@
-
+import 'package:ebbie/widgets/custom_appbar_with_comeback.dart';
 import 'package:ebbie/widgets/custom_revision_header.dart';
 import 'package:ebbie/widgets/revision_card.dart';
 import 'package:ebbie/widgets/revision_page_appbar.dart';
@@ -10,7 +10,7 @@ class RevisionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const RevisionPageAppbar(),
+      appBar: const CustomAppBarWithComeback(),
       backgroundColor: const Color(0xFFFFF9E9),
       body: SingleChildScrollView(
         child: Column(
@@ -28,10 +28,7 @@ class RevisionPage extends StatelessWidget {
               subtitle: '2 revisões para memorizar...',
             ),
             SizedBox(height: 20),
-            RevisionCard(
-              title: 'Adjetivos',
-              subtitle: 'Memorizou',
-            ),
+            RevisionCard(title: 'Adjetivos', subtitle: 'Memorizou'),
           ],
         ),
       ),

@@ -19,7 +19,7 @@ class SubjectHeader extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 40.0),
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: SizedBox(
             width: 800, // tamanho da linha
             child: Row(

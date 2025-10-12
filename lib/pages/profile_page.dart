@@ -23,7 +23,7 @@ class ProfilePage extends StatelessWidget {
                 SizedBox(height: 50),
                 _buildProfileContainer(context),
                 // SizedBox(height: 30),
-                // AchievementsProfile(), SE A BEATRIZ ALGUM DIA TOCAR NO PROJETO DE NOVO TA AQUI
+                // AchievementsProfile(), SE A BEATRIZ ALGUM DIA TOCAR NO PROJETO DE NOVO TA AQUI - Que gracinha esse Lucas
                 SizedBox(height: 50),
                 ModuleProfile(),
                 SizedBox(height: 80),
@@ -168,6 +168,7 @@ class ProfilePage extends StatelessWidget {
             fontWeight: FontWeight.bold,
             color: titleColor,
             fontSize: 12,
+            fontFamily: 'CerebriSansPro',
           ),
         ),
         const SizedBox(height: 4),
@@ -177,6 +178,7 @@ class ProfilePage extends StatelessWidget {
             fontWeight: FontWeight.bold,
             fontSize: 16,
             color: Colors.black,
+            fontFamily: 'CerebriSansPro',
           ),
         ),
         const SizedBox(height: 2),
@@ -186,6 +188,7 @@ class ProfilePage extends StatelessWidget {
             color: subtitleColor,
             fontSize: 12,
             fontWeight: FontWeight.bold,
+            fontFamily: 'CerebriSansPro',
           ),
         ),
       ],

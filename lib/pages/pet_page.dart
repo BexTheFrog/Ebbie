@@ -1,5 +1,6 @@
 import 'package:ebbie/config/app_colors.dart';
 import 'package:ebbie/widgets/custom_appbar.dart';
+import 'package:ebbie/widgets/custom_appbar_with_comeback.dart';
 import 'package:ebbie/widgets/module_pet/custom_progress_bar.dart';
 import 'package:ebbie/widgets/module_pet/custom_round_btn.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -17,7 +18,7 @@ class _PetPageState extends State<PetPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(),
+      appBar: CustomAppBarWithComeback(),
       backgroundColor: const Color(0xFFF7EDE2),
       body: ListView(
         //scrollDirection: Axis.vertical,
@@ -25,7 +26,7 @@ class _PetPageState extends State<PetPage> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(height: 30),
+              SizedBox(height: 60),
               Stack(
                 children: [
                   Positioned(
@@ -33,14 +34,20 @@ class _PetPageState extends State<PetPage> {
                     left: 15,
                     child: Column(
                       children: [
-                        Text(
-                          "Gilberto",
-                          style: TextStyle(
-                            color: AppColors.coral,
-                            fontFamily: 'CerebriSansPro',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 36,
-                          ),
+                        Row(
+                          spacing: 10,
+                          children: [
+                            Text(
+                              "Gilberto",
+                              style: TextStyle(
+                                color: AppColors.coral,
+                                fontFamily: 'CerebriSansPro',
+                                fontWeight: FontWeight.bold,
+                                fontSize: 36,
+                              ),
+                            ),
+                            Icon(LucideIcons.squarePen, color: AppColors.coral),
+                          ],
                         ),
                         Row(
                           children: [

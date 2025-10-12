@@ -1,8 +1,11 @@
 import 'package:ebbie/pages/about_page.dart';
 import 'package:ebbie/pages/accessibility_page.dart';
+import 'package:ebbie/pages/email_page.dart';
+import 'package:ebbie/pages/name_page.dart';
 import 'package:ebbie/pages/password_page.dart';
 import 'package:flutter/material.dart';
-import 'package:ebbie/widgets/settings_appbar.dart';
+import 'package:ebbie/widgets/custom_appbar_no_icon.dart.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -14,7 +17,7 @@ class SettingsPage extends StatelessWidget {
     final appBackgroundColor = const Color(0xFFF7EDE2);
 
     return Scaffold(
-      appBar: const SettingsAppbar(coinCount: 15),
+      appBar: const CustomAppbarNoIcon(coinCount: 15, segment: 'Configurações'),
       backgroundColor: appBackgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -31,7 +34,7 @@ class SettingsPage extends StatelessWidget {
                     color: const Color(0xFF5D576B),
                     fontWeight: FontWeight.bold,
                     fontSize: 23,
-                    letterSpacing: 0.8,
+                    fontFamily: 'CerebriSansPro',
                   ),
                 ),
               ),
@@ -39,7 +42,7 @@ class SettingsPage extends StatelessWidget {
               // Container com sombra para o grupo Conta
               Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     // Sombra principal na parte inferior
                     BoxShadow(
@@ -60,10 +63,10 @@ class SettingsPage extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: backgroundColor,
                         borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          topRight: Radius.circular(10),
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
                         ),
-                        border: Border.all(color: borderColor, width: 3),
+                        border: Border.all(color: borderColor, width: 5),
                       ),
                       child: ListTile(
                         title: Text(
@@ -71,13 +74,25 @@ class SettingsPage extends StatelessWidget {
                           style: TextStyle(
                             color: borderColor,
                             fontWeight: FontWeight.w500,
+                            fontFamily: 'CerebriSansPro',
                           ),
                         ),
                         trailing: Text(
                           "user@mail",
-                          style: TextStyle(fontSize: 14, color: borderColor),
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: borderColor,
+                            fontFamily: 'CerebriSansPro',
+                          ),
                         ),
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const EmailPage(),
+                            ),
+                          );
+                        },
                       ),
                     ),
 
@@ -86,7 +101,7 @@ class SettingsPage extends StatelessWidget {
                       margin: const EdgeInsets.only(bottom: 0),
                       decoration: BoxDecoration(
                         color: backgroundColor,
-                        border: Border.all(color: borderColor, width: 3),
+                        border: Border.all(color: borderColor, width: 5),
                       ),
                       child: ListTile(
                         title: Text(
@@ -94,13 +109,25 @@ class SettingsPage extends StatelessWidget {
                           style: TextStyle(
                             color: borderColor,
                             fontWeight: FontWeight.w500,
+                            fontFamily: 'CerebriSansPro',
                           ),
                         ),
                         trailing: Text(
                           "User Name",
-                          style: TextStyle(fontSize: 14, color: borderColor),
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: borderColor,
+                            fontFamily: 'CerebriSansPro',
+                          ),
                         ),
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const NamePage(),
+                            ),
+                          );
+                        },
                       ),
                     ),
 
@@ -110,10 +137,10 @@ class SettingsPage extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: backgroundColor,
                         borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(10),
-                          bottomRight: Radius.circular(10),
+                          bottomLeft: Radius.circular(20),
+                          bottomRight: Radius.circular(20),
                         ),
-                        border: Border.all(color: borderColor, width: 3),
+                        border: Border.all(color: borderColor, width: 5),
                       ),
                       child: ListTile(
                         title: Text(
@@ -121,6 +148,7 @@ class SettingsPage extends StatelessWidget {
                           style: TextStyle(
                             color: borderColor,
                             fontWeight: FontWeight.w500,
+                            fontFamily: 'CerebriSansPro',
                           ),
                         ),
                         trailing: GestureDetector(
@@ -132,22 +160,10 @@ class SettingsPage extends StatelessWidget {
                               ),
                             );
                           },
-                          child: Container(
-                            width: 30,
-                            height: 30,
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF9BC1BC),
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(
-                                color: const Color(0xFFF4F1BB),
-                                width: 3,
-                              ),
-                            ),
-                            child: Icon(
-                              Icons.arrow_forward_rounded,
-                              size: 20,
-                              color: borderColor,
-                            ),
+                          child: Icon(
+                            LucideIcons.squareArrowRight,
+                            size: 30,
+                            color: borderColor,
                           ),
                         ),
                       ),
@@ -165,7 +181,7 @@ class SettingsPage extends StatelessWidget {
                     color: const Color(0xFF5D576B),
                     fontWeight: FontWeight.bold,
                     fontSize: 23,
-                    letterSpacing: 0.8,
+                    fontFamily: 'CerebriSansPro',
                   ),
                 ),
               ),
@@ -173,7 +189,7 @@ class SettingsPage extends StatelessWidget {
               // Container com sombra para o grupo Preferências
               Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     // Sombra principal na parte inferior
                     BoxShadow(
@@ -255,8 +271,8 @@ class SettingsPage extends StatelessWidget {
                       margin: const EdgeInsets.only(bottom: 16),
                       decoration: BoxDecoration(
                         color: backgroundColor,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: borderColor, width: 3),
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: borderColor, width: 5),
                       ),
                       child: ListTile(
                         title: Text(
@@ -264,6 +280,7 @@ class SettingsPage extends StatelessWidget {
                           style: TextStyle(
                             color: borderColor,
                             fontWeight: FontWeight.w500,
+                            fontFamily: 'CerebriSansPro',
                           ),
                         ),
                         trailing: GestureDetector(
@@ -275,22 +292,10 @@ class SettingsPage extends StatelessWidget {
                               ),
                             );
                           },
-                          child: Container(
-                            width: 30,
-                            height: 30,
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF9BC1BC),
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(
-                                color: Color(0xFFF4F1BB),
-                                width: 3,
-                              ),
-                            ),
-                            child: Icon(
-                              Icons.arrow_forward_rounded,
-                              size: 20,
-                              color: borderColor,
-                            ),
+                          child: Icon(
+                            LucideIcons.squareArrowRight,
+                            size: 30,
+                            color: borderColor,
                           ),
                         ),
                       ),
@@ -308,7 +313,7 @@ class SettingsPage extends StatelessWidget {
                     color: const Color(0xFF5D576B),
                     fontWeight: FontWeight.bold,
                     fontSize: 23,
-                    letterSpacing: 0.8,
+                    fontFamily: 'CerebriSansPro',
                   ),
                 ),
               ),
@@ -316,7 +321,7 @@ class SettingsPage extends StatelessWidget {
               // Container com sombra para o grupo Extras
               Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     // Sombra principal na parte inferior
                     BoxShadow(
@@ -338,10 +343,10 @@ class SettingsPage extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: backgroundColor,
                         borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          topRight: Radius.circular(10),
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
                         ),
-                        border: Border.all(color: borderColor, width: 3),
+                        border: Border.all(color: borderColor, width: 5),
                       ),
                       child: ListTile(
                         title: Text(
@@ -349,24 +354,13 @@ class SettingsPage extends StatelessWidget {
                           style: TextStyle(
                             color: borderColor,
                             fontWeight: FontWeight.w500,
+                            fontFamily: 'CerebriSansPro',
                           ),
                         ),
-                        trailing: Container(
-                          width: 30,
-                          height: 30,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF9BC1BC),
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: Color(0xFFF4F1BB),
-                              width: 3,
-                            ),
-                          ),
-                          child: Icon(
-                            Icons.arrow_forward_rounded,
-                            size: 20,
-                            color: borderColor,
-                          ),
+                        trailing: Icon(
+                          LucideIcons.squareArrowRight,
+                          size: 30,
+                          color: borderColor,
                         ),
                       ),
                     ),
@@ -455,10 +449,10 @@ class SettingsPage extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: backgroundColor,
                         borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(10),
-                          bottomRight: Radius.circular(10),
+                          bottomLeft: Radius.circular(20),
+                          bottomRight: Radius.circular(20),
                         ),
-                        border: Border.all(color: borderColor, width: 3),
+                        border: Border.all(color: borderColor, width: 5),
                       ),
                       child: ListTile(
                         title: Text(
@@ -466,6 +460,7 @@ class SettingsPage extends StatelessWidget {
                           style: TextStyle(
                             color: borderColor,
                             fontWeight: FontWeight.w500,
+                            fontFamily: 'CerebriSansPro',
                           ),
                         ),
                         trailing: GestureDetector(
@@ -477,22 +472,10 @@ class SettingsPage extends StatelessWidget {
                               ),
                             );
                           },
-                          child: Container(
-                            width: 30,
-                            height: 30,
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF9BC1BC),
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(
-                                color: Color(0xFFF4F1BB),
-                                width: 3,
-                              ),
-                            ),
-                            child: Icon(
-                              Icons.arrow_forward_rounded,
-                              size: 20,
-                              color: borderColor,
-                            ),
+                          child: Icon(
+                            LucideIcons.squareArrowRight,
+                            size: 30,
+                            color: borderColor,
                           ),
                         ),
                       ),

@@ -1,4 +1,4 @@
-import 'package:ebbie/widgets/password_appbar.dart';
+import 'package:ebbie/widgets/custom_appbar_no_icon.dart.dart';
 import 'package:flutter/material.dart';
 
 class PasswordPage extends StatefulWidget {
@@ -20,7 +20,7 @@ class _PasswordPageState extends State<PasswordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PasswordAppbar(),
+      appBar: CustomAppbarNoIcon(segment: "Senha"),
       backgroundColor: appBackgroundColor,
       body: SafeArea(
         child: Padding(
@@ -37,6 +37,7 @@ class _PasswordPageState extends State<PasswordPage> {
                     fontSize: 26,
                     fontWeight: FontWeight.bold,
                     color: textColor,
+                    fontFamily: 'CerebriSansPro',
                   ),
                 ),
               ),
@@ -51,7 +52,10 @@ class _PasswordPageState extends State<PasswordPage> {
                   obscureText: _obscureNewPassword,
                   decoration: InputDecoration(
                     hintText: "Nova senha...",
-                    hintStyle: TextStyle(color: borderColor.withOpacity(0.7)),
+                    hintStyle: TextStyle(
+                      color: borderColor.withOpacity(0.7),
+                      fontFamily: 'CerebriSansPro',
+                    ),
                     contentPadding: const EdgeInsets.symmetric(
                       horizontal: 16,
                       vertical: 16,
@@ -71,7 +75,10 @@ class _PasswordPageState extends State<PasswordPage> {
                       },
                     ),
                   ),
-                  style: TextStyle(color: borderColor),
+                  style: TextStyle(
+                    color: borderColor,
+                    fontFamily: 'CerebriSansPro',
+                  ),
                 ),
               ),
 
@@ -84,6 +91,7 @@ class _PasswordPageState extends State<PasswordPage> {
                     fontSize: 26,
                     fontWeight: FontWeight.bold,
                     color: textColor,
+                    fontFamily: 'CerebriSansPro',
                   ),
                 ),
               ),
@@ -98,7 +106,10 @@ class _PasswordPageState extends State<PasswordPage> {
                   obscureText: _obscureConfirmPassword,
                   decoration: InputDecoration(
                     hintText: "Confirmar senha...",
-                    hintStyle: TextStyle(color: borderColor.withOpacity(0.7)),
+                    hintStyle: TextStyle(
+                      color: borderColor.withOpacity(0.7),
+                      fontFamily: 'CerebriSansPro',
+                    ),
                     contentPadding: const EdgeInsets.symmetric(
                       horizontal: 16,
                       vertical: 16,
@@ -118,7 +129,10 @@ class _PasswordPageState extends State<PasswordPage> {
                       },
                     ),
                   ),
-                  style: TextStyle(color: borderColor),
+                  style: TextStyle(
+                    color: borderColor,
+                    fontFamily: 'CerebriSansPro',
+                  ),
                 ),
               ),
             ],

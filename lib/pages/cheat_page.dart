@@ -1,6 +1,5 @@
-import 'package:ebbie/widgets/cheat_appbar.dart';
+import 'package:ebbie/widgets/custom_appbar_no_icon.dart.dart';
 import 'package:flutter/material.dart';
-
 
 class CheatPage extends StatelessWidget {
   const CheatPage({super.key});
@@ -8,7 +7,9 @@ class CheatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CheatAppbar(), // usa o AppBar customizado
+      appBar: CustomAppbarNoIcon(
+        segment: "CheatMenu",
+      ), // usa o AppBar customizado
       backgroundColor: const Color(0xFFF7EDE2), // cor de fundo suave
       body: const Center(
         child: Text(
