@@ -1,7 +1,9 @@
 import 'package:ebbie/config/app_colors.dart';
+import 'package:ebbie/pages/homepage.dart';
 import 'package:ebbie/pages/signin_page.dart';
-import 'package:ebbie/widgets/bottom_nav.dart';
+import 'package:ebbie/services/auth_service.dart';
 import 'package:ebbie/widgets/module_intropage/custom_btn.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../widgets/module_intropage/custom_form_field.dart';
 import '../widgets/module_intropage/custom_form_label.dart';
@@ -14,35 +16,46 @@ class IntroPage extends StatefulWidget {
 }
 
 class _IntroPageState extends State<IntroPage> {
+  final TextEditingController controllerEmail = TextEditingController();
+  final TextEditingController controllerSenha = TextEditingController();
+
+  final AuthService _authService = AuthService();
+
+  bool isLoading = false;
+
+  void showError(String msg) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
+  }
+
+  Future<void> login() async {
+    setState(() => isLoading = true);
+    try {
+      User? user = await _authService.signIn(
+        controllerEmail.text,
+        controllerSenha.text,
+      );
+
+      if (user != null) {
+        // Login bem-sucedido, ir para Home
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const MyHomePage()),
+        );
+      } else {
+        showError("Erro ao fazer login");
+      }
+    } catch (e) {
+      showError(e.toString());
+    } finally {
+      setState(() => isLoading = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.pastelBeige,
-      appBar: AppBar(
-        backgroundColor: AppColors.pastelBeige,
-        title: Text(''),
-        actions: [
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => BottomNav()),
-              );
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(right: 16, top: 15),
-              child: Text(
-                "Continuar sem Acesso",
-                style: TextStyle(
-                  fontFamily: 'CerebriSansPro',
-                  fontSize: 18,
-                  color: AppColors.tealBlue,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
+      appBar: AppBar(backgroundColor: AppColors.pastelBeige, title: Text('')),
       body: Stack(
         children: [
           Positioned(
@@ -97,13 +110,20 @@ class _IntroPageState extends State<IntroPage> {
                           LabelsForm(title: 'Email:'),
                           SizedBox(height: 5),
                           CustomFormField(
+                            tipoTeclado: TextInputType.emailAddress,
+                            controller: controllerEmail,
                             hintText: 'Usuario@mail.com',
                             isPassword: false,
                           ),
                           SizedBox(height: 20),
                           LabelsForm(title: 'Senha:'),
                           SizedBox(height: 5),
-                          CustomFormField(hintText: 'Senha', isPassword: true),
+                          CustomFormField(
+                            tipoTeclado: TextInputType.visiblePassword,
+                            controller: controllerSenha,
+                            hintText: 'Senha',
+                            isPassword: true,
+                          ),
                           SizedBox(height: 40),
                           Center(
                             child: BtnForm(

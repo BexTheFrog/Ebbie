@@ -1,8 +1,13 @@
 import 'package:ebbie/config/app_colors.dart';
+import 'package:ebbie/models/user_model.dart';
+import 'package:ebbie/pages/homepage.dart';
 import 'package:ebbie/pages/intro_page.dart';
+import 'package:ebbie/repositories/user_repositorie.dart';
+import 'package:ebbie/services/auth_service.dart';
 import 'package:ebbie/widgets/module_intropage/custom_btn.dart';
 import 'package:ebbie/widgets/module_intropage/custom_form_field.dart';
 import 'package:ebbie/widgets/module_intropage/custom_form_label.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SigninPage extends StatefulWidget {
@@ -13,6 +18,54 @@ class SigninPage extends StatefulWidget {
 }
 
 class _SigninPageState extends State<SigninPage> {
+  final TextEditingController controllerEmail = TextEditingController();
+  final TextEditingController controllerSenha = TextEditingController();
+  final TextEditingController controllerConfirmaSenha = TextEditingController();
+  final TextEditingController controllerNome = TextEditingController();
+
+  final AuthService _authService = AuthService();
+  final UserRepository _userRepo = UserRepository();
+
+  bool isLoading = false;
+
+  void showError(String msg) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
+  }
+
+  Future<void> signUp() async {
+    setState(() => isLoading = true);
+    try {
+      // Cria usuário no Firebase Auth
+      User? user = await _authService.signUp(
+        controllerEmail.text,
+        controllerSenha.text,
+      );
+
+      if (user != null) {
+        final userModel = UserModel(
+          user.uid,
+          controllerNome.text,
+          controllerEmail.text,
+          controllerSenha.text,
+          0,
+        );
+
+        await _userRepo.createUser(userModel);
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const IntroPage()),
+        );
+      } else {
+        showError("Erro ao criar conta");
+      }
+    } catch (e) {
+      showError(e.toString());
+    } finally {
+      setState(() => isLoading = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,6 +134,8 @@ class _SigninPageState extends State<SigninPage> {
                               LabelsForm(title: 'Nome:'),
                               SizedBox(height: 5),
                               CustomFormField(
+                                tipoTeclado: TextInputType.name,
+                                controller: controllerNome,
                                 hintText: 'Seu nome...',
                                 isPassword: false,
                               ),
@@ -88,6 +143,8 @@ class _SigninPageState extends State<SigninPage> {
                               LabelsForm(title: 'Email:'),
                               SizedBox(height: 5),
                               CustomFormField(
+                                tipoTeclado: TextInputType.emailAddress,
+                                controller: controllerEmail,
                                 hintText: 'User@mail.com...',
                                 isPassword: false,
                               ),
@@ -95,6 +152,8 @@ class _SigninPageState extends State<SigninPage> {
                               LabelsForm(title: 'Senha:'),
                               SizedBox(height: 5),
                               CustomFormField(
+                                tipoTeclado: TextInputType.visiblePassword,
+                                controller: controllerSenha,
                                 hintText: 'Senha...',
                                 isPassword: true,
                               ),
@@ -102,6 +161,8 @@ class _SigninPageState extends State<SigninPage> {
                               LabelsForm(title: 'Confirme sua senha:'),
                               SizedBox(height: 5),
                               CustomFormField(
+                                tipoTeclado: TextInputType.visiblePassword,
+                                controller: controllerConfirmaSenha,
                                 hintText: 'Confirme sua senha...',
                                 isPassword: true,
                               ),
@@ -116,7 +177,9 @@ class _SigninPageState extends State<SigninPage> {
                             BtnForm(
                               title: 'Criar Conta',
                               cor: AppColors.darkSlate,
-                              method: () {},
+                              method: () {
+                                signUp();
+                              },
                             ),
                             SizedBox(height: 10),
                             BtnForm(

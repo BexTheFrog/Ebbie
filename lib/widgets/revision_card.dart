@@ -4,11 +4,7 @@ class RevisionCard extends StatelessWidget {
   final String title;
   final String subtitle;
 
-  const RevisionCard({
-    super.key,
-    required this.title,
-    required this.subtitle,
-  });
+  const RevisionCard({super.key, required this.title, required this.subtitle});
 
   @override
   Widget build(BuildContext context) {
@@ -57,14 +53,8 @@ class RevisionCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: const [
-                _CardButton(
-                  text: 'Revisões',
-                  icon: Icons.description_outlined,
-                ),
-                _CardButton(
-                  text: 'Estatísticas',
-                  icon: Icons.data_usage,
-                ),
+                _CardButton(text: 'Revisões', icon: Icons.description_outlined),
+                _CardButton(text: 'Estatísticas', icon: Icons.data_usage),
               ],
             ),
           ],
@@ -78,11 +68,7 @@ class _CardButton extends StatelessWidget {
   final String text;
   final IconData icon;
 
-  const _CardButton({
-    super.key,
-    required this.text,
-    required this.icon,
-  });
+  const _CardButton({required this.text, required this.icon});
 
   @override
   Widget build(BuildContext context) {
@@ -97,10 +83,7 @@ class _CardButton extends StatelessWidget {
         children: [
           Icon(icon, color: Colors.white, size: 20),
           const SizedBox(width: 8),
-          Text(
-            text,
-            style: const TextStyle(color: Colors.white, fontSize: 16),
-          ),
+          Text(text, style: const TextStyle(color: Colors.white, fontSize: 16)),
         ],
       ),
     );

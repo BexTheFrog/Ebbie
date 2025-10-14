@@ -1,3 +1,4 @@
+import 'package:ebbie/widgets/custom_appbar_with_comeback.dart';
 import 'package:flutter/material.dart';
 import '../widgets/custom_appbar.dart';
 import '../widgets/custom_subject_header.dart';
@@ -9,7 +10,7 @@ class SubjectPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(coinCount: 15),
+      appBar: const CustomAppBarWithComeback(),
       backgroundColor: const Color(0xFFFFF9E9),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(32.0),

@@ -1,8 +1,7 @@
-import 'package:ebbie/widgets/achievements_profile.dart';
 import 'package:ebbie/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import '../widgets/module_profile.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -24,8 +23,8 @@ class ProfilePage extends StatelessWidget {
               children: [
                 SizedBox(height: 50),
                 _buildProfileContainer(context),
-                SizedBox(height: 30),
-                AchievementsProfile(),
+                // SizedBox(height: 30),
+                // AchievementsProfile(), SE A BEATRIZ ALGUM DIA TOCAR NO PROJETO DE NOVO TA AQUI - Que gracinha esse Lucas
                 SizedBox(height: 50),
                 ModuleProfile(),
                 SizedBox(height: 80),
@@ -33,10 +32,6 @@ class ProfilePage extends StatelessWidget {
             ),
           ),
         ),
-
-        
-
-        
       ),
     );
   }
@@ -46,7 +41,9 @@ class ProfilePage extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 24),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16), // 👈 bordas arredondadas em cima e embaixo
+        borderRadius: BorderRadius.circular(
+          16,
+        ), // 👈 bordas arredondadas em cima e embaixo
         color: const Color(0xFFFFFCF4),
         boxShadow: [
           BoxShadow(
@@ -92,10 +89,7 @@ class ProfilePage extends StatelessWidget {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: const Color.fromARGB(255, 223, 213, 213),
-              border: Border.all(
-                color: const Color(0xFFED6A5A),
-                width: 10,
-              ),
+              border: Border.all(color: const Color(0xFFED6A5A), width: 10),
             ),
             child: const CircleAvatar(
               radius: 50,
@@ -114,6 +108,7 @@ class ProfilePage extends StatelessWidget {
       "Eu",
       style: TextStyle(
         fontWeight: FontWeight.bold,
+        fontFamily: "CerebriSansPro",
         fontSize: 18,
         color: Color(0xFF5D576B),
       ),
@@ -122,11 +117,7 @@ class ProfilePage extends StatelessWidget {
 
   /// Linha separadora
   Widget _buildDivider() {
-    return Container(
-      height: 2,
-      width: 350,
-      color: const Color(0xFFF4F1BB),
-    );
+    return Container(height: 2, width: 350, color: const Color(0xFFF4F1BB));
   }
 
   /// Linha de estatísticas
@@ -136,12 +127,27 @@ class ProfilePage extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _buildStat("REALIZOU", "36", "REVISÕES",
-              const Color(0xFFED6A5A), const Color(0xFF9BC1BC)),
-          _buildStat("PULOU", "15", "REVISÕES",
-              Colors.orange.shade700, const Color(0xFF9BC1BC)),
-          _buildStat("MEMORIZOU", "6", "TÓPICOS",
-              Colors.orange.shade700, const Color(0xFF9BC1BC)),
+          _buildStat(
+            "REALIZOU",
+            "36",
+            "REVISÕES",
+            const Color(0xFFED6A5A),
+            const Color(0xFF9BC1BC),
+          ),
+          _buildStat(
+            "PULOU",
+            "15",
+            "REVISÕES",
+            Colors.orange.shade700,
+            const Color(0xFF9BC1BC),
+          ),
+          _buildStat(
+            "MEMORIZOU",
+            "6",
+            "TÓPICOS",
+            Colors.orange.shade700,
+            const Color(0xFF9BC1BC),
+          ),
         ],
       ),
     );
@@ -163,6 +169,7 @@ class ProfilePage extends StatelessWidget {
             fontWeight: FontWeight.bold,
             color: titleColor,
             fontSize: 12,
+            fontFamily: 'CerebriSansPro',
           ),
         ),
         const SizedBox(height: 4),
@@ -172,6 +179,7 @@ class ProfilePage extends StatelessWidget {
             fontWeight: FontWeight.bold,
             fontSize: 16,
             color: Colors.black,
+            fontFamily: 'CerebriSansPro',
           ),
         ),
         const SizedBox(height: 2),
@@ -181,6 +189,7 @@ class ProfilePage extends StatelessWidget {
             color: subtitleColor,
             fontSize: 12,
             fontWeight: FontWeight.bold,
+            fontFamily: 'CerebriSansPro',
           ),
         ),
       ],
