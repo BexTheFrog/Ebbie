@@ -1,5 +1,8 @@
 import 'dart:async';
+import 'package:ebbie/widgets/theme_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 enum PomodoroMode { foco, pausaCurta, pausaLonga }
 
@@ -28,6 +31,7 @@ class _PomodoroPageState extends State<PomodoroPage> {
   bool autoStartFocus = false;
 
   OverlayEntry _createOverlayEntry(BuildContext context) {
+    final theme = context.read<ThemeController>();
     final focoController = TextEditingController(text: focusMinutes.toString());
     final curtaController = TextEditingController(
       text: shortBreakMinutes.toString(),
@@ -64,10 +68,10 @@ class _PomodoroPageState extends State<PomodoroPage> {
                   builder: (context, setOverlayState) => Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Text(
+                      Text(
                         "Personalizar tempos",
                         style: TextStyle(
-                          color: Color.fromRGBO(93, 87, 108, 1),
+                          color: theme.textOverlayColor,
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
@@ -77,19 +81,19 @@ class _PomodoroPageState extends State<PomodoroPage> {
                       _buildTimeEditor(
                         "Foco",
                         focoController,
-                        const Color(0xFFEA6D5A),
+                        theme.primaryColor,
                       ),
                       const SizedBox(height: 15),
                       _buildTimeEditor(
                         "Pausa Curta",
                         curtaController,
-                        const Color(0xFFD3D0A0),
+                        theme.secondaryColor,
                       ),
                       const SizedBox(height: 15),
                       _buildTimeEditor(
                         "Pausa Longa",
                         longaController,
-                        const Color(0xFF9BC1BC),
+                        theme.accentColor,
                       ),
                       const SizedBox(height: 25),
 
@@ -103,10 +107,10 @@ class _PomodoroPageState extends State<PomodoroPage> {
                               });
                             },
                           ),
-                          const Text(
+                          Text(
                             "Iniciar pausa automaticamente",
                             style: TextStyle(
-                              color: Color.fromRGBO(93, 87, 108, 1),
+                              color: theme.textOverlayColor,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -127,10 +131,10 @@ class _PomodoroPageState extends State<PomodoroPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
+                              Text(
                                 "Tipo de pausa:",
                                 style: TextStyle(
-                                  color: Color.fromRGBO(93, 87, 108, 1),
+                                  color: theme.textOverlayColor,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -181,16 +185,15 @@ class _PomodoroPageState extends State<PomodoroPage> {
                               });
                             },
                           ),
-                          const Text(
+                          Text(
                             "Iniciar foco automaticamente",
                             style: TextStyle(
-                              color: Color.fromRGBO(93, 87, 108, 1),
+                              color: theme.textOverlayColor,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                         ],
                       ),
-
                       const SizedBox(height: 15),
 
                       Row(
@@ -208,7 +211,7 @@ class _PomodoroPageState extends State<PomodoroPage> {
                           ),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFFEA6D5A),
+                              backgroundColor: theme.primaryColor,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15),
                               ),
@@ -293,14 +296,20 @@ class _PomodoroPageState extends State<PomodoroPage> {
           SizedBox(
             width: 70,
             child: TextField(
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              maxLength: 2,
               controller: controller,
               keyboardType: TextInputType.number,
               textAlign: TextAlign.center,
               decoration: InputDecoration(
+                counterText: '',
+
                 hintText: "min",
+                hintStyle: TextStyle(fontSize: 15, color: color.withOpacity(1)),
+
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(color: color.withOpacity(0.7)),
+                  borderSide: BorderSide(color: color.withOpacity(1)),
                 ),
                 isDense: true,
                 contentPadding: const EdgeInsets.symmetric(vertical: 8),
@@ -325,7 +334,6 @@ class _PomodoroPageState extends State<PomodoroPage> {
 
   void startTimer() {
     if (timer != null && timer!.isActive) return;
-
     setState(() => isRunning = true);
 
     timer = Timer.periodic(const Duration(seconds: 1), (_) {
@@ -336,13 +344,10 @@ class _PomodoroPageState extends State<PomodoroPage> {
         setState(() => isRunning = false);
 
         if (currentMode == PomodoroMode.foco && autoStartBreak) {
-          if (selectedBreakType == PomodoroMode.pausaCurta) {
-            currentMode = PomodoroMode.pausaCurta;
-            totalSeconds = shortBreakMinutes * 60;
-          } else {
-            currentMode = PomodoroMode.pausaLonga;
-            totalSeconds = longBreakMinutes * 60;
-          }
+          currentMode = selectedBreakType;
+          totalSeconds = selectedBreakType == PomodoroMode.pausaCurta
+              ? shortBreakMinutes * 60
+              : longBreakMinutes * 60;
           remainingSeconds = totalSeconds;
           startTimer();
         } else if ((currentMode == PomodoroMode.pausaCurta ||
@@ -393,12 +398,14 @@ class _PomodoroPageState extends State<PomodoroPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.watch<ThemeController>();
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(80),
         child: AppBar(
           automaticallyImplyLeading: false,
-          backgroundColor: const Color.fromRGBO(93, 87, 108, 1),
+          backgroundColor: theme.appbarColor,
           flexibleSpace: SafeArea(
             child: Stack(
               alignment: Alignment.center,
@@ -459,10 +466,10 @@ class _PomodoroPageState extends State<PomodoroPage> {
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 decoration: BoxDecoration(
                   color: currentMode == PomodoroMode.foco
-                      ? const Color(0xFFEA6D5A)
+                      ? theme.primaryColor
                       : currentMode == PomodoroMode.pausaCurta
-                      ? const Color(0xFFD3D0A0)
-                      : const Color(0xFF9BC1BC),
+                      ? theme.secondaryColor
+                      : theme.accentColor,
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: Row(
@@ -474,7 +481,7 @@ class _PomodoroPageState extends State<PomodoroPage> {
                           : currentMode == PomodoroMode.pausaCurta
                           ? Icons.local_cafe
                           : Icons.coffee,
-                      color: Colors.white,
+                      color: theme.textColor,
                       size: 25,
                     ),
                     const SizedBox(width: 5),
@@ -484,8 +491,8 @@ class _PomodoroPageState extends State<PomodoroPage> {
                           : currentMode == PomodoroMode.pausaCurta
                           ? "Pausa Curta"
                           : "Pausa Longa",
-                      style: const TextStyle(
-                        color: Colors.white,
+                      style: TextStyle(
+                        color: theme.textColor,
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
                       ),
@@ -496,31 +503,29 @@ class _PomodoroPageState extends State<PomodoroPage> {
             ),
           ),
           const SizedBox(height: 50),
-
           Column(
             children: [
               Text(
                 minutes,
-                style: const TextStyle(
+                style: TextStyle(
                   height: 0.9,
                   fontSize: 200,
-                  color: Color.fromRGBO(155, 193, 188, 1),
+                  color: theme.accentColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
                 seconds,
-                style: const TextStyle(
+                style: TextStyle(
                   height: 0.9,
                   fontSize: 200,
-                  color: Color.fromRGBO(155, 193, 188, 1),
+                  color: theme.accentColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ],
           ),
           const SizedBox(height: 50),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -534,14 +539,14 @@ class _PomodoroPageState extends State<PomodoroPage> {
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                    color: const Color(0xFFD3D0A0),
+                    color: theme.secondaryColor,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   height: 70,
                   width: 70,
-                  child: const Icon(
+                  child: Icon(
                     Icons.more_horiz,
-                    color: Colors.white,
+                    color: theme.textColor,
                     size: 35,
                   ),
                 ),
@@ -551,14 +556,14 @@ class _PomodoroPageState extends State<PomodoroPage> {
                 onTap: () => isRunning ? pauseTimer() : startTimer(),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: const Color(0xFFED6A5A),
+                    color: theme.primaryColor,
                     borderRadius: BorderRadius.circular(30),
                   ),
                   height: 80,
                   width: 120,
                   child: Icon(
                     isRunning ? Icons.pause : Icons.play_arrow,
-                    color: Colors.white,
+                    color: theme.textColor,
                     size: 40,
                   ),
                 ),
@@ -568,16 +573,12 @@ class _PomodoroPageState extends State<PomodoroPage> {
                 onTap: resetTimer,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: const Color(0xFFD3D0A0),
+                    color: theme.secondaryColor,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   height: 70,
                   width: 70,
-                  child: const Icon(
-                    Icons.refresh,
-                    color: Colors.white,
-                    size: 35,
-                  ),
+                  child: Icon(Icons.refresh, color: theme.textColor, size: 35),
                 ),
               ),
             ],
