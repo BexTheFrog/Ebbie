@@ -4,7 +4,7 @@ import 'package:ebbie/pages/email_page.dart';
 import 'package:ebbie/pages/name_page.dart';
 import 'package:ebbie/pages/password_page.dart';
 import 'package:flutter/material.dart';
-import 'package:ebbie/widgets/custom_appbar_no_icon.dart.dart';
+import 'package:ebbie/widgets/custom_appbar_no_icon.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class SettingsPage extends StatelessWidget {

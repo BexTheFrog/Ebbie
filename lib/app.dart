@@ -1,3 +1,4 @@
+import 'package:ebbie/pages/accessibility_page.dart';
 import 'package:ebbie/pages/bottom_nav.dart';
 import 'package:ebbie/pages/pet_page.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class Ebbie extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      home: BottomNav(),
+      home: AccessibilityPage(),
     );
   }
 }
