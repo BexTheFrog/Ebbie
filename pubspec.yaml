@@ -29,6 +29,7 @@ dependencies:
   url_launcher: ^6.3.2
   percent_indicator: ^4.2.5
   persistent_bottom_nav_bar: ^6.2.1
+  provider: ^6.1.5+1
 
 dev_dependencies:
   flutter_test:
