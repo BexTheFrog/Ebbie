@@ -1,9 +1,6 @@
 import 'package:ebbie/config/app_colors.dart';
-import 'package:ebbie/pages/homepage.dart';
 import 'package:ebbie/pages/signin_page.dart';
-import 'package:ebbie/services/auth_service.dart';
 import 'package:ebbie/widgets/module_intropage/custom_btn.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../widgets/module_intropage/custom_form_field.dart';
 import '../widgets/module_intropage/custom_form_label.dart';
@@ -18,38 +15,6 @@ class IntroPage extends StatefulWidget {
 class _IntroPageState extends State<IntroPage> {
   final TextEditingController controllerEmail = TextEditingController();
   final TextEditingController controllerSenha = TextEditingController();
-
-  final AuthService _authService = AuthService();
-
-  bool isLoading = false;
-
-  void showError(String msg) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
-  }
-
-  Future<void> login() async {
-    setState(() => isLoading = true);
-    try {
-      User? user = await _authService.signIn(
-        controllerEmail.text,
-        controllerSenha.text,
-      );
-
-      if (user != null) {
-        // Login bem-sucedido, ir para Home
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => const MyHomePage()),
-        );
-      } else {
-        showError("Erro ao fazer login");
-      }
-    } catch (e) {
-      showError(e.toString());
-    } finally {
-      setState(() => isLoading = false);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {

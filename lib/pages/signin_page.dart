@@ -1,13 +1,9 @@
 import 'package:ebbie/config/app_colors.dart';
 import 'package:ebbie/models/user_model.dart';
-import 'package:ebbie/pages/homepage.dart';
-import 'package:ebbie/pages/intro_page.dart';
 import 'package:ebbie/repositories/user_repositorie.dart';
-import 'package:ebbie/services/auth_service.dart';
 import 'package:ebbie/widgets/module_intropage/custom_btn.dart';
 import 'package:ebbie/widgets/module_intropage/custom_form_field.dart';
 import 'package:ebbie/widgets/module_intropage/custom_form_label.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SigninPage extends StatefulWidget {
@@ -23,47 +19,12 @@ class _SigninPageState extends State<SigninPage> {
   final TextEditingController controllerConfirmaSenha = TextEditingController();
   final TextEditingController controllerNome = TextEditingController();
 
-  final AuthService _authService = AuthService();
-  final UserRepository _userRepo = UserRepository();
+  final userRepo = UserRepository();
 
-  bool isLoading = false;
-
-  void showError(String msg) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
-  }
-
-  Future<void> signUp() async {
-    setState(() => isLoading = true);
-    try {
-      // Cria usuário no Firebase Auth
-      User? user = await _authService.signUp(
-        controllerEmail.text,
-        controllerSenha.text,
-      );
-
-      if (user != null) {
-        final userModel = UserModel(
-          user.uid,
-          controllerNome.text,
-          controllerEmail.text,
-          controllerSenha.text,
-          0,
-        );
-
-        await _userRepo.createUser(userModel);
-
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => const IntroPage()),
-        );
-      } else {
-        showError("Erro ao criar conta");
-      }
-    } catch (e) {
-      showError(e.toString());
-    } finally {
-      setState(() => isLoading = false);
-    }
+  Future<void> cadastrarUsuario(String nome, String email, String senha) async {
+    final user = UserModel(null, nome, email, senha, 0);
+    final uid = await userRepo.createUser(user);
+    print("Usuário criado com UID: $uid");
   }
 
   @override
@@ -177,8 +138,47 @@ class _SigninPageState extends State<SigninPage> {
                             BtnForm(
                               title: 'Criar Conta',
                               cor: AppColors.darkSlate,
-                              method: () {
-                                signUp();
+                              method: () async {
+                                if (controllerSenha.text !=
+                                    controllerConfirmaSenha.text) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('As senhas não coincidem'),
+                                    ),
+                                  );
+                                  return;
+                                }
+
+                                try {
+                                  final user = UserModel(
+                                    null,
+                                    controllerNome.text,
+                                    controllerEmail.text,
+                                    controllerSenha.text,
+                                    0,
+                                  );
+
+                                  await userRepo.createUser(user);
+
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        'Usuário criado com sucesso!',
+                                      ),
+                                    ),
+                                  );
+
+                                  // Opcional: voltar para tela de login
+                                  Navigator.pop(context);
+                                } catch (e) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        'Erro ao criar usuário: $e',
+                                      ),
+                                    ),
+                                  );
+                                }
                               },
                             ),
                             SizedBox(height: 10),
