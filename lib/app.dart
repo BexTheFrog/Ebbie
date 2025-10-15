@@ -20,7 +20,7 @@ class Ebbie extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      home: AccessibilityPage(),
+      home: BottomNav(),
     );
   }
 }
