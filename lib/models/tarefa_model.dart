@@ -1,45 +1,44 @@
-import 'package:ebbie/models/materia_model.dart';
-
 class TarefaModel {
   String? id;
+  String idModulo;
+  String idSection;
   String topico;
-  MateriaModel modulo;
-  MateriaModel materia;
   DateTime dataRevisao;
   String status;
+  bool wasReviewed;
 
-  TarefaModel(
+  TarefaModel({
     this.id,
-    this.topico,
-    this.modulo,
-    this.materia,
-    this.dataRevisao,
-    this.status,
-  );
+    required this.idModulo,
+    required this.idSection,
+    required this.topico,
+    required this.dataRevisao,
+    required this.status,
+    this.wasReviewed = false,
+  });
 
-  Map<String, dynamic> mapTarefa() {
+  // Converte o objeto em mapa (para salvar no Firestore)
+  Map<String, dynamic> toMap() {
     return {
-      'topico': materia,
-      'moduloId': modulo.id,
-      'materiaId': materia.id,
-      'dataRevisao': dataRevisao,
+      'idModulo': idModulo,
+      'idSection': idSection,
+      'topico': topico,
+      'dataRevisao': dataRevisao.toIso8601String(),
       'status': status,
+      'wasReviewed': wasReviewed,
     };
   }
 
-  factory TarefaModel.factoryTarefa(
-    String? id,
-    Map<String, dynamic> map,
-    MateriaModel modulo,
-    MateriaModel materia,
-  ) {
+  // Cria o objeto a partir de um mapa do Firestore
+  factory TarefaModel.fromMap(String id, Map<String, dynamic> map) {
     return TarefaModel(
-      id,
-      map['tarefa'],
-      modulo,
-      materia,
-      map['dataRevisao'],
-      map['status'],
+      id: id,
+      idModulo: map['idModulo'] ?? '',
+      idSection: map['idSection'] ?? '',
+      topico: map['topico'] ?? '',
+      dataRevisao: DateTime.parse(map['dataRevisao']),
+      status: map['status'] ?? '',
+      wasReviewed: map['wasReviewed'] ?? false,
     );
   }
 }

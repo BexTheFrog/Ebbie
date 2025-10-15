@@ -4,11 +4,15 @@ import '../../../config/app_colors.dart';
 class CustomFormField extends StatefulWidget {
   final String hintText;
   final bool isPassword;
+  final TextEditingController controller;
+  final TextInputType tipoTeclado;
 
   const CustomFormField({
     super.key,
     required this.hintText,
     required this.isPassword,
+    required this.controller,
+    required this.tipoTeclado,
   });
 
   @override
@@ -29,6 +33,8 @@ class _CustomFormFieldState extends State<CustomFormField> {
     return SizedBox(
       width: 350,
       child: TextFormField(
+        keyboardType: widget.tipoTeclado,
+        controller: widget.controller,
         obscureText: _obscureText,
         decoration: InputDecoration(
           hintText: widget.hintText,

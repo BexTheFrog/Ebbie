@@ -1,6 +1,6 @@
 import 'package:ebbie/config/app_colors.dart';
+import 'package:ebbie/pages/bottom_nav.dart';
 import 'package:ebbie/pages/signin_page.dart';
-import 'package:ebbie/widgets/bottom_nav.dart';
 import 'package:ebbie/widgets/module_intropage/custom_btn.dart';
 import 'package:flutter/material.dart';
 import '../widgets/module_intropage/custom_form_field.dart';
@@ -14,6 +14,9 @@ class IntroPage extends StatefulWidget {
 }
 
 class _IntroPageState extends State<IntroPage> {
+  final TextEditingController controllerEmail = TextEditingController();
+  final TextEditingController controllerSenha = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,13 +100,20 @@ class _IntroPageState extends State<IntroPage> {
                           LabelsForm(title: 'Email:'),
                           SizedBox(height: 5),
                           CustomFormField(
+                            tipoTeclado: TextInputType.emailAddress,
+                            controller: controllerEmail,
                             hintText: 'Usuario@mail.com',
                             isPassword: false,
                           ),
                           SizedBox(height: 20),
                           LabelsForm(title: 'Senha:'),
                           SizedBox(height: 5),
-                          CustomFormField(hintText: 'Senha', isPassword: true),
+                          CustomFormField(
+                            tipoTeclado: TextInputType.visiblePassword,
+                            controller: controllerSenha,
+                            hintText: 'Senha',
+                            isPassword: true,
+                          ),
                           SizedBox(height: 40),
                           Center(
                             child: BtnForm(

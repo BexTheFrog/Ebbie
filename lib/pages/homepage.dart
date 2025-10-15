@@ -1,5 +1,6 @@
 import 'package:ebbie/config/app_colors.dart';
 import 'package:ebbie/widgets/custom_appbar.dart';
+import 'package:ebbie/widgets/module_forms/custom_review_form.dart';
 import 'package:ebbie/widgets/module_homepage/custom_review_card.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -56,6 +57,14 @@ class _MyHomePageState extends State<MyHomePage> {
                         setState(() {
                           _diaSelecionado = selectedDay;
                         });
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext dialogContext) {
+                            return CustomDialogRevieweForm(
+                              dataReview: _diaSelecionado!,
+                            );
+                          },
+                        );
                       },
                       calendarFormat: CalendarFormat.month,
                       startingDayOfWeek: StartingDayOfWeek.sunday,
