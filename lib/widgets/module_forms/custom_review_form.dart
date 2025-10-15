@@ -1,82 +1,96 @@
 import 'package:ebbie/config/app_colors.dart';
 import 'package:ebbie/widgets/module_forms/custom_description.dart';
+import 'package:ebbie/widgets/module_forms/custom_dropdown_module.dart';
 import 'package:ebbie/widgets/module_forms/custom_form_task.dart';
 import 'package:ebbie/widgets/module_forms/custom_ok.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
-class CustomDialogAddModule extends StatefulWidget {
-  const CustomDialogAddModule({super.key});
+class CustomDialogRevieweForm extends StatefulWidget {
+  final DateTime dataReview;
+
+  const CustomDialogRevieweForm({super.key, required this.dataReview});
 
   @override
-  State<CustomDialogAddModule> createState() => _CustomDialogAddModuleState();
+  State<CustomDialogRevieweForm> createState() =>
+      _CustomDialogRevieweFormState();
 }
 
-class _CustomDialogAddModuleState extends State<CustomDialogAddModule> {
+class _CustomDialogRevieweFormState extends State<CustomDialogRevieweForm> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
       backgroundColor: const Color(0xFFF7EDE2),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // Cabeçalho com título e botão fechar
-          Container(
-            decoration: BoxDecoration(
-              color: AppColors.tealBlue,
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(16),
-                topRight: Radius.circular(16),
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(
-                top: 8,
-                left: 10,
-                right: 10,
-                bottom: 8,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Novo módulo',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: 'CerebriSansPro',
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.pastelYellow,
-                    ),
-                  ),
-                  IconButton(
-                    icon: const Icon(
-                      LucideIcons.squareX,
-                      color: AppColors.pastelYellow,
-                      size: 30,
-                    ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                ], // <-- fecha o children do Row
-              ),
-            ),
+      child: SingleChildScrollView(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height * 0.8,
           ),
-          const SizedBox(height: 12),
-          Padding(
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              children: [
-                CustomFormFieldTask(hintText: "Review"),
-                const SizedBox(height: 12),
-                CustomDescription(),
-                const SizedBox(height: 16),
-                Align(alignment: Alignment.centerRight, child: CustomOk()),
-              ],
-            ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Cabeçalho com título e botão fechar
+              Container(
+                decoration: BoxDecoration(
+                  color: AppColors.tealBlue,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16),
+                  ),
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 8,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Review ${widget.dataReview.day}/${widget.dataReview.month}/${widget.dataReview.year}',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontFamily: 'CerebriSansPro',
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.pastelYellow,
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(
+                        LucideIcons.squareX,
+                        color: AppColors.pastelYellow,
+                        size: 30,
+                      ),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 12),
+              Padding(
+                padding: const EdgeInsets.all(12),
+                child: Column(
+                  children: [
+                    CustomFormFieldTask(hintText: "Tópico"),
+                    const SizedBox(height: 12),
+                    // Aqui você pode colocar seu Dropdown de módulos
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // Exemplo de Dropdown
+                        // DropdownModulos(modulos: [...], onChanged: (val) {})
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    CustomDescription(),
+                    const SizedBox(height: 16),
+                    Align(alignment: Alignment.centerRight, child: CustomOk()),
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

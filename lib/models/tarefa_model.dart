@@ -1,5 +1,3 @@
-import 'package:ebbie/models/materia_model.dart';
-
 class TarefaModel {
   String? id;
   String idModulo;

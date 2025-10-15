@@ -1,6 +1,7 @@
 import 'package:ebbie/config/app_colors.dart';
 import 'package:ebbie/widgets/custom_appbar.dart';
 import 'package:ebbie/widgets/custom_appbar_with_comeback.dart';
+import 'package:ebbie/widgets/module_forms/custom_dialog_add_module.dart';
 import 'package:ebbie/widgets/module_pet/custom_progress_bar.dart';
 import 'package:ebbie/widgets/module_pet/custom_round_btn.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -26,19 +27,19 @@ class _PetPageState extends State<PetPage> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(height: 60),
+              SizedBox(height: 80),
               Stack(
                 children: [
                   Positioned(
-                    top: 20,
-                    left: 15,
+                    top: 15,
+                    left: 45,
                     child: Column(
                       children: [
                         Row(
                           spacing: 10,
                           children: [
                             Text(
-                              "Gilberto",
+                              "Cortex",
                               style: TextStyle(
                                 color: AppColors.coral,
                                 fontFamily: 'CerebriSansPro',
@@ -46,7 +47,20 @@ class _PetPageState extends State<PetPage> {
                                 fontSize: 36,
                               ),
                             ),
-                            Icon(LucideIcons.squarePen, color: AppColors.coral),
+                            GestureDetector(
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext dialogContext) {
+                                    return CustomDialogAddModule();
+                                  },
+                                );
+                              },
+                              child: Icon(
+                                LucideIcons.squarePen,
+                                color: AppColors.coral,
+                              ),
+                            ),
                           ],
                         ),
                         Row(
@@ -75,13 +89,13 @@ class _PetPageState extends State<PetPage> {
                                 ],
                               ),
                             ),
-                            Column(
-                              spacing: 10,
-                              children: [
-                                CustomRoundBtn(btnIcon: LucideIcons.store),
-                                CustomRoundBtn(btnIcon: LucideIcons.volume2),
-                              ],
-                            ),
+                            // Column(
+                            //   spacing: 10,
+                            //   children: [
+                            //     //CustomRoundBtn(btnIcon: LucideIcons.store),
+                            //     CustomRoundBtn(btnIcon: LucideIcons.volume2),
+                            //   ],
+                            // ),
                           ],
                         ),
                       ],

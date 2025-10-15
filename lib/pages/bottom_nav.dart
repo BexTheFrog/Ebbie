@@ -1,4 +1,5 @@
 import 'package:ebbie/pages/pet_page.dart';
+import 'package:ebbie/widgets/module_forms/custom_review_form.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
@@ -30,6 +31,8 @@ class _BottomNavState extends State<BottomNav>
   final Color fabIconsColor = const Color(0xFFF4F1BB);
   final Color fabChildrenBackground = const Color(0xFF9BC1BC);
   final Color fabChildrenIconsColor = const Color(0xFFF4F1BB);
+
+  final DateTime _diaAtual = DateTime.now().add(const Duration(days: 1));
 
   @override
   void initState() {
@@ -156,7 +159,14 @@ class _BottomNavState extends State<BottomNav>
                       icon: Icons.note_add,
                       onTap: () {
                         _toggleFab();
-                        print('Adicionar nota');
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext dialogContext) {
+                            return CustomDialogRevieweForm(
+                              dataReview: _diaAtual,
+                            );
+                          },
+                        );
                       },
                     ),
                   ),
