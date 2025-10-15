@@ -7,32 +7,6 @@ import 'package:provider/provider.dart';
 void main() async {
   await initializeDateFormatting('pt_BR', null);
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => ThemeController(),
-      child: const EbbieRoot(),
-    ),
+    ChangeNotifierProvider(create: (_) => ThemeController(), child: Ebbie()),
   );
-}
-
-class EbbieRoot extends StatelessWidget {
-  const EbbieRoot({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<ThemeController>(
-      builder: (context, themeController, _) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Ebbie',
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(
-              seedColor: themeController.primaryColor,
-            ),
-            scaffoldBackgroundColor: const Color(0xFFFDF7E4),
-          ),
-          home: const Ebbie(),
-        );
-      },
-    );
-  }
 }

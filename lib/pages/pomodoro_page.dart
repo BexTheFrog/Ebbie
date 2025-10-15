@@ -87,7 +87,12 @@ class _PomodoroPageState extends State<PomodoroPage> {
                       _buildTimeEditor(
                         "Pausa Curta",
                         curtaController,
-                        theme.secondaryColor,
+                        theme.secondaryColor.withValues(
+                          alpha: 10,
+                          red: 100,
+                          blue: 150,
+                          green: 100,
+                        ),
                       ),
                       const SizedBox(height: 15),
                       _buildTimeEditor(
@@ -417,7 +422,7 @@ class _PomodoroPageState extends State<PomodoroPage> {
                     margin: const EdgeInsets.only(right: 20),
                     padding: const EdgeInsets.all(3),
                     decoration: BoxDecoration(
-                      color: const Color.fromRGBO(233, 167, 81, 1),
+                      color: theme.pointsColor,
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Container(
@@ -427,23 +432,19 @@ class _PomodoroPageState extends State<PomodoroPage> {
                         borderRadius: BorderRadius.circular(15),
                       ),
                       height: 25,
-                      child: const Row(
+                      child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
                             '15',
                             style: TextStyle(
-                              color: Color.fromRGBO(233, 167, 81, 1),
+                              color: theme.pointsColor,
                               fontWeight: FontWeight.bold,
                               fontSize: 15,
                             ),
                           ),
                           SizedBox(width: 3),
-                          Icon(
-                            Icons.paid,
-                            color: Color.fromRGBO(233, 167, 81, 1),
-                            size: 16,
-                          ),
+                          Icon(Icons.paid, color: theme.pointsColor, size: 16),
                         ],
                       ),
                     ),
@@ -539,7 +540,7 @@ class _PomodoroPageState extends State<PomodoroPage> {
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                    color: theme.secondaryColor,
+                    color: theme.secondaryBotomColor,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   height: 70,
@@ -556,7 +557,7 @@ class _PomodoroPageState extends State<PomodoroPage> {
                 onTap: () => isRunning ? pauseTimer() : startTimer(),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: theme.primaryColor,
+                    color: theme.botomPlayColor,
                     borderRadius: BorderRadius.circular(30),
                   ),
                   height: 80,
@@ -573,7 +574,7 @@ class _PomodoroPageState extends State<PomodoroPage> {
                 onTap: resetTimer,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: theme.secondaryColor,
+                    color: theme.secondaryBotomColor,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   height: 70,
