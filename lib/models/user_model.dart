@@ -20,4 +20,20 @@ class UserModel {
       map['carteira'],
     );
   }
+
+  Map<String, dynamic> toMap() {
+    //Do objeto para o MAP
+    return {'nome': nome, 'email': email, 'senha': senha, 'carteira': carteira};
+  }
+
+  factory UserModel.fromMap(String id, Map<String, dynamic> map) {
+    //COnverte do Map para o Objeto
+    return UserModel(
+      id,
+      map["nome"],
+      map["email"],
+      map["senha"],
+      map["carteira"],
+    ); //A ordem importa
+  }
 }

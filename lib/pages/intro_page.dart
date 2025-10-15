@@ -1,6 +1,5 @@
 import 'package:ebbie/config/app_colors.dart';
 import 'package:ebbie/pages/signin_page.dart';
-import 'package:ebbie/widgets/bottom_nav.dart';
 import 'package:ebbie/widgets/module_intropage/custom_btn.dart';
 import 'package:flutter/material.dart';
 import '../widgets/module_intropage/custom_form_field.dart';
@@ -14,35 +13,14 @@ class IntroPage extends StatefulWidget {
 }
 
 class _IntroPageState extends State<IntroPage> {
+  final TextEditingController controllerEmail = TextEditingController();
+  final TextEditingController controllerSenha = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.pastelBeige,
-      appBar: AppBar(
-        backgroundColor: AppColors.pastelBeige,
-        title: Text(''),
-        actions: [
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => BottomNav()),
-              );
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(right: 16, top: 15),
-              child: Text(
-                "Continuar sem Acesso",
-                style: TextStyle(
-                  fontFamily: 'CerebriSansPro',
-                  fontSize: 18,
-                  color: AppColors.tealBlue,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
+      appBar: AppBar(backgroundColor: AppColors.pastelBeige, title: Text('')),
       body: Stack(
         children: [
           Positioned(
@@ -97,13 +75,20 @@ class _IntroPageState extends State<IntroPage> {
                           LabelsForm(title: 'Email:'),
                           SizedBox(height: 5),
                           CustomFormField(
+                            tipoTeclado: TextInputType.emailAddress,
+                            controller: controllerEmail,
                             hintText: 'Usuario@mail.com',
                             isPassword: false,
                           ),
                           SizedBox(height: 20),
                           LabelsForm(title: 'Senha:'),
                           SizedBox(height: 5),
-                          CustomFormField(hintText: 'Senha', isPassword: true),
+                          CustomFormField(
+                            tipoTeclado: TextInputType.visiblePassword,
+                            controller: controllerSenha,
+                            hintText: 'Senha',
+                            isPassword: true,
+                          ),
                           SizedBox(height: 40),
                           Center(
                             child: BtnForm(
