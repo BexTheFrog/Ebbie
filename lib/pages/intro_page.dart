@@ -1,4 +1,5 @@
 import 'package:ebbie/config/app_colors.dart';
+import 'package:ebbie/pages/bottom_nav.dart';
 import 'package:ebbie/pages/signin_page.dart';
 import 'package:ebbie/widgets/module_intropage/custom_btn.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,31 @@ class _IntroPageState extends State<IntroPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.pastelBeige,
-      appBar: AppBar(backgroundColor: AppColors.pastelBeige, title: Text('')),
+      appBar: AppBar(
+        backgroundColor: AppColors.pastelBeige,
+        title: Text(''),
+        actions: [
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => BottomNav()),
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(right: 16, top: 15),
+              child: Text(
+                "Continuar sem Acesso",
+                style: TextStyle(
+                  fontFamily: 'CerebriSansPro',
+                  fontSize: 18,
+                  color: AppColors.tealBlue,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
       body: Stack(
         children: [
           Positioned(

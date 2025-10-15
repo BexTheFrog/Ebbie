@@ -1,7 +1,6 @@
 import 'package:ebbie/config/app_colors.dart';
 import 'package:ebbie/widgets/custom_appbar.dart';
 import 'package:ebbie/widgets/module_homepage/custom_review_card.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
@@ -14,8 +13,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final user = FirebaseAuth.instance.currentUser;
-
   final DateTime _diaAtual = DateTime.now();
   DateTime? _diaSelecionado;
 

@@ -1,16 +1,14 @@
-import 'package:ebbie/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:uuid/uuid.dart';
+import 'package:ebbie/models/user_model.dart';
 
 class UserRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // Cria usuário com ID único manual
+  // Cria usuário e deixa o Firestore gerar o ID automaticamente
   Future<String> createUser(UserModel user) async {
     try {
-      final uid = user.id ?? const Uuid().v4();
-      await _firestore.collection('usuarios').doc(uid).set(user.toMap());
-      return uid;
+      final docRef = await _firestore.collection('usuarios').add(user.toMap());
+      return docRef.id; // retorna o id gerado
     } catch (e) {
       throw Exception("Erro ao criar usuário: $e");
     }
@@ -34,6 +32,7 @@ class UserRepository {
     }
   }
 
+  // Busca usuário pelo ID
   Future<UserModel?> getUserById(String id) async {
     try {
       final doc = await _firestore.collection('usuarios').doc(id).get();
@@ -44,6 +43,7 @@ class UserRepository {
     }
   }
 
+  // Atualiza usuário
   Future<void> updateUser(UserModel user) async {
     try {
       await _firestore.collection('usuarios').doc(user.id).update(user.toMap());
@@ -52,6 +52,7 @@ class UserRepository {
     }
   }
 
+  // Deleta usuário
   Future<void> deleteUser(String id) async {
     try {
       await _firestore.collection('usuarios').doc(id).delete();

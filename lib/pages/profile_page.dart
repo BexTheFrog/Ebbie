@@ -1,7 +1,6 @@
 import 'package:ebbie/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import '../widgets/module_profile.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
