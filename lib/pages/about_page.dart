@@ -1,4 +1,4 @@
-import 'package:ebbie/widgets/custom_appbar_no_icon.dart.dart';
+import 'package:ebbie/widgets/custom_appbar_no_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
