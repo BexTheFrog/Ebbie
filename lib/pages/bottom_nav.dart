@@ -1,4 +1,5 @@
 import 'package:ebbie/pages/pet_page.dart';
+import 'package:ebbie/services/user_service.dart';
 import 'package:ebbie/widgets/module_forms/custom_review_form.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';

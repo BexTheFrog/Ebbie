@@ -84,7 +84,14 @@ class _CustomDialogRevieweFormState extends State<CustomDialogRevieweForm> {
                     const SizedBox(height: 12),
                     CustomDescription(),
                     const SizedBox(height: 16),
-                    Align(alignment: Alignment.centerRight, child: CustomOk()),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: CustomOk(
+                        function: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
                   ],
                 ),
               ),

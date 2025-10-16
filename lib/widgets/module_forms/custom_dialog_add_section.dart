@@ -70,7 +70,14 @@ class _CustomDialogAddSectionState extends State<CustomDialogAddSection> {
               children: [
                 CustomFormFieldTask(hintText: "Novo Matéria..."),
                 const SizedBox(height: 12),
-                Align(alignment: Alignment.centerRight, child: CustomOk()),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: CustomOk(
+                    function: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
               ],
             ),
           ),

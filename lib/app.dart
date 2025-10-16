@@ -24,6 +24,10 @@ class Ebbie extends StatelessWidget {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
+          routes: {
+            "/mainApp": (context) => const BottomNav(),
+            "/Intro": (context) => const IntroPage(),
+          },
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(
               seedColor: themeController.primaryColor,
@@ -34,7 +38,7 @@ class Ebbie extends StatelessWidget {
               foregroundColor: Colors.white,
             ),
           ),
-          home: const BottomNav(),
+          home: const IntroPage(),
           // ou:
           // home: const AccessibilityPage(),
         );
