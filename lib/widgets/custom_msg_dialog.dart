@@ -5,14 +5,23 @@ import 'package:ebbie/widgets/module_forms/custom_ok.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
-class CustomDialogAddModule extends StatefulWidget {
-  const CustomDialogAddModule({super.key});
+class CustomMsgDialog extends StatefulWidget {
+  final String title;
+  final String content;
+  final Widget ok;
+
+  const CustomMsgDialog({
+    super.key,
+    required this.title,
+    required this.content,
+    required this.ok,
+  });
 
   @override
-  State<CustomDialogAddModule> createState() => _CustomDialogAddModuleState();
+  State<CustomMsgDialog> createState() => _CustomMsgDialogState();
 }
 
-class _CustomDialogAddModuleState extends State<CustomDialogAddModule> {
+class _CustomMsgDialogState extends State<CustomMsgDialog> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -40,9 +49,9 @@ class _CustomDialogAddModuleState extends State<CustomDialogAddModule> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Novo módulo',
-                    style: TextStyle(
+                  Text(
+                    widget.title,
+                    style: const TextStyle(
                       fontSize: 18,
                       fontFamily: 'CerebriSansPro',
                       fontWeight: FontWeight.bold,
@@ -68,18 +77,17 @@ class _CustomDialogAddModuleState extends State<CustomDialogAddModule> {
             padding: const EdgeInsets.all(12),
             child: Column(
               children: [
-                CustomFormFieldTask(hintText: "Descrição..."),
-                const SizedBox(height: 12),
-                CustomDescription(),
-                const SizedBox(height: 16),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: CustomOk(
-                    function: () {
-                      Navigator.pop(context);
-                    },
+                const SizedBox(height: 10),
+                Text(
+                  widget.content,
+                  style: TextStyle(
+                    fontFamily: 'CerebriSansPro',
+                    color: AppColors.tealBlue,
+                    fontSize: 8,
                   ),
                 ),
+                const SizedBox(height: 10),
+                Align(alignment: Alignment.centerRight, child: widget.ok),
               ],
             ),
           ),

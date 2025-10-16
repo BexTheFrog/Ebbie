@@ -2,7 +2,9 @@ import 'package:ebbie/config/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class CustomOk extends StatefulWidget {
-  const CustomOk({super.key});
+  final Function function;
+
+  const CustomOk({super.key, required this.function});
 
   @override
   State<CustomOk> createState() => _CustomOkState();
@@ -13,7 +15,7 @@ class _CustomOkState extends State<CustomOk> {
   Widget build(BuildContext context) {
     return OutlinedButton(
       onPressed: () {
-        Navigator.pop(context);
+        widget.function;
       },
       style: OutlinedButton.styleFrom(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),

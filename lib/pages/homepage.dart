@@ -1,5 +1,9 @@
 import 'package:ebbie/config/app_colors.dart';
+import 'package:ebbie/pages/intro_page.dart';
+import 'package:ebbie/services/user_service.dart';
 import 'package:ebbie/widgets/custom_appbar.dart';
+import 'package:ebbie/widgets/custom_msg_dialog.dart';
+import 'package:ebbie/widgets/module_intropage/custom_btn.dart';
 import 'package:ebbie/widgets/module_forms/custom_review_form.dart';
 import 'package:ebbie/widgets/module_homepage/custom_review_card.dart';
 import 'package:flutter/material.dart';
@@ -16,9 +20,37 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final DateTime _diaAtual = DateTime.now();
   DateTime? _diaSelecionado;
+  int? userId;
+
+  Future<void> _loadUserId() async {
+    int? id = await UserService.getUserId();
+    setState(() {
+      userId = id;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserId();
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (userId == null) {
+      return Center(
+        child: BtnForm(
+          title: 'Logar',
+          cor: Colors.red,
+          method: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => IntroPage()),
+            );
+          },
+        ),
+      );
+    }
     return Scaffold(
       appBar: const CustomAppBar(coinCount: 15),
       backgroundColor: const Color(0xFFF7EDE2),
