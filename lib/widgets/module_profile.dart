@@ -130,20 +130,20 @@ class ModuleProfile extends StatelessWidget {
                     onTap: () {
                       // showDialog placeholder
                       showDialog(
-                        context: context,
-                        builder: (_) => AlertDialog(
-                          title: Text('Editar $title'),
-                          content: const Text(
-                            'Aqui você poderá editar este módulo.',
-                          ),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: const Text('Fechar'),
-                            ),
-                          ],
-                        ),
-                      );
+  context: context,
+  builder: (dialogContext) => AlertDialog(
+    title: Text('Editar $title'),
+    content: const Text(
+      'Aqui você poderá editar este módulo.',
+    ),
+    actions: [
+      TextButton(
+        onPressed: () => Navigator.pop(dialogContext), // Usa dialogContext
+        child: const Text('Fechar'),
+      ),
+    ],
+  ),
+);
                     },
                     child: const Icon(
                       LucideIcons.squarePen,
