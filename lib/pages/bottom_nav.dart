@@ -1,5 +1,6 @@
 import 'package:ebbie/pages/pet_page.dart';
 import 'package:ebbie/widgets/module_forms/custom_review_form.dart';
+import 'package:ebbie/widgets/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
@@ -10,6 +11,7 @@ import 'package:ebbie/pages/pomodoro_page.dart';
 import 'package:ebbie/pages/profile_page.dart';
 import 'package:ebbie/pages/settings_page.dart';
 import 'package:ebbie/pages/homepage.dart';
+import 'package:provider/provider.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key});
@@ -111,6 +113,7 @@ class _BottomNavState extends State<BottomNav>
   }
 
   Widget _buildFabWithChildren() {
+    final theme = context.watch<ThemeController>();
     return Stack(
       children: [
         // Overlay escuro quando aberto
@@ -249,7 +252,7 @@ class _BottomNavState extends State<BottomNav>
           left: MediaQuery.of(context).size.width / 2 - 30,
           child: FloatingActionButton(
             onPressed: _toggleFab,
-            backgroundColor: fabBackgroundColor,
+            backgroundColor: theme.appbarColor,
             foregroundColor: fabIconsColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30),
@@ -266,9 +269,10 @@ class _BottomNavState extends State<BottomNav>
   }
 
   Widget _buildFabChild({required IconData icon, required VoidCallback onTap}) {
+    final theme = context.watch<ThemeController>();
     return Material(
       shape: CircleBorder(),
-      color: fabChildrenBackground,
+      color: theme.appbarColor,
       elevation: 8,
       child: InkWell(
         onTap: onTap,
@@ -294,6 +298,8 @@ class _BottomNavState extends State<BottomNav>
 
   @override
   Widget build(BuildContext context) {
+        final theme = context.watch<ThemeController>();
+
     return Scaffold(
       body: Stack(
         children: [
@@ -303,7 +309,7 @@ class _BottomNavState extends State<BottomNav>
             screens: _buildScreens(),
             items: _navBarsItems(),
             confineToSafeArea: true,
-            backgroundColor: navBarColor,
+            backgroundColor: theme.appbarColor,
             handleAndroidBackButtonPress: true,
             resizeToAvoidBottomInset: true,
             stateManagement: true,

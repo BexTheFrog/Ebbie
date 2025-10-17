@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   // Inicializa formatação de datas
   await initializeDateFormatting('pt_BR', null);
   runApp(

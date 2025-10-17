@@ -26,7 +26,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   margin: const EdgeInsets.only(right: 20),
                   padding: const EdgeInsets.all(3),
                   decoration: BoxDecoration(
-                    color: const Color.fromRGBO(233, 167, 81, 1),
+                    color: theme.pointsColor,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Container(
@@ -41,16 +41,16 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       children: [
                         Text(
                           '$coinCount',
-                          style: const TextStyle(
-                            color: Color.fromRGBO(233, 167, 81, 1),
+                          style: TextStyle(
+                            color: theme.pointsColor,
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
                           ),
                         ),
                         const SizedBox(width: 3),
-                        const Icon(
+                         Icon(
                           Icons.paid,
-                          color: Color.fromRGBO(233, 167, 81, 1),
+                          color: theme.pointsColor,
                           size: 16,
                         ),
                       ],
