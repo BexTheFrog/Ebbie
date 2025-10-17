@@ -1,5 +1,7 @@
+import 'package:ebbie/widgets/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:provider/provider.dart';
 
 class CustomAppbarNoIcon extends StatelessWidget
     implements PreferredSizeWidget {
@@ -14,11 +16,12 @@ class CustomAppbarNoIcon extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.watch<ThemeController>();
     return PreferredSize(
       preferredSize: const Size.fromHeight(80),
       child: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: const Color.fromRGBO(93, 87, 108, 1),
+        backgroundColor: theme.appbarColor,
         flexibleSpace: SafeArea(
           child: Stack(
             alignment: Alignment.center,

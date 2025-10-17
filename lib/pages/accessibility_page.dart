@@ -29,10 +29,26 @@ class AccessibilityPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              _colorOption(context, 'Normal', themeController),
-              _colorOption(context, 'Protanopia', themeController),
-              _colorOption(context, 'Deuteranopia', themeController),
-              _colorOption(context, 'Tritanopia', themeController),
+              _colorOption(context, 'Normal', themeController, const [
+                Color(0xFFEA6D5A),
+                Color(0xFFD3D0A0),
+                Color(0xFF9BC1BC),
+              ]),
+              _colorOption(context, 'Protanopia', themeController, const [
+                Color(0xFFB56576),
+                Color(0xFFEAAC8B),
+                Color(0xFFE56B6F),
+              ]),
+              _colorOption(context, 'Deuteranopia', themeController, const [
+                Color(0xFF6D597A),
+                Color(0xFFB56576),
+                Color(0xFFEAAC8B),
+              ]),
+              _colorOption(context, 'Tritanopia', themeController, const [
+                Color(0xFF355070),
+                Color(0xFF6D597A),
+                Color(0xFFB56576),
+              ]),
             ],
           ),
         );
@@ -44,9 +60,27 @@ class AccessibilityPage extends StatelessWidget {
     BuildContext context,
     String title,
     ThemeController controller,
+    List<Color> colors,
   ) {
     return ListTile(
       title: Text(title),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: colors
+            .map(
+              (c) => Container(
+                width: 20,
+                height: 20,
+                margin: const EdgeInsets.symmetric(horizontal: 3),
+                decoration: BoxDecoration(
+                  color: c,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.black12, width: 1),
+                ),
+              ),
+            )
+            .toList(),
+      ),
       onTap: () {
         controller.setDaltonismMode(title);
         Navigator.pop(context);
