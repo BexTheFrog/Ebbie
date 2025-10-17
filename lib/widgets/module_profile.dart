@@ -1,9 +1,5 @@
-import 'package:ebbie/pages/revisionExpand.dart';
-import 'package:ebbie/pages/revision_page.dart';
 import 'package:ebbie/pages/subject_page.dart';
 import 'package:ebbie/widgets/module_forms/custom_dialog_add_module.dart';
-import 'package:ebbie/widgets/module_forms/custom_form_add.dart';
-import 'package:ebbie/widgets/module_forms/custom_form_task.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -131,14 +127,16 @@ class ModuleProfile extends StatelessWidget {
                       // showDialog placeholder
                       showDialog(
                         context: context,
-                        builder: (_) => AlertDialog(
+                        builder: (dialogContext) => AlertDialog(
                           title: Text('Editar $title'),
                           content: const Text(
                             'Aqui você poderá editar este módulo.',
                           ),
                           actions: [
                             TextButton(
-                              onPressed: () => Navigator.pop(context),
+                              onPressed: () => Navigator.pop(
+                                dialogContext,
+                              ), // Usa dialogContext
                               child: const Text('Fechar'),
                             ),
                           ],

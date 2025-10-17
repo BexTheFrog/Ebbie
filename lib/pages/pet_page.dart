@@ -1,10 +1,8 @@
 import 'package:ebbie/config/app_colors.dart';
-import 'package:ebbie/widgets/custom_appbar.dart';
 import 'package:ebbie/widgets/custom_appbar_with_comeback.dart';
 import 'package:ebbie/widgets/module_forms/custom_dialog_add_module.dart';
 import 'package:ebbie/widgets/module_pet/custom_progress_bar.dart';
 import 'package:ebbie/widgets/module_pet/custom_round_btn.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 

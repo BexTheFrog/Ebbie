@@ -1,5 +1,8 @@
 import 'package:ebbie/config/app_colors.dart';
 import 'package:ebbie/models/user_model.dart';
+import 'package:ebbie/services/database.dart';
+import 'package:ebbie/widgets/custom_msg_dialog.dart';
+import 'package:ebbie/widgets/module_forms/custom_ok.dart';
 import 'package:ebbie/widgets/module_intropage/custom_btn.dart';
 import 'package:ebbie/widgets/module_intropage/custom_form_field.dart';
 import 'package:ebbie/widgets/module_intropage/custom_form_label.dart';
@@ -13,6 +16,8 @@ class SigninPage extends StatefulWidget {
 }
 
 class _SigninPageState extends State<SigninPage> {
+  final dbHelper = DatabaseHelper();
+
   final TextEditingController controllerEmail = TextEditingController();
   final TextEditingController controllerSenha = TextEditingController();
   final TextEditingController controllerConfirmaSenha = TextEditingController();
@@ -129,7 +134,68 @@ class _SigninPageState extends State<SigninPage> {
                             BtnForm(
                               title: 'Criar Conta',
                               cor: AppColors.darkSlate,
-                              method: () async {},
+                              method: () async {
+                                String nome = controllerNome.text;
+                                String email = controllerEmail.text;
+                                String senha = controllerSenha.text;
+                                String confirmacao =
+                                    controllerConfirmaSenha.text;
+
+                                UserModel usuario = UserModel(
+                                  null,
+                                  nome,
+                                  email,
+                                  senha,
+                                  0,
+                                );
+                                if (senha == confirmacao) {
+                                  try {
+                                    await dbHelper.insert(
+                                      'user',
+                                      usuario.toMap(),
+                                    );
+                                    if (!mounted) return;
+                                    await showDialog(
+                                      context: context,
+                                      builder: (context) => CustomMsgDialog(
+                                        title: 'Completo!',
+                                        content: 'Cadastro feito com sucesso',
+                                        ok: CustomOk(
+                                          function: () {
+                                            Navigator.pop(context);
+                                          },
+                                        ),
+                                      ),
+                                    );
+                                    if (!mounted) return;
+                                    Navigator.pop(context);
+                                  } catch (erro) {
+                                    CustomMsgDialog(
+                                      title: 'Erro',
+                                      content: "Erro ao cadastrar: $erro",
+                                      ok: CustomOk(
+                                        function: () {
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    );
+                                    return;
+                                  }
+                                } else {
+                                  await showDialog(
+                                    context: context,
+                                    builder: (context) => CustomMsgDialog(
+                                      title: 'Erro',
+                                      content: 'Senhas não conferem',
+                                      ok: CustomOk(
+                                        function: () {
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                }
+                              },
                             ),
                             SizedBox(height: 10),
                             BtnForm(

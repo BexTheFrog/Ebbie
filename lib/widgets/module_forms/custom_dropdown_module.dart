@@ -1,12 +1,16 @@
+import 'package:ebbie/config/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class DropdownModulos extends StatefulWidget {
-  final List<String> modulos; // lista de módulos
+  final List<String> lista; // lista de módulos
   final Function(String?) onChanged;
+  final String hintText;
 
   const DropdownModulos({
     super.key,
-    required this.modulos,
+    required this.hintText,
+    required this.lista,
     required this.onChanged,
   });
 
@@ -15,47 +19,49 @@ class DropdownModulos extends StatefulWidget {
 }
 
 class _DropdownModulosState extends State<DropdownModulos> {
-  String? selectedModulo;
+  String? selectedItem;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Título
-        Row(
-          children: const [
-            Icon(Icons.menu_book, color: Colors.blue),
-            SizedBox(width: 8),
-            Text(
-              'Módulos',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
-        const SizedBox(height: 8),
-
         // Dropdown
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12),
           decoration: BoxDecoration(
-            border: Border.all(color: Colors.blue),
-            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: AppColors.tealBlue, width: 3),
+            borderRadius: BorderRadius.circular(12),
           ),
           child: DropdownButton<String>(
+            icon: Icon(LucideIcons.circleArrowDown, color: AppColors.tealBlue),
+            dropdownColor: AppColors.pastelBeige,
+            borderRadius: BorderRadius.circular(12),
             isExpanded: true,
-            value: selectedModulo,
-            hint: const Text("Selecione um módulo"),
+            value: selectedItem,
+            hint: Text(
+              widget.hintText,
+              style: TextStyle(
+                fontFamily: 'CerebriSansPro',
+                color: AppColors.tealBlue,
+              ),
+            ),
             underline: const SizedBox(), // remove a linha padrão
-            items: widget.modulos.map((modulo) {
+            items: widget.lista.map((item) {
               return DropdownMenuItem<String>(
-                value: modulo,
-                child: Text(modulo),
+                value: item,
+                child: Text(
+                  item,
+                  style: TextStyle(
+                    color: AppColors.tealBlue,
+                    fontFamily: 'CerebriSansPro',
+                  ),
+                ),
               );
             }).toList(),
             onChanged: (value) {
               setState(() {
-                selectedModulo = value;
+                selectedItem = value;
               });
               widget.onChanged(value);
             },

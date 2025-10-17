@@ -73,18 +73,37 @@ class _CustomDialogRevieweFormState extends State<CustomDialogRevieweForm> {
                   children: [
                     CustomFormFieldTask(hintText: "Tópico"),
                     const SizedBox(height: 12),
-                    // Aqui você pode colocar seu Dropdown de módulos
                     Row(
+                      spacing: 30,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // Exemplo de Dropdown
-                        // DropdownModulos(modulos: [...], onChanged: (val) {})
+                        Expanded(
+                          child: DropdownModulos(
+                            hintText: 'Módulos',
+                            lista: ['Item 1', 'Item 2', 'Item 3'],
+                            onChanged: (val) {},
+                          ),
+                        ),
+                        Expanded(
+                          child: DropdownModulos(
+                            hintText: 'Materias',
+                            lista: ['Item 1', 'Item 2', 'Item 3'],
+                            onChanged: (val) {},
+                          ),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 12),
                     CustomDescription(),
                     const SizedBox(height: 16),
-                    Align(alignment: Alignment.centerRight, child: CustomOk()),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: CustomOk(
+                        function: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
                   ],
                 ),
               ),
