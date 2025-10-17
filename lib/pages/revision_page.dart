@@ -1,7 +1,6 @@
 import 'package:ebbie/widgets/custom_appbar_with_comeback.dart';
 import 'package:ebbie/widgets/custom_revision_header.dart';
 import 'package:ebbie/widgets/revision_card.dart';
-import 'package:ebbie/widgets/revision_page_appbar.dart';
 import 'package:flutter/material.dart';
 
 class RevisionPage extends StatelessWidget {
