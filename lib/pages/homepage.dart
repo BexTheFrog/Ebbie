@@ -1,9 +1,6 @@
 import 'package:ebbie/config/app_colors.dart';
-import 'package:ebbie/pages/intro_page.dart';
 import 'package:ebbie/services/user_service.dart';
 import 'package:ebbie/widgets/custom_appbar.dart';
-import 'package:ebbie/widgets/custom_msg_dialog.dart';
-import 'package:ebbie/widgets/module_intropage/custom_btn.dart';
 import 'package:ebbie/widgets/module_forms/custom_review_form.dart';
 import 'package:ebbie/widgets/module_homepage/custom_review_card.dart';
 import 'package:flutter/material.dart';
@@ -67,6 +64,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TableCalendar(
+                      enabledDayPredicate: (day) {
+                        final today = DateTime.now();
+                        final onlyToday = DateTime(
+                          today.year,
+                          today.month,
+                          today.day,
+                        );
+                        final onlyDay = DateTime(day.year, day.month, day.day);
+                        return !onlyDay.isBefore(onlyToday);
+                      },
                       locale: 'pt_BR',
                       focusedDay: _diaAtual,
                       firstDay: DateTime.utc(2020, 1, 1),

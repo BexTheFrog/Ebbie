@@ -41,7 +41,8 @@ class _IntroPageState extends State<IntroPage> {
             child: Padding(
               padding: const EdgeInsets.only(right: 16, top: 15),
               child: Text(
-                "Continuar sem Acesso",
+                "",
+                //"Continuar sem Acesso",
                 style: TextStyle(
                   fontFamily: 'CerebriSansPro',
                   fontSize: 18,
@@ -54,6 +55,7 @@ class _IntroPageState extends State<IntroPage> {
       ),
       body: SingleChildScrollView(
         child: Stack(
+          clipBehavior: Clip.none,
           children: [
             Positioned(
               top: 325,
