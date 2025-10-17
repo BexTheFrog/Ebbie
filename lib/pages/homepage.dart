@@ -37,20 +37,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (userId == null) {
-      return Center(
-        child: BtnForm(
-          title: 'Logar',
-          cor: Colors.red,
-          method: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => IntroPage()),
-            );
-          },
-        ),
-      );
-    }
     return Scaffold(
       appBar: const CustomAppBar(coinCount: 15),
       backgroundColor: const Color(0xFFF7EDE2),
