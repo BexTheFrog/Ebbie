@@ -144,4 +144,42 @@ class DatabaseHelper {
       orderBy: orderBy,
     );
   }
+
+  // ------------ Buscar estatisticas do perfil --------
+
+  Future<Map<String, int>> getUserStats(int userId) async {
+    final db = await database;
+
+    // Contar revisões realizadas
+    final realizado =
+        Sqflite.firstIntValue(
+          await db.rawQuery(
+            'SELECT COUNT(*) FROM review_stats WHERE idUsuario = ? AND status = ?',
+            [userId, 'realizado'],
+          ),
+        ) ??
+        0;
+
+    // Contar revisões puladas
+    final pulou =
+        Sqflite.firstIntValue(
+          await db.rawQuery(
+            'SELECT COUNT(*) FROM review_stats WHERE idUsuario = ? AND status = ?',
+            [userId, 'pulou'],
+          ),
+        ) ??
+        0;
+
+    // Contar tópicos memorizados
+    final memorizou =
+        Sqflite.firstIntValue(
+          await db.rawQuery(
+            'SELECT COUNT(DISTINCT idTarefa) FROM review_stats WHERE idUsuario = ? AND status = ?',
+            [userId, 'memorizou'],
+          ),
+        ) ??
+        0;
+
+    return {'realizou': realizado, 'pulou': pulou, 'memorizou': memorizou};
+  }
 }

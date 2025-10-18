@@ -1,17 +1,51 @@
 import 'package:ebbie/pages/subject_page.dart';
+import 'package:ebbie/services/database.dart';
 import 'package:ebbie/widgets/module_forms/custom_dialog_add_module.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
-class ModuleProfile extends StatelessWidget {
-  const ModuleProfile({super.key});
+final dbHelper = DatabaseHelper();
+
+class ModuleProfile extends StatefulWidget {
+  final int userId;
+  const ModuleProfile({super.key, required this.userId});
+
+  @override
+  State<ModuleProfile> createState() => _ModuleProfileState();
+}
+
+class _ModuleProfileState extends State<ModuleProfile> {
+  List<Map<String, dynamic>> modules = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadModules();
+  }
+
+  Future<void> _loadModules() async {
+    final data = await dbHelper.query(
+      'modulo',
+      where: 'idUsuario = ?',
+      whereArgs: [widget.userId],
+    );
+    setState(() {
+      modules = data;
+    });
+  }
+
+  Future<void> _addOrEditModule({Map<String, dynamic>? module}) async {
+    // Abre o dialog e espera até fechar
+    await showDialog(context: context, builder: (_) => CustomDialogAddModule());
+    // Recarrega os módulos
+    _loadModules();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Título
         const Padding(
           padding: EdgeInsets.only(left: 8.0, bottom: 12),
           child: Text(
@@ -24,8 +58,6 @@ class ModuleProfile extends StatelessWidget {
             ),
           ),
         ),
-
-        // Scroll horizontal de módulos
         SizedBox(
           height: 130,
           child: SingleChildScrollView(
@@ -34,35 +66,17 @@ class ModuleProfile extends StatelessWidget {
             child: Row(
               children: [
                 const SizedBox(width: 8),
-                _buildModuleCard(
-                  context,
-                  title: "Desenvolvimento Web",
-                  description: "Técnico em desenvolvimento Web no SENAC",
-                ),
-                const SizedBox(width: 12),
-                _buildModuleCard(
-                  context,
-                  title: "ENEM 2025",
-                  description: "Estudos vestibular ENEM 2025",
-                ),
-                const SizedBox(width: 12),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
+                ...modules.map((mod) {
+                  return Padding(
+                    padding: const EdgeInsets.only(right: 12),
+                    child: _buildModuleCard(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => const SubjectPage(),
-                      ),
-                    );
-                  },
-
-                  child: _buildModuleCard(
-                    context,
-                    title: "Francês",
-                    description: "Estudos independentes de francês",
-                  ),
-                ),
-                const SizedBox(width: 12),
+                      title: mod['nome'],
+                      description: 'Estudos do módulo',
+                      onEdit: () => _addOrEditModule(module: mod),
+                    ),
+                  );
+                }).toList(),
                 _buildAddModuleCard(context),
                 const SizedBox(width: 8),
               ],
@@ -73,11 +87,11 @@ class ModuleProfile extends StatelessWidget {
     );
   }
 
-  /// Card de módulo padrão
   Widget _buildModuleCard(
     BuildContext context, {
     required String title,
     required String description,
+    required VoidCallback onEdit,
   }) {
     return SizedBox(
       width: 200,
@@ -96,7 +110,6 @@ class ModuleProfile extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Cabeçalho colorido com título e lápis
             Container(
               height: 50,
               padding: const EdgeInsets.all(8),
@@ -121,28 +134,8 @@ class ModuleProfile extends StatelessWidget {
                       ),
                     ),
                   ),
-                  // Lápis individual com GestureDetector
                   GestureDetector(
-                    onTap: () {
-                      // showDialog placeholder
-                      showDialog(
-                        context: context,
-                        builder: (dialogContext) => AlertDialog(
-                          title: Text('Editar $title'),
-                          content: const Text(
-                            'Aqui você poderá editar este módulo.',
-                          ),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(
-                                dialogContext,
-                              ), // Usa dialogContext
-                              child: const Text('Fechar'),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
+                    onTap: onEdit,
                     child: const Icon(
                       LucideIcons.squarePen,
                       size: 18,
@@ -152,8 +145,6 @@ class ModuleProfile extends StatelessWidget {
                 ],
               ),
             ),
-
-            // Conteúdo do card
             Padding(
               padding: const EdgeInsets.all(12),
               child: Text(
@@ -172,20 +163,11 @@ class ModuleProfile extends StatelessWidget {
     );
   }
 
-  /// Card para adicionar módulo
   Widget _buildAddModuleCard(BuildContext context) {
     return SizedBox(
       width: 200,
       child: GestureDetector(
-        onTap: () {
-          // showDialog placeholder para adicionar módulo
-          showDialog(
-            context: context,
-            builder: (BuildContext dialogContext) {
-              return CustomDialogAddModule();
-            },
-          );
-        },
+        onTap: () => _addOrEditModule(),
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
