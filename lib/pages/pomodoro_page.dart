@@ -318,14 +318,14 @@ class _PomodoroPageState extends State<PomodoroPage> {
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide(
-                  color: theme.appbarColor.withOpacity(0.6), 
+                  color: color.withOpacity(0.6), 
                   width: 1.5,
                 ),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide(
-                  color: color.withOpacity(0.8), 
+                  color: theme.appbarColor.withOpacity(0.8), 
                   width: 2.2,
                 ),
               ),

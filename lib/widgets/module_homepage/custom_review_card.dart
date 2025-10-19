@@ -1,5 +1,8 @@
 import 'package:ebbie/config/app_colors.dart';
+import 'package:ebbie/widgets/theme_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
+import 'package:provider/provider.dart';
 
 class CustomReviewCard extends StatefulWidget {
   const CustomReviewCard({super.key});
@@ -15,8 +18,10 @@ class CustomReviewCard extends StatefulWidget {
 }
 
 class _CustomReviewCardState extends State<CustomReviewCard> {
+  
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) 
+  {final theme = context.watch<ThemeController>();
     return Stack(
       clipBehavior: Clip.none,
       children: [
@@ -49,7 +54,7 @@ class _CustomReviewCardState extends State<CustomReviewCard> {
                     topLeft: Radius.circular(15),
                     topRight: Radius.circular(15),
                   ),
-                  color: AppColors.coral,
+                  color: theme.tituloCardReviwColor,
                 ),
                 padding: const EdgeInsets.symmetric(
                   horizontal: 20,
@@ -82,7 +87,7 @@ class _CustomReviewCardState extends State<CustomReviewCard> {
 
               Container(
                 height: 40,
-                decoration: BoxDecoration(color: AppColors.tealBlue),
+                decoration: BoxDecoration(color: theme.subTituloCardReviwColor),
                 padding: const EdgeInsets.symmetric(
                   horizontal: 20,
                   vertical: 10,
@@ -124,7 +129,7 @@ class _CustomReviewCardState extends State<CustomReviewCard> {
                   style: TextStyle(
                     fontFamily: 'CerebriSansPro',
                     fontSize: 16,
-                    color: const Color(0xFF78624D).withAlpha(200),
+                    color: theme.descricaoCardReviwColor,
                   ),
                 ),
               ),
@@ -141,16 +146,16 @@ class _CustomReviewCardState extends State<CustomReviewCard> {
                 padding: const EdgeInsets.all(10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: const [
+                  children: [
                     Icon(
                       Icons.check_box_outline_blank_rounded,
-                      color: AppColors.darkSlate,
+                      color: theme.descricaoCardReviwColor,
                       size: 30,
                     ),
                     SizedBox(width: 10),
                     Icon(
                       Icons.arrow_circle_right_rounded,
-                      color: AppColors.darkSlate,
+                      color: theme.descricaoCardReviwColor,
                       size: 30,
                     ),
                   ],

@@ -65,7 +65,7 @@ class _EbbieState extends State<Ebbie> {
           ],
           routes: {
             "/mainApp": (context) => const BottomNav(),
-            "/Intro": (context) => const IntroPage(),
+            // "/Intro": (context) => const IntroPage(),
           },
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(
@@ -78,7 +78,9 @@ class _EbbieState extends State<Ebbie> {
             ),
           ),
           // Página inicial decide pelo userId
-          home: userId != null ? const BottomNav() : const IntroPage(),
+          home: BottomNav()
+          // userId != null ? const BottomNav() : const IntroPage(),
+
         );
       },
     );
