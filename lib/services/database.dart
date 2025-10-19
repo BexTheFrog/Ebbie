@@ -23,6 +23,9 @@ class DatabaseHelper {
   }
 
   Future _onCreate(Database db, int version) async {
+    // Ativa foreign keys
+    await db.execute('PRAGMA foreign_keys = ON');
+
     await db.execute('''
     CREATE TABLE user(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
