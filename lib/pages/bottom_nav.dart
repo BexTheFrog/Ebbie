@@ -1,5 +1,7 @@
 import 'package:ebbie/pages/pet_page.dart';
 import 'package:ebbie/services/user_service.dart';
+import 'package:ebbie/widgets/custom_msg_dialog.dart';
+import 'package:ebbie/widgets/module_forms/custom_ok.dart';
 import 'package:ebbie/widgets/module_forms/custom_review_form.dart';
 import 'package:ebbie/widgets/module_profile.dart';
 import 'package:ebbie/widgets/theme_controller.dart';
@@ -173,17 +175,38 @@ class _BottomNavState extends State<BottomNav>
                     },
                     child: _buildFabChild(
                       icon: Icons.note_add,
-                      onTap: () {
+                      onTap: () async {
                         _toggleFab();
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext dialogContext) {
-                            return CustomDialogRevieweForm(
-                              dataReview: _diaAtual,
-                              userId: userId!,
-                            );
-                          },
+
+                        final modules = await dbHelper.query(
+                          'modulo',
+                          where: 'idUsuario = ?',
+                          whereArgs: [userId],
                         );
+
+                        if (modules.isEmpty) {
+                          showDialog(
+                            context: context,
+                            builder: (context) => CustomMsgDialog(
+                              title: 'Aviso',
+                              content:
+                                  'Você precisa cadastrar pelo menos um módulo antes de adicionar uma review.',
+                              ok: CustomOk(
+                                function: () => Navigator.pop(context),
+                              ),
+                            ),
+                          );
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext dialogContext) {
+                              return CustomDialogRevieweForm(
+                                dataReview: _diaAtual,
+                                userId: userId!,
+                              );
+                            },
+                          );
+                        }
                       },
                     ),
                   ),

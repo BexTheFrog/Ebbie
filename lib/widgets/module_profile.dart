@@ -139,7 +139,6 @@ class _ModuleProfileState extends State<ModuleProfile> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Row(
-                        spacing: 150,
                         children: [
                           Text(
                             'Excluir $title?',
@@ -150,7 +149,7 @@ class _ModuleProfileState extends State<ModuleProfile> {
                               color: AppColors.pastelYellow,
                             ),
                           ),
-
+                          Expanded(child: SizedBox(width: 10)),
                           IconButton(
                             icon: const Icon(
                               LucideIcons.squareX,

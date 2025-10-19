@@ -168,6 +168,22 @@ class _CustomDialogRevieweFormState extends State<CustomDialogRevieweForm> {
 
                     // Dropdown Módulos
                     DropdownButtonFormField<int>(
+                      disabledHint: Text(
+                        'Você não tem módulos',
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontFamily: 'CerebriSansPro',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      hint: Text(
+                        'Selecione um módulo',
+                        style: TextStyle(
+                          color: AppColors.tealBlue,
+                          fontFamily: 'CerebriSansPro',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       icon: Icon(
                         LucideIcons.circleArrowDown,
                         color: AppColors.tealBlue,
