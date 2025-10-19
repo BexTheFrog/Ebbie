@@ -1,7 +1,10 @@
 import 'package:ebbie/config/app_colors.dart';
+import 'package:ebbie/pages/revisionExpand.dart';
 import 'package:ebbie/services/database.dart';
 import 'package:ebbie/services/user_service.dart';
 import 'package:ebbie/widgets/custom_appbar.dart';
+import 'package:ebbie/widgets/custom_msg_dialog.dart';
+import 'package:ebbie/widgets/module_forms/custom_ok.dart';
 import 'package:ebbie/widgets/module_forms/custom_review_form.dart';
 import 'package:ebbie/widgets/module_homepage/custom_filter.dart';
 import 'package:ebbie/widgets/module_homepage/custom_review_card.dart';
@@ -47,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final formatador = DateFormat('yyyy-MM-dd');
 
     String sql = '''
-      SELECT t.id, t.topico, t.dataRevisao, t.status,
+      SELECT t.id, t.topico, t.descricao, t.dataRevisao,  t.status,
              m.nome AS materiaNome,
              mod.nome AS moduloNome
       FROM tarefa t
@@ -85,13 +88,13 @@ class _MyHomePageState extends State<MyHomePage> {
   void _onPeriodoChanged(String periodo) async {
     setState(() {
       _periodoSelecionado = periodo;
-      _loading = true; // ativa loading
+      _loading = true;
     });
 
     await _loadReviews(periodo);
 
     setState(() {
-      _loading = false; // desativa loading após carregar
+      _loading = false;
     });
   }
 
@@ -141,11 +144,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       focusedDay: _diaAtual,
                       firstDay: DateTime.utc(2020, 1, 1),
                       lastDay: DateTime.utc(2030, 12, 31),
-                      onDaySelected: (selectedDay, focusedDay) {
+                      onDaySelected: (selectedDay, focusedDay) async {
                         setState(() {
                           _diaSelecionado = selectedDay;
                         });
-                        showDialog(
+
+                        final result = await showDialog(
                           context: context,
                           builder: (BuildContext dialogContext) {
                             return CustomDialogRevieweForm(
@@ -154,6 +158,12 @@ class _MyHomePageState extends State<MyHomePage> {
                             );
                           },
                         );
+
+                        if (result == true) {
+                          _loadReviews(
+                            _periodoSelecionado,
+                          ); // recarrega as tarefas/reviews
+                        }
                       },
                       calendarFormat: CalendarFormat.month,
                       startingDayOfWeek: StartingDayOfWeek.sunday,
@@ -322,6 +332,44 @@ class _MyHomePageState extends State<MyHomePage> {
                         reviewName: t['topico'] ?? '',
                         reviewDesc: '${t['descricao']}',
                         dataReview: data,
+                        onPressed: () async {
+                          final confirm = await showDialog<bool>(
+                            context: context,
+                            builder: (context) => CustomMsgDialog(
+                              title: 'Excluindo Review',
+                              content:
+                                  "Deseja realmente deletar ${t['topico']}?",
+                              ok: CustomOk(
+                                function: () => Navigator.pop(context, true),
+                              ),
+                            ),
+                          );
+
+                          if (confirm == true) {
+                            await dbHelper.delete('tarefa', 'id = ?', [
+                              t['id'],
+                            ]);
+                            _loadReviews(
+                              _periodoSelecionado,
+                            ); // atualiza a lista
+                          }
+                        },
+                        function: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Revisionexpand(
+                                titulo: t['topico'],
+                                modulo: t['moduloNome'],
+                                secao: t['materiaNome'],
+                                descricao: t['descricao'],
+                                dataReview:
+                                    DateTime.tryParse(t['dataRevisao'] ?? '') ??
+                                    DateTime.now(),
+                              ),
+                            ),
+                          );
+                        },
                       );
                     }).toList(),
                   ),
