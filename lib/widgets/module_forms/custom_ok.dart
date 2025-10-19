@@ -15,14 +15,11 @@ class _CustomOkState extends State<CustomOk> {
   Widget build(BuildContext context) {
     return OutlinedButton(
       onPressed: () {
-        widget.function;
+        widget.function();
       },
       style: OutlinedButton.styleFrom(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        side: const BorderSide(
-          color: AppColors.tealBlue, // cor da borda
-          width: 4, // espessura da borda
-        ),
+        side: const BorderSide(color: AppColors.tealBlue, width: 4),
       ),
       child: const Text(
         'Ok',

@@ -2,7 +2,9 @@ import 'package:ebbie/config/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class CustomDescription extends StatefulWidget {
-  const CustomDescription({super.key});
+  final TextEditingController controller;
+
+  const CustomDescription({super.key, required this.controller});
 
   @override
   State<CustomDescription> createState() => _CustomDescriptionState();
@@ -12,6 +14,7 @@ class _CustomDescriptionState extends State<CustomDescription> {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: widget.controller,
       maxLines: 3,
       decoration: InputDecoration(
         hintText: 'Descrição...',

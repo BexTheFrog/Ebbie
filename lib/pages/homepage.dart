@@ -1,7 +1,9 @@
 import 'package:ebbie/config/app_colors.dart';
+import 'package:ebbie/services/database.dart';
 import 'package:ebbie/services/user_service.dart';
 import 'package:ebbie/widgets/custom_appbar.dart';
 import 'package:ebbie/widgets/module_forms/custom_review_form.dart';
+import 'package:ebbie/widgets/module_homepage/custom_filter.dart';
 import 'package:ebbie/widgets/module_homepage/custom_review_card.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -15,21 +17,82 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final dbHelper = DatabaseHelper();
   final DateTime _diaAtual = DateTime.now();
   DateTime? _diaSelecionado;
   int? userId;
-
-  Future<void> _loadUserId() async {
-    int? id = await UserService.getUserId();
-    setState(() {
-      userId = id;
-    });
-  }
+  bool _loading = false;
+  String _periodoSelecionado = 'HOJE';
+  List<Map<String, dynamic>> reviews = []; // lista de reviews exibida
 
   @override
   void initState() {
     super.initState();
     _loadUserId();
+  }
+
+  Future<void> _loadUserId() async {
+    int? id = await UserService.getUserId();
+    setState(() => userId = id);
+    if (userId != null) _loadReviews(_periodoSelecionado);
+  }
+
+  Future<void> _loadReviews(String periodo) async {
+    if (userId == null) return;
+    setState(() => _periodoSelecionado = periodo);
+
+    final db = await dbHelper.database;
+
+    final hoje = DateTime.now();
+    final formatador = DateFormat('yyyy-MM-dd');
+
+    String sql = '''
+      SELECT t.id, t.topico, t.dataRevisao, t.status,
+             m.nome AS materiaNome,
+             mod.nome AS moduloNome
+      FROM tarefa t
+      LEFT JOIN materia m ON m.id = t.idMateria
+      LEFT JOIN modulo mod ON mod.id = t.idModulo
+      WHERE t.idUsuario = ?
+    ''';
+
+    List<dynamic> params = [userId];
+
+    if (periodo == 'HOJE') {
+      sql += ' AND date(t.dataRevisao) = ?';
+      params.add(formatador.format(hoje));
+    } else if (periodo == 'SEMANA') {
+      final inicio = hoje.subtract(Duration(days: hoje.weekday - 1));
+      final fim = inicio.add(Duration(days: 6));
+      sql += ' AND date(t.dataRevisao) BETWEEN ? AND ?';
+      params.addAll([formatador.format(inicio), formatador.format(fim)]);
+    } else if (periodo == 'MÊS') {
+      final inicio = DateTime(hoje.year, hoje.month, 1);
+      final fim = DateTime(hoje.year, hoje.month + 1, 0);
+      sql += ' AND date(t.dataRevisao) BETWEEN ? AND ?';
+      params.addAll([formatador.format(inicio), formatador.format(fim)]);
+    }
+
+    sql += ' ORDER BY t.dataRevisao ASC';
+
+    final result = await db.rawQuery(sql, params);
+
+    setState(() {
+      reviews = result;
+    });
+  }
+
+  void _onPeriodoChanged(String periodo) async {
+    setState(() {
+      _periodoSelecionado = periodo;
+      _loading = true; // ativa loading
+    });
+
+    await _loadReviews(periodo);
+
+    setState(() {
+      _loading = false; // desativa loading após carregar
+    });
   }
 
   @override
@@ -87,6 +150,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           builder: (BuildContext dialogContext) {
                             return CustomDialogRevieweForm(
                               dataReview: _diaSelecionado!,
+                              userId: userId!,
                             );
                           },
                         );
@@ -226,44 +290,41 @@ class _MyHomePageState extends State<MyHomePage> {
                   ],
                 ),
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Align(
-                      alignment: Alignment.center,
-                      child: Icon(
-                        Icons.arrow_left_rounded,
-                        size: 60,
-                        color: AppColors.darkSlate,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "HOJE",
-                        style: TextStyle(
-                          fontFamily: 'CerebriSansPro',
-                          fontSize: 35,
-                          color: AppColors.darkSlate,
-                          height: 1,
-                        ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: Icon(
-                        Icons.arrow_right_rounded,
-                        size: 60,
-                        color: AppColors.darkSlate,
-                      ),
-                    ),
-                  ],
+                FiltroPeriodo(
+                  onPeriodoChanged: _onPeriodoChanged,
+                  periodoAtual: _periodoSelecionado,
                 ),
-                CustomReviewCard(),
-                CustomReviewCard(),
-                CustomReviewCard(),
+                SizedBox(height: 10),
               ],
             ),
+            _loading
+                ? const Center(child: CircularProgressIndicator())
+                : reviews.isEmpty
+                ? Center(
+                    child: Text(
+                      'Nenhuma review para ${_periodoSelecionado.toLowerCase()}',
+                      style: TextStyle(
+                        fontFamily: 'CerebriSansPro',
+                        color: AppColors.darkSlate,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )
+                : Column(
+                    spacing: 20,
+                    children: reviews.map((t) {
+                      final data =
+                          DateTime.tryParse(t['dataRevisao'] ?? '') ??
+                          DateTime.now();
+                      return CustomReviewCard(
+                        materia: t['materiaNome'] ?? 'Sem matéria',
+                        modulo: t['moduloNome'] ?? 'Sem módulo',
+                        reviewName: t['topico'] ?? '',
+                        reviewDesc: '${t['descricao']}',
+                        dataReview: data,
+                      );
+                    }).toList(),
+                  ),
           ],
         ),
       ),
