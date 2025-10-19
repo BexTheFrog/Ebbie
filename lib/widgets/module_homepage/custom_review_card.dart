@@ -1,4 +1,5 @@
 import 'package:ebbie/config/app_colors.dart';
+import 'package:ebbie/widgets/module_forms/custom_review_mood.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -10,6 +11,8 @@ class CustomReviewCard extends StatefulWidget {
   final DateTime dataReview;
   final Function function;
   final Function onPressed;
+  final Function hasStudy;
+  final bool wasReviewd;
 
   const CustomReviewCard({
     super.key,
@@ -20,6 +23,8 @@ class CustomReviewCard extends StatefulWidget {
     required this.dataReview,
     required this.function,
     required this.onPressed,
+    required this.hasStudy,
+    this.wasReviewd = false,
   });
 
   @override
@@ -27,6 +32,14 @@ class CustomReviewCard extends StatefulWidget {
 }
 
 class _CustomReviewCardState extends State<CustomReviewCard> {
+  late bool wasStudied;
+
+  @override
+  void initState() {
+    super.initState();
+    wasStudied = widget.wasReviewd;
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -160,11 +173,45 @@ class _CustomReviewCardState extends State<CustomReviewCard> {
                   padding: const EdgeInsets.all(10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
-                    children: const [
-                      Icon(
-                        Icons.check_box_outline_blank_rounded,
-                        color: AppColors.darkSlate,
-                        size: 30,
+                    children: [
+                      GestureDetector(
+                        onTap: () async {
+                          final isStudied = wasStudied;
+
+                          if (!isStudied) {
+                            final selectedMood = await showDialog<String>(
+                              context: context,
+                              builder: (dialogContext) {
+                                return CustomReviewMood(
+                                  title: 'Como foi a revisão?',
+                                  onConfirm: (mood) {
+                                    Navigator.of(dialogContext).pop(mood);
+                                  },
+                                );
+                              },
+                            );
+
+                            if (selectedMood != null) {
+                              // Só aqui atualiza wasStudied
+                              setState(() => wasStudied = true);
+
+                              await widget.hasStudy(selectedMood);
+                            }
+                          } else {
+                            // Permitir desmarcar sem mood
+                            setState(() => wasStudied = false);
+                            await widget.hasStudy(
+                              null,
+                            ); // você pode tratar desmarcar separadamente
+                          }
+                        },
+                        child: Icon(
+                          wasStudied
+                              ? Icons.check_box_rounded
+                              : Icons.check_box_outline_blank_rounded,
+                          color: AppColors.darkSlate,
+                          size: 30,
+                        ),
                       ),
                       SizedBox(width: 10),
                       Icon(

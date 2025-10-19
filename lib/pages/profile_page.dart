@@ -51,7 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(coinCount: 15),
+      appBar: const CustomAppBar(),
       backgroundColor: const Color(0xFFF7EDE2),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
