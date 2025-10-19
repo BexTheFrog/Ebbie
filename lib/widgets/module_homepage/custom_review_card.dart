@@ -1,14 +1,22 @@
 import 'package:ebbie/config/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class CustomReviewCard extends StatefulWidget {
-  const CustomReviewCard({super.key});
+  final String materia;
+  final String modulo;
+  final String reviewName;
+  final String reviewDesc;
+  final DateTime dataReview;
 
-  // final String Materia;
-  // final String Topico;
-  // final String Review_Name;
-  // final String Review_Desc;
-  // final DateTime dataReview;
+  const CustomReviewCard({
+    super.key,
+    required this.materia,
+    required this.modulo,
+    required this.reviewName,
+    required this.reviewDesc,
+    required this.dataReview,
+  });
 
   @override
   State<CustomReviewCard> createState() => _CustomReviewCardState();
@@ -57,9 +65,9 @@ class _CustomReviewCardState extends State<CustomReviewCard> {
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
+                  children: [
                     Text(
-                      "TÓPICO",
+                      widget.modulo,
                       style: TextStyle(
                         fontFamily: 'CerebriSansPro',
                         fontWeight: FontWeight.bold,
@@ -68,7 +76,7 @@ class _CustomReviewCardState extends State<CustomReviewCard> {
                       ),
                     ),
                     Text(
-                      "MATÉRIA",
+                      widget.materia,
                       style: TextStyle(
                         fontFamily: 'CerebriSansPro',
                         fontWeight: FontWeight.bold,
@@ -89,9 +97,9 @@ class _CustomReviewCardState extends State<CustomReviewCard> {
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
+                  children: [
                     Text(
-                      "REVIEW",
+                      widget.reviewName,
                       style: TextStyle(
                         fontFamily: 'CerebriSansPro',
                         fontWeight: FontWeight.bold,
@@ -100,7 +108,7 @@ class _CustomReviewCardState extends State<CustomReviewCard> {
                       ),
                     ),
                     Text(
-                      "DATA",
+                      DateFormat('dd/MM/yyyy').format(widget.dataReview),
                       style: TextStyle(
                         fontFamily: 'CerebriSansPro',
                         fontWeight: FontWeight.bold,
@@ -120,7 +128,7 @@ class _CustomReviewCardState extends State<CustomReviewCard> {
                 padding: const EdgeInsets.all(10),
                 alignment: Alignment.topLeft,
                 child: Text(
-                  "Descrição Review",
+                  widget.reviewDesc,
                   style: TextStyle(
                     fontFamily: 'CerebriSansPro',
                     fontSize: 16,

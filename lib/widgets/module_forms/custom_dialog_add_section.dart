@@ -1,4 +1,5 @@
 import 'package:ebbie/config/app_colors.dart';
+import 'package:ebbie/widgets/custom_msg_dialog.dart';
 import 'package:ebbie/widgets/module_forms/custom_form_task.dart';
 import 'package:ebbie/widgets/module_forms/custom_ok.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,14 @@ class CustomDialogAddSection extends StatefulWidget {
 }
 
 class _CustomDialogAddSectionState extends State<CustomDialogAddSection> {
+  final TextEditingController _sectionController = TextEditingController();
+
+  @override
+  void dispose() {
+    _sectionController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -20,7 +29,7 @@ class _CustomDialogAddSectionState extends State<CustomDialogAddSection> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Cabeçalho com título e botão fechar
+          // Cabeçalho
           Container(
             decoration: BoxDecoration(
               color: AppColors.tealBlue,
@@ -30,12 +39,7 @@ class _CustomDialogAddSectionState extends State<CustomDialogAddSection> {
               ),
             ),
             child: Padding(
-              padding: const EdgeInsets.only(
-                top: 8,
-                left: 10,
-                right: 10,
-                bottom: 8,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -58,7 +62,7 @@ class _CustomDialogAddSectionState extends State<CustomDialogAddSection> {
                       Navigator.pop(context);
                     },
                   ),
-                ], // <-- fecha o children do Row
+                ],
               ),
             ),
           ),
@@ -67,13 +71,33 @@ class _CustomDialogAddSectionState extends State<CustomDialogAddSection> {
             padding: const EdgeInsets.all(12),
             child: Column(
               children: [
-                CustomFormFieldTask(hintText: "Novo Matéria..."),
-                const SizedBox(height: 12),
+                CustomFormFieldTask(
+                  hintText: "Nome da matéria...",
+                  controller: _sectionController,
+                ),
+                const SizedBox(height: 16),
                 Align(
                   alignment: Alignment.centerRight,
                   child: CustomOk(
-                    function: () {
-                      Navigator.pop(context);
+                    function: () async {
+                      final nome = _sectionController.text.trim();
+                      if (nome.isEmpty) {
+                        await showDialog(
+                          context: context,
+                          builder: (_) => CustomMsgDialog(
+                            title: "Campo Vazio",
+                            content:
+                                'Por favor preencha todos os campos para adicionar',
+                            ok: CustomOk(
+                              function: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ),
+                        );
+                        return;
+                      }
+                      Navigator.pop(context, {'nome': nome});
                     },
                   ),
                 ),

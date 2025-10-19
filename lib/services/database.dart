@@ -23,79 +23,75 @@ class DatabaseHelper {
   }
 
   Future _onCreate(Database db, int version) async {
-    // Usuários
     await db.execute('''
-      CREATE TABLE user(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        nome TEXT NOT NULL,
-        email TEXT NOT NULL,
-        senha TEXT NOT NULL,
-        carteira INTEGER DEFAULT 0
-      )
-    ''');
+    CREATE TABLE user(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      nome TEXT NOT NULL,
+      email TEXT NOT NULL,
+      senha TEXT NOT NULL,
+      carteira INTEGER DEFAULT 0
+    )
+  ''');
 
-    // Cortex
     await db.execute('''
-      CREATE TABLE cortex(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        idUsuario INTEGER,
-        nome TEXT NOT NULL,
-        fome REAL,
-        fit REAL,
-        higiene REAL,
-        FOREIGN KEY(idUsuario) REFERENCES user(id)
-      )
-    ''');
+    CREATE TABLE cortex(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      idUsuario INTEGER,
+      nome TEXT NOT NULL,
+      fome REAL,
+      fit REAL,
+      higiene REAL,
+      FOREIGN KEY(idUsuario) REFERENCES user(id) ON DELETE CASCADE
+    )
+  ''');
 
-    // Modulo
     await db.execute('''
-      CREATE TABLE modulo(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        idUsuario INTEGER,
-        nome TEXT NOT NULL,
-        FOREIGN KEY(idUsuario) REFERENCES user(id)
-      )
-    ''');
+    CREATE TABLE modulo(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      idUsuario INTEGER,
+      nome TEXT NOT NULL,
+      descricao TEXT NOT NULL,
+      FOREIGN KEY(idUsuario) REFERENCES user(id) ON DELETE CASCADE
+    )
+  ''');
 
-    // Materia
     await db.execute('''
-      CREATE TABLE materia(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        idUsuario INTEGER,
-        moduloId INTEGER,
-        nome TEXT NOT NULL,
-        FOREIGN KEY(moduloId) REFERENCES modulo(id),
-        FOREIGN KEY(idUsuario) REFERENCES user(id)
-      )
-    ''');
+    CREATE TABLE materia(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      idUsuario INTEGER,
+      moduloId INTEGER,
+      nome TEXT NOT NULL,
+      FOREIGN KEY(moduloId) REFERENCES modulo(id) ON DELETE CASCADE,
+      FOREIGN KEY(idUsuario) REFERENCES user(id) ON DELETE CASCADE
+    )
+  ''');
 
-    // Tarefa
     await db.execute('''
-      CREATE TABLE tarefa(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        idUsuario INTEGER,
-        idModulo INTEGER,
-        idMateria INTEGER,
-        topico TEXT NOT NULL,
-        dataRevisao TEXT,
-        status TEXT,
-        wasReviewd INTEGER DEFAULT 0,
-        FOREIGN KEY(idModulo) REFERENCES modulo(id),
-        FOREIGN KEY(idMateria) REFERENCES materia(id),
-        FOREIGN KEY(idUsuario) REFERENCES user(id)
-      )
-    ''');
+    CREATE TABLE tarefa(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      idUsuario INTEGER,
+      idModulo INTEGER,
+      idMateria INTEGER,
+      topico TEXT NOT NULL,
+      dataRevisao TEXT,
+      descricao TEXT,
+      status TEXT,
+      wasReviewd INTEGER DEFAULT 0,
+      FOREIGN KEY(idModulo) REFERENCES modulo(id) ON DELETE CASCADE,
+      FOREIGN KEY(idMateria) REFERENCES materia(id) ON DELETE CASCADE,
+      FOREIGN KEY(idUsuario) REFERENCES user(id) ON DELETE CASCADE
+    )
+  ''');
 
-    // Estatisticas
     await db.execute('''
     CREATE TABLE review_stats(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      idUsuario TEXT NOT NULL,
-      idTarefa TEXT NOT NULL,
+      idUsuario INTEGER NOT NULL,
+      idTarefa INTEGER NOT NULL,
       status TEXT NOT NULL,
       data TEXT NOT NULL,
-      FOREIGN KEY(idUsuario) REFERENCES usuarios(id) ON DELETE CASCADE,
-      FOREIGN KEY(idTarefa) REFERENCES tarefas(id) ON DELETE CASCADE
+      FOREIGN KEY(idUsuario) REFERENCES user(id) ON DELETE CASCADE,
+      FOREIGN KEY(idTarefa) REFERENCES tarefa(id) ON DELETE CASCADE
     )
   ''');
   }

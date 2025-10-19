@@ -1,5 +1,7 @@
 import 'package:ebbie/pages/pet_page.dart';
+import 'package:ebbie/services/user_service.dart';
 import 'package:ebbie/widgets/module_forms/custom_review_form.dart';
+import 'package:ebbie/widgets/module_profile.dart';
 import 'package:ebbie/widgets/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -26,6 +28,16 @@ class _BottomNavState extends State<BottomNav>
   late AnimationController _animationController;
   bool _isFabOpen = false;
 
+  // Pegando UserId
+  int? userId;
+
+  Future<void> _loadUserId() async {
+    int? id = await UserService.getUserId();
+    setState(() {
+      userId = id;
+    });
+  }
+
   // Cores
   final Color navBarColor = const Color(0xFF5D576B);
   final Color navBarIconsColor = const Color(0xFFF4F1BB);
@@ -39,6 +51,7 @@ class _BottomNavState extends State<BottomNav>
   @override
   void initState() {
     super.initState();
+    _loadUserId();
     _controller = PersistentTabController(initialIndex: 0);
     _animationController = AnimationController(
       vsync: this,
@@ -167,6 +180,7 @@ class _BottomNavState extends State<BottomNav>
                           builder: (BuildContext dialogContext) {
                             return CustomDialogRevieweForm(
                               dataReview: _diaAtual,
+                              userId: userId!,
                             );
                           },
                         );
@@ -298,7 +312,7 @@ class _BottomNavState extends State<BottomNav>
 
   @override
   Widget build(BuildContext context) {
-        final theme = context.watch<ThemeController>();
+    final theme = context.watch<ThemeController>();
 
     return Scaffold(
       body: Stack(
