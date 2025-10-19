@@ -1,6 +1,8 @@
 import 'package:ebbie/config/app_colors.dart';
+import 'package:ebbie/widgets/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:provider/provider.dart';
 
 class DropdownModulos extends StatefulWidget {
   final List<String> lista; // lista de módulos
@@ -23,6 +25,7 @@ class _DropdownModulosState extends State<DropdownModulos> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.watch<ThemeController>();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -30,11 +33,11 @@ class _DropdownModulosState extends State<DropdownModulos> {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12),
           decoration: BoxDecoration(
-            border: Border.all(color: AppColors.tealBlue, width: 3),
+            border: Border.all(color: theme.formReviewColor, width: 3),
             borderRadius: BorderRadius.circular(12),
           ),
           child: DropdownButton<String>(
-            icon: Icon(LucideIcons.circleArrowDown, color: AppColors.tealBlue),
+            icon: Icon(LucideIcons.circleArrowDown, color: theme.formReviewColor),
             dropdownColor: AppColors.pastelBeige,
             borderRadius: BorderRadius.circular(12),
             isExpanded: true,
@@ -43,7 +46,7 @@ class _DropdownModulosState extends State<DropdownModulos> {
               widget.hintText,
               style: TextStyle(
                 fontFamily: 'CerebriSansPro',
-                color: AppColors.tealBlue,
+                color: theme.formReviewColor,
               ),
             ),
             underline: const SizedBox(), // remove a linha padrão
@@ -53,7 +56,7 @@ class _DropdownModulosState extends State<DropdownModulos> {
                 child: Text(
                   item,
                   style: TextStyle(
-                    color: AppColors.tealBlue,
+                    color: theme.formReviewColor,
                     fontFamily: 'CerebriSansPro',
                   ),
                 ),

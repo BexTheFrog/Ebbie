@@ -11,6 +11,7 @@ class ThemeController extends ChangeNotifier {
   Color _tablecalendarColor =  Color(0xFF5D576B);
   Color _calendarFimSemanaColor = Color.fromARGB(255, 255, 75, 75);
   Color _calendarDayColor = Color(0xFFF6BD60);
+  Color _formReviewColor = Color(0xFF9BC1BC);
   Color _cerebroLineColor = Color(0xFF9BC1BC);
   Color _tituloCardReviwColor = Color(0xFFED6A5A);
   Color _subTituloCardReviwColor = Color(0xFF9BC1BC);
@@ -43,6 +44,7 @@ class ThemeController extends ChangeNotifier {
   Color get tituloCardReviwColor => _tituloCardReviwColor;
   Color get subTituloCardReviwColor => _subTituloCardReviwColor;
   Color get descricaoCardReviwColor => _descricaoCardReviwColor;
+  Color get formReviewColor => _formReviewColor;
 
 
   String get daltonismMode => _daltonismMode;
@@ -61,6 +63,7 @@ class ThemeController extends ChangeNotifier {
         _tablecalendarColor = Color(0xFF4B3A4B);
         _calendarFimSemanaColor = Color(0xFFE56B6F);
         _calendarDayColor = Color(0xFFEAAC8B);
+        _formReviewColor = Color(0xFFE56B6F);
         _cerebroLineColor = Color(0xBFE56B6F);
         _tituloCardReviwColor = Color(0xFFB56576);
         _subTituloCardReviwColor = Color(0xFFE56B6F);
@@ -85,6 +88,7 @@ case 'Deuteranopia':
         _tablecalendarColor = Color(0xFF3D303D);
         _calendarFimSemanaColor = Color(0xFFB56576);
         _calendarDayColor = Color(0xFFB56576);
+        _formReviewColor = Color(0xFFB56576);
         _cerebroLineColor = Color(0xBF4A3F4A);
         _tituloCardReviwColor = Color(0xFFEAAC8B);
         _subTituloCardReviwColor = Color(0xFF4B3A4B);
@@ -109,6 +113,7 @@ case 'Tritanopia':
         _tablecalendarColor = Color(0xFF2F3B50);
         _calendarFimSemanaColor = Color(0xFFAB87C3);
         _calendarDayColor = Color(0xFFAB87C3);
+        _formReviewColor = Color(0xFF355070);
         _cerebroLineColor = Color(0xBF6D597A);
         _tituloCardReviwColor = Color(0xFF2F3B50);
         _subTituloCardReviwColor = Color(0xFF6D597A);
@@ -133,6 +138,7 @@ default:
         _tablecalendarColor = Color(0xFF5D576B);
         _calendarFimSemanaColor = Color.fromARGB(255, 255, 75, 75);
         _calendarDayColor = Color(0xFFF6BD60);
+        _formReviewColor = Color(0xFF9BC1BC);
         _cerebroLineColor = Color(0xBF9BC1BC);
         _tituloCardReviwColor = Color(0xFFED6A5A);
         _subTituloCardReviwColor = Color(0xFF9BC1BC);

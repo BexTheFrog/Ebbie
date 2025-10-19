@@ -2,8 +2,11 @@ import 'package:ebbie/config/app_colors.dart';
 import 'package:ebbie/widgets/module_forms/custom_description.dart';
 import 'package:ebbie/widgets/module_forms/custom_form_task.dart';
 import 'package:ebbie/widgets/module_forms/custom_ok.dart';
+import 'package:ebbie/widgets/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:path/path.dart';
+import 'package:provider/provider.dart';
 
 class CustomDialogAddModule extends StatefulWidget {
   const CustomDialogAddModule({super.key});
@@ -13,8 +16,10 @@ class CustomDialogAddModule extends StatefulWidget {
 }
 
 class _CustomDialogAddModuleState extends State<CustomDialogAddModule> {
+  
   @override
   Widget build(BuildContext context) {
+    final theme = context.watch<ThemeController>();
     return Dialog(
       backgroundColor: const Color(0xFFF7EDE2),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -24,7 +29,7 @@ class _CustomDialogAddModuleState extends State<CustomDialogAddModule> {
           // Cabeçalho com título e botão fechar
           Container(
             decoration: BoxDecoration(
-              color: AppColors.tealBlue,
+              color: theme.formReviewColor,
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(16),
                 topRight: Radius.circular(16),

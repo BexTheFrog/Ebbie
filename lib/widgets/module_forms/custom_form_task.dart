@@ -1,4 +1,6 @@
+import 'package:ebbie/widgets/theme_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../config/app_colors.dart';
 
 class CustomFormFieldTask extends StatefulWidget {
@@ -13,13 +15,14 @@ class CustomFormFieldTask extends StatefulWidget {
 class _CustomFormFieldTaskState extends State<CustomFormFieldTask> {
   @override
   Widget build(BuildContext context) {
+    final theme = context.watch<ThemeController>();
     return SizedBox(
       width: 350,
       child: TextFormField(
         decoration: InputDecoration(
           hintText: widget.hintText,
-          hintStyle: const TextStyle(
-            color: AppColors.tealBlue,
+          hintStyle: TextStyle(
+            color: theme.formReviewColor,
             fontFamily: 'CerebriSansPro',
             fontWeight: FontWeight.bold,
           ),
@@ -27,11 +30,11 @@ class _CustomFormFieldTaskState extends State<CustomFormFieldTask> {
           fillColor: AppColors.pastelBeige,
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(15)),
-            borderSide: BorderSide(color: AppColors.tealBlue, width: 3),
+            borderSide: BorderSide(color: theme.formReviewColor, width: 3),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(15)),
-            borderSide: BorderSide(color: AppColors.tealBlue, width: 3),
+            borderSide: BorderSide(color: theme.formReviewColor, width: 3),
           ),
         ),
       ),

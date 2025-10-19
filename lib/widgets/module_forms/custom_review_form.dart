@@ -3,8 +3,11 @@ import 'package:ebbie/widgets/module_forms/custom_description.dart';
 import 'package:ebbie/widgets/module_forms/custom_dropdown_module.dart';
 import 'package:ebbie/widgets/module_forms/custom_form_task.dart';
 import 'package:ebbie/widgets/module_forms/custom_ok.dart';
+import 'package:ebbie/widgets/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:path/path.dart';
+import 'package:provider/provider.dart';
 
 class CustomDialogRevieweForm extends StatefulWidget {
   final DateTime dataReview;
@@ -17,8 +20,10 @@ class CustomDialogRevieweForm extends StatefulWidget {
 }
 
 class _CustomDialogRevieweFormState extends State<CustomDialogRevieweForm> {
+  
   @override
   Widget build(BuildContext context) {
+    final theme = context.watch<ThemeController>();
     return Dialog(
       backgroundColor: const Color(0xFFF7EDE2),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -33,7 +38,7 @@ class _CustomDialogRevieweFormState extends State<CustomDialogRevieweForm> {
               // Cabeçalho com título e botão fechar
               Container(
                 decoration: BoxDecoration(
-                  color: AppColors.tealBlue,
+                  color: theme.formReviewColor,
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(16),
                     topRight: Radius.circular(16),
