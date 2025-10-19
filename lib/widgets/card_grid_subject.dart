@@ -1,7 +1,9 @@
+import 'package:ebbie/config/app_colors.dart';
 import 'package:ebbie/services/database.dart';
 import 'package:ebbie/widgets/custom_msg_dialog.dart';
 import 'package:ebbie/widgets/module_forms/custom_dialog_add_section.dart';
 import 'package:ebbie/pages/revision_page.dart';
+import 'package:ebbie/widgets/module_forms/custom_edit_section.dart';
 import 'package:ebbie/widgets/module_forms/custom_ok.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -55,7 +57,6 @@ class _CardGridPageState extends State<CardGridPage> {
   }
 
   Future<void> _removeSubject(int subjectId) async {
-    // Mostra o diálogo de confirmação
     final confirm = await showDialog<bool>(
       context: context,
       builder: (BuildContext dialogContext) {
@@ -69,9 +70,21 @@ class _CardGridPageState extends State<CardGridPage> {
 
     if (confirm == true) {
       await dbHelper.delete('materia', 'id = ?', [subjectId]);
-      setState(() {
-        _loadSubjects();
-      });
+      _loadSubjects();
+    }
+  }
+
+  Future<void> _editSubject(Map<String, dynamic> subject) async {
+    final updated = await showDialog<bool>(
+      context: context,
+      builder: (_) => CustomDialogEditSection(
+        nomeAtual: subject['nome'],
+        idSubject: subject['id'],
+      ),
+    );
+
+    if (updated == true) {
+      _loadSubjects();
     }
   }
 
@@ -98,7 +111,51 @@ class _CardGridPageState extends State<CardGridPage> {
                   ),
                 );
               },
-              onLongPress: () => _removeSubject(subject['id']),
+              onLongPress: () {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (context) {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ListTile(
+                          leading: Icon(
+                            LucideIcons.squarePen,
+                            color: AppColors.tealBlue,
+                          ),
+                          title: Text(
+                            'Editar',
+                            style: TextStyle(
+                              fontFamily: 'CerebriSansPro',
+                              color: AppColors.tealBlue,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          onTap: () {
+                            Navigator.pop(context);
+                            _editSubject(subject);
+                          },
+                        ),
+                        ListTile(
+                          leading: Icon(LucideIcons.circleX, color: Colors.red),
+                          title: Text(
+                            'Excluir',
+                            style: TextStyle(
+                              fontFamily: 'CerebriSansPro',
+                              color: AppColors.coral,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          onTap: () async {
+                            Navigator.pop(context);
+                            await _removeSubject(subject['id']);
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
             );
           }).toList(),
           CustomCardAdd(label: 'Adicionar', onTap: _addSubject),

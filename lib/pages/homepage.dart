@@ -4,11 +4,13 @@ import 'package:ebbie/services/database.dart';
 import 'package:ebbie/services/user_service.dart';
 import 'package:ebbie/widgets/custom_appbar.dart';
 import 'package:ebbie/widgets/custom_msg_dialog.dart';
+import 'package:ebbie/widgets/module_forms/custom_edit_form.dart';
 import 'package:ebbie/widgets/module_forms/custom_ok.dart';
 import 'package:ebbie/widgets/module_forms/custom_review_form.dart';
 import 'package:ebbie/widgets/module_homepage/custom_filter.dart';
 import 'package:ebbie/widgets/module_homepage/custom_review_card.dart';
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 
@@ -50,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final formatador = DateFormat('yyyy-MM-dd');
 
     String sql = '''
-      SELECT t.id, t.topico, t.descricao, t.dataRevisao,  t.status,
+      SELECT t.*,
              m.nome AS materiaNome,
              mod.nome AS moduloNome
       FROM tarefa t
@@ -332,27 +334,98 @@ class _MyHomePageState extends State<MyHomePage> {
                         reviewName: t['topico'] ?? '',
                         reviewDesc: '${t['descricao']}',
                         dataReview: data,
-                        onPressed: () async {
-                          final confirm = await showDialog<bool>(
+                        onPressed: () {
+                          showModalBottomSheet(
                             context: context,
-                            builder: (context) => CustomMsgDialog(
-                              title: 'Excluindo Review',
-                              content:
-                                  "Deseja realmente deletar ${t['topico']}?",
-                              ok: CustomOk(
-                                function: () => Navigator.pop(context, true),
-                              ),
-                            ),
-                          );
+                            builder: (context) {
+                              return Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  ListTile(
+                                    leading: Icon(
+                                      LucideIcons.squarePen,
+                                      color: AppColors.tealBlue,
+                                    ),
+                                    title: Text(
+                                      'Editar',
+                                      style: TextStyle(
+                                        fontFamily: 'CerebriSansPro',
+                                        color: AppColors.tealBlue,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      Navigator.pop(context); // fecha o menu
 
-                          if (confirm == true) {
-                            await dbHelper.delete('tarefa', 'id = ?', [
-                              t['id'],
-                            ]);
-                            _loadReviews(
-                              _periodoSelecionado,
-                            ); // atualiza a lista
-                          }
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => CustomEditForm(
+                                          dataReview:
+                                              DateTime.tryParse(
+                                                t['dataRevisao'] ?? '',
+                                              ) ??
+                                              DateTime.now(),
+                                          userId: userId!,
+                                          topico: t['topico'],
+                                          descricao: t['descricao'],
+                                          selectedModuleId: t['idModulo'],
+                                          selectedSubjectId: t['idMateria'],
+                                          tarefaId:
+                                              t['id'], // para identificar se é edição
+                                        ),
+                                      ).then((updated) {
+                                        if (updated == true) {
+                                          _loadReviews(
+                                            _periodoSelecionado,
+                                          ); // atualiza a lista
+                                        }
+                                      });
+                                    },
+                                  ),
+                                  ListTile(
+                                    leading: Icon(
+                                      LucideIcons.circleX,
+                                      color: Colors.red,
+                                    ),
+                                    title: Text(
+                                      'Excluir',
+                                      style: TextStyle(
+                                        fontFamily: 'CerebriSansPro',
+                                        color: AppColors.coral,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    onTap: () async {
+                                      Navigator.pop(context); // fecha o menu
+                                      final confirm = await showDialog<bool>(
+                                        context: context,
+                                        builder: (_) => CustomMsgDialog(
+                                          title: 'Excluindo Review',
+                                          content:
+                                              "Deseja realmente deletar ${t['topico']}?",
+                                          ok: CustomOk(
+                                            function: () =>
+                                                Navigator.pop(context, true),
+                                          ),
+                                        ),
+                                      );
+
+                                      if (confirm == true) {
+                                        await dbHelper.delete(
+                                          'tarefa',
+                                          'id = ?',
+                                          [t['id']],
+                                        );
+                                        _loadReviews(
+                                          _periodoSelecionado,
+                                        ); // atualiza a lista
+                                      }
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
                         },
                         function: () {
                           Navigator.push(
