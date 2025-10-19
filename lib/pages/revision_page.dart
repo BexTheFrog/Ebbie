@@ -6,7 +6,7 @@ import 'package:ebbie/widgets/revision_card.dart';
 import 'package:flutter/material.dart';
 
 class RevisionPage extends StatefulWidget {
-  final int subjectId; // ID da matéria
+  final int subjectId;
 
   const RevisionPage({super.key, required this.subjectId});
 
@@ -25,6 +25,8 @@ class _RevisionPageState extends State<RevisionPage> {
   }
 
   Future<void> _loadRevisions() async {
+    print(widget.subjectId);
+
     final data = await dbHelper.query(
       'tarefa',
       where: 'idMateria = ?',
@@ -44,19 +46,19 @@ class _RevisionPageState extends State<RevisionPage> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            const SizedBox(height: 20),
             ...revisions.map((rev) {
-              GramaticaHeader(
-                title: rev['titulo'] ?? 'Erro ao carregar titulo',
-              );
-              const SizedBox(height: 30);
               return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  GramaticaHeader(
+                    title: rev['topico'] ?? 'Erro ao carregar título',
+                  ),
+                  const SizedBox(height: 30),
                   RevisionCard(
-                    titleReview: rev['titulo'] ?? 'Sem título',
+                    titleReview: rev['topico'] ?? 'Sem título',
                     staticReview: rev['status'] == 'memorizou'
                         ? 'Memorizou'
-                        : '${rev['quantidade']} revisões para memorizar...',
+                        : '${rev['descricao'] ?? ''}', // ou quantidade se existir
                   ),
                   const SizedBox(height: 20),
                 ],
