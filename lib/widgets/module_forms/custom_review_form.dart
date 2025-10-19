@@ -75,7 +75,7 @@ class _CustomDialogRevieweFormState extends State<CustomDialogRevieweForm> {
     });
   }
 
-  Future<void> _saveReview() async {
+  Future<bool> _saveReview() async {
     final topico = _topicoController.text.trim();
     final descricao = _descricaoController.text.trim();
     if (topico.isEmpty ||
@@ -90,7 +90,7 @@ class _CustomDialogRevieweFormState extends State<CustomDialogRevieweForm> {
           ok: CustomOk(function: () => Navigator.pop(context)),
         ),
       );
-      return;
+      return false;
     }
 
     await dbHelper.insert('tarefa', {
@@ -103,7 +103,7 @@ class _CustomDialogRevieweFormState extends State<CustomDialogRevieweForm> {
       'status': 'pendente',
     });
 
-    Navigator.pop(context, true);
+    return true;
   }
 
   @override
@@ -327,7 +327,17 @@ class _CustomDialogRevieweFormState extends State<CustomDialogRevieweForm> {
                           ),
                         ),
                         const SizedBox(width: 12),
-                        CustomOk(function: _saveReview),
+                        CustomOk(
+                          function: () async {
+                            final success = await _saveReview(); // await aqui
+                            if (success) {
+                              Navigator.pop(
+                                context,
+                                true,
+                              ); // retorna true só se salvou
+                            }
+                          },
+                        ),
                       ],
                     ),
                   ],
