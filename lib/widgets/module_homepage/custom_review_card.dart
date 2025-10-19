@@ -1,5 +1,8 @@
 import 'package:ebbie/config/app_colors.dart';
+import 'package:ebbie/widgets/custom_msg_dialog.dart';
+import 'package:ebbie/widgets/module_forms/custom_ok.dart';
 import 'package:ebbie/widgets/module_forms/custom_review_mood.dart';
+import 'package:ebbie/widgets/module_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -13,6 +16,7 @@ class CustomReviewCard extends StatefulWidget {
   final Function onPressed;
   final Function hasStudy;
   final bool wasReviewd;
+  final bool wasSkipped;
 
   const CustomReviewCard({
     super.key,
@@ -24,6 +28,7 @@ class CustomReviewCard extends StatefulWidget {
     required this.function,
     required this.onPressed,
     required this.hasStudy,
+    this.wasSkipped = false,
     this.wasReviewd = false,
   });
 
@@ -175,49 +180,66 @@ class _CustomReviewCardState extends State<CustomReviewCard> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       GestureDetector(
-                        onTap: () async {
-                          final isStudied = wasStudied;
+                        onTap: widget.wasSkipped
+                            ? null
+                            : () async {
+                                final today = DateTime.now();
+                                final onlyToday = DateTime(
+                                  today.year,
+                                  today.month,
+                                  today.day,
+                                );
+                                final taskDate = DateTime(
+                                  widget.dataReview.year,
+                                  widget.dataReview.month,
+                                  widget.dataReview.day,
+                                );
 
-                          if (!isStudied) {
-                            final selectedMood = await showDialog<String>(
-                              context: context,
-                              builder: (dialogContext) {
-                                return CustomReviewMood(
-                                  title: 'Como foi a revisão?',
-                                  onConfirm: (mood) {
-                                    Navigator.of(dialogContext).pop(mood);
+                                // Bloqueia se não for o dia da revisão
+                                if (onlyToday != taskDate) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => CustomMsgDialog(
+                                      title: 'Atenção',
+                                      content:
+                                          'Você só pode marcar esta revisão no dia da dela.',
+                                      ok: CustomOk(
+                                        function: () => Navigator.pop(context),
+                                      ),
+                                    ),
+                                  );
+                                  return;
+                                }
+
+                                // Se for o dia certo, abre o mood
+                                final selectedMood = await showDialog<String>(
+                                  context: context,
+                                  builder: (dialogContext) {
+                                    return CustomReviewMood(
+                                      title: 'Como foi a revisão?',
+                                      onConfirm: (mood) {
+                                        Navigator.of(dialogContext).pop(mood);
+                                      },
+                                    );
                                   },
                                 );
+
+                                if (selectedMood != null) {
+                                  setState(
+                                    () => wasStudied = true,
+                                  ); // só marca agora
+                                  await widget.hasStudy(selectedMood);
+                                }
                               },
-                            );
-
-                            if (selectedMood != null) {
-                              // Só aqui atualiza wasStudied
-                              setState(() => wasStudied = true);
-
-                              await widget.hasStudy(selectedMood);
-                            }
-                          } else {
-                            // Permitir desmarcar sem mood
-                            setState(() => wasStudied = false);
-                            await widget.hasStudy(
-                              null,
-                            ); // você pode tratar desmarcar separadamente
-                          }
-                        },
                         child: Icon(
                           wasStudied
                               ? Icons.check_box_rounded
                               : Icons.check_box_outline_blank_rounded,
-                          color: AppColors.darkSlate,
+                          color: widget.wasSkipped
+                              ? Colors.grey
+                              : AppColors.darkSlate,
                           size: 30,
                         ),
-                      ),
-                      SizedBox(width: 10),
-                      Icon(
-                        Icons.arrow_circle_right_rounded,
-                        color: AppColors.darkSlate,
-                        size: 30,
                       ),
                     ],
                   ),
