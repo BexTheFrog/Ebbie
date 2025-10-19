@@ -29,6 +29,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool _loading = false;
   String _periodoSelecionado = 'HOJE';
   List<Map<String, dynamic>> reviews = []; // lista de reviews exibida
+  List<Map<String, dynamic>> dados = [];
 
   @override
   void initState() {
@@ -37,9 +38,25 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _loadUserId() async {
+    // Pega o id do usuário
     int? id = await UserService.getUserId();
+
     setState(() => userId = id);
-    if (userId != null) _loadReviews(_periodoSelecionado);
+
+    if (id != null) {
+      // Pega os dados do usuário do banco
+      final userData = await dbHelper.query(
+        'user',
+        where: 'id = ?',
+        whereArgs: [id],
+      );
+
+      setState(() {
+        dados = userData;
+      });
+
+      _loadReviews(_periodoSelecionado);
+    }
   }
 
   Future<void> _loadReviews(String periodo) async {
@@ -103,7 +120,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(coinCount: 15),
+      appBar: CustomAppBar(
+        coinCount: dados.isNotEmpty ? dados[0]['carteira'] as int : 0,
+      ),
       backgroundColor: const Color(0xFFF7EDE2),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

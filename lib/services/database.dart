@@ -19,13 +19,19 @@ class DatabaseHelper {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, 'ebbie.db');
 
-    return await openDatabase(path, version: 1, onCreate: _onCreate);
+    final db = await openDatabase(
+      path,
+      version: 1,
+      onCreate: _onCreate,
+      onConfigure: (db) async {
+        await db.execute('PRAGMA foreign_keys = ON');
+      },
+    );
+
+    return db;
   }
 
   Future _onCreate(Database db, int version) async {
-    // Ativa foreign keys
-    await db.execute('PRAGMA foreign_keys = ON');
-
     await db.execute('''
     CREATE TABLE user(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
