@@ -85,7 +85,6 @@ class DatabaseHelper {
       dataRevisao TEXT,
       descricao TEXT,
       status TEXT,
-      wasReviewd INTEGER DEFAULT 0,
       FOREIGN KEY(idModulo) REFERENCES modulo(id) ON DELETE CASCADE,
       FOREIGN KEY(idMateria) REFERENCES materia(id) ON DELETE CASCADE,
       FOREIGN KEY(idUsuario) REFERENCES user(id) ON DELETE CASCADE
