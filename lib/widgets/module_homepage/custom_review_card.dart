@@ -1,4 +1,8 @@
 import 'package:ebbie/config/app_colors.dart';
+import 'package:ebbie/widgets/theme_controller.dart';
+import 'package:flutter/material.dart';
+import 'package:path/path.dart';
+import 'package:provider/provider.dart';
 import 'package:ebbie/widgets/custom_msg_dialog.dart';
 import 'package:ebbie/widgets/module_forms/custom_ok.dart';
 import 'package:ebbie/widgets/module_forms/custom_review_mood.dart';
@@ -37,6 +41,27 @@ class CustomReviewCard extends StatefulWidget {
 }
 
 class _CustomReviewCardState extends State<CustomReviewCard> {
+  
+  @override
+  Widget build(BuildContext context) 
+  {final theme = context.watch<ThemeController>();
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Container(
+          height: 225,
+          width: 400,
+          decoration: BoxDecoration(
+            color: Color(0xFFF7EDE2),
+            borderRadius: BorderRadius.circular(15),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withAlpha(30),
+                spreadRadius: 3,
+                blurRadius: 5,
+                offset: const Offset(5, 5),
+              ),
+            ],
   late bool wasStudied;
 
   @override
@@ -88,6 +113,22 @@ class _CustomReviewCardState extends State<CustomReviewCard> {
                     ),
                     color: AppColors.coral,
                   ),
+                  color: theme.tituloCardReviwColor,
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 10,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const [
+                    Text(
+                      "TÓPICO",
+                      style: TextStyle(
+                        fontFamily: 'CerebriSansPro',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                        color: Colors.white,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20,
                     vertical: 10,
@@ -117,6 +158,23 @@ class _CustomReviewCardState extends State<CustomReviewCard> {
                   ),
                 ),
 
+              Container(
+                height: 40,
+                decoration: BoxDecoration(color: theme.subTituloCardReviwColor),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 10,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const [
+                    Text(
+                      "REVIEW",
+                      style: TextStyle(
+                        fontFamily: 'CerebriSansPro',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                        color: Colors.white,
                 Container(
                   height: 40,
                   decoration: BoxDecoration(color: AppColors.tealBlue),
@@ -145,6 +203,24 @@ class _CustomReviewCardState extends State<CustomReviewCard> {
                           color: Colors.white,
                         ),
                       ),
+                    ),
+                  ],
+                ),
+              ),
+
+              Container(
+                height: 100,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF4F1BB).withAlpha(85),
+                ),
+                padding: const EdgeInsets.all(10),
+                alignment: Alignment.topLeft,
+                child: Text(
+                  "Descrição Review",
+                  style: TextStyle(
+                    fontFamily: 'CerebriSansPro',
+                    fontSize: 16,
+                    color: theme.descricaoCardReviwColor,
                     ],
                   ),
                 ),
@@ -154,6 +230,17 @@ class _CustomReviewCardState extends State<CustomReviewCard> {
                   decoration: BoxDecoration(
                     color: const Color(0xFFF4F1BB).withAlpha(85),
                   ),
+                ),
+                padding: const EdgeInsets.all(10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Icon(
+                      Icons.check_box_outline_blank_rounded,
+                      color: theme.descricaoCardReviwColor,
+                      size: 30,
+                    ),
+                   
                   padding: const EdgeInsets.all(10),
                   alignment: Alignment.topLeft,
                   child: Text(
