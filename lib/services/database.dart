@@ -33,14 +33,17 @@ class DatabaseHelper {
 
   Future _onCreate(Database db, int version) async {
     await db.execute('''
-    CREATE TABLE user(
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      nome TEXT NOT NULL,
-      email TEXT NOT NULL,
-      senha TEXT NOT NULL,
-      carteira INTEGER DEFAULT 0
-    )
-  ''');
+  CREATE TABLE user(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
+    email TEXT NOT NULL,
+    senha TEXT NOT NULL,
+    carteira INTEGER DEFAULT 0,
+    totalEstudadas INTEGER DEFAULT 0,
+    totalPuladas INTEGER DEFAULT 0,
+    totalMemorizadas INTEGER DEFAULT 0
+  )
+''');
 
     await db.execute('''
     CREATE TABLE cortex(
@@ -92,16 +95,19 @@ class DatabaseHelper {
   ''');
 
     await db.execute('''
-    CREATE TABLE review_stats(
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      idUsuario INTEGER NOT NULL,
-      idTarefa INTEGER NOT NULL,
-      status TEXT NOT NULL,
-      data TEXT NOT NULL,
-      FOREIGN KEY(idUsuario) REFERENCES user(id) ON DELETE CASCADE,
-      FOREIGN KEY(idTarefa) REFERENCES tarefa(id) ON DELETE CASCADE
-    )
-  ''');
+  CREATE TABLE review_stats(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    idUsuario INTEGER NOT NULL,
+    idTarefa INTEGER NOT NULL,
+    status TEXT NOT NULL,
+    data TEXT NOT NULL,
+    intervalo INTEGER NOT NULL DEFAULT 1,
+    easiness REAL NOT NULL DEFAULT 2.5,
+    repeticoes INTEGER NOT NULL DEFAULT 0,
+    FOREIGN KEY(idUsuario) REFERENCES user(id) ON DELETE CASCADE,
+    FOREIGN KEY(idTarefa) REFERENCES tarefa(id) ON DELETE CASCADE
+  )
+''');
   }
 
   // ---------------------- CRUD Genérico ----------------------
@@ -139,6 +145,7 @@ class DatabaseHelper {
     String? where,
     List<dynamic>? whereArgs,
     String? orderBy,
+    int? limit,
   }) async {
     final db = await database;
     return await db.query(
@@ -146,6 +153,7 @@ class DatabaseHelper {
       where: where,
       whereArgs: whereArgs,
       orderBy: orderBy,
+      limit: limit,
     );
   }
 

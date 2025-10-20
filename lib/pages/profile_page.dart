@@ -35,16 +35,29 @@ class _ProfilePageState extends State<ProfilePage> {
         setState(() {
           userData = resultados.first; // pega o primeiro usuário
         });
+        await _loadStats();
       }
     }
   }
 
   Future<void> _loadStats() async {
     if (userId != null) {
-      final stats = await dbHelper.getUserStats(userId!);
-      setState(() {
-        userStats = stats;
-      });
+      final result = await dbHelper.query(
+        'user',
+        where: 'id = ?',
+        whereArgs: [userId],
+      );
+
+      if (result.isNotEmpty) {
+        final user = result.first;
+        setState(() {
+          userStats = {
+            'realizou': user['totalEstudadas'] ?? 0,
+            'pulou': user['totalPuladas'] ?? 0,
+            'memorizou': user['totalMemorizadas'] ?? 0,
+          };
+        });
+      }
     }
   }
 
