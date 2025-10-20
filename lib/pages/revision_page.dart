@@ -17,6 +17,7 @@ class RevisionPage extends StatefulWidget {
 class _RevisionPageState extends State<RevisionPage> {
   final dbHelper = DatabaseHelper();
   List<Map<String, dynamic>> revisions = [];
+  String subjectName = '';
 
   @override
   void initState() {
@@ -25,16 +26,32 @@ class _RevisionPageState extends State<RevisionPage> {
   }
 
   Future<void> _loadRevisions() async {
-    print(widget.subjectId);
-
     final data = await dbHelper.query(
       'tarefa',
       where: 'idMateria = ?',
       whereArgs: [widget.subjectId],
     );
-    setState(() {
-      revisions = data;
-    });
+
+    if (data.isNotEmpty) {
+      // Pega o nome da matéria
+      final materiaData = await dbHelper.query(
+        'materia',
+        where: 'id = ?',
+        whereArgs: [widget.subjectId],
+      );
+      subjectName = materiaData.isNotEmpty ? materiaData[0]['nome'] ?? '' : '';
+
+      // Calcula quantas revisões faltam para memorizar
+      final revisionsWithProgress = data.map((t) {
+        int repeticoes = t['repeticoes'] ?? 0;
+        int faltam = (5 - repeticoes).clamp(0, 5);
+        return {...t, 'faltamMemorizar': faltam};
+      }).toList();
+
+      setState(() {
+        revisions = revisionsWithProgress;
+      });
+    }
   }
 
   @override
@@ -45,37 +62,40 @@ class _RevisionPageState extends State<RevisionPage> {
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            if (subjectName.isNotEmpty) GramaticaHeader(title: subjectName),
+            const SizedBox(height: 20),
             ...revisions.map((rev) {
+              String reviewStatus;
+              if (rev['status'] == 'memorizou' || rev['faltamMemorizar'] == 0) {
+                reviewStatus = 'Memorizado!';
+              } else {
+                reviewStatus =
+                    '${rev['descricao'] ?? ''} - Faltam ${rev['faltamMemorizar']} revisões para memorizar';
+              }
+
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  GramaticaHeader(
-                    title: rev['topico'] ?? 'Erro ao carregar título',
-                  ),
-                  const SizedBox(height: 30),
                   RevisionCard(
                     titleReview: rev['topico'] ?? 'Sem título',
-                    staticReview: rev['status'] == 'memorizou'
-                        ? 'Memorizou'
-                        : '${rev['descricao'] ?? ''}', // ou quantidade se existir
+                    staticReview: reviewStatus,
                   ),
                   const SizedBox(height: 20),
                 ],
               );
             }).toList(),
             if (revisions.isEmpty)
-              Column(
-                children: [
-                  Text(
-                    'Nada ainda por aqui, tente adicionar uma revisão',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: AppColors.darkSlate,
-                      fontFamily: 'CerebriSansPro',
-                    ),
+              Center(
+                child: Text(
+                  'Nada ainda por aqui, tente adicionar uma revisão',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: AppColors.darkSlate,
+                    fontFamily: 'CerebriSansPro',
                   ),
-                ],
+                ),
               ),
           ],
         ),

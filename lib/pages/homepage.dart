@@ -1,5 +1,4 @@
 import 'package:ebbie/config/app_colors.dart';
-import 'package:ebbie/pages/revisionExpand.dart';
 import 'package:ebbie/services/database.dart';
 import 'package:ebbie/services/user_service.dart';
 import 'package:ebbie/widgets/custom_appbar.dart';
@@ -7,7 +6,6 @@ import 'package:ebbie/widgets/custom_msg_dialog.dart';
 import 'package:ebbie/widgets/module_forms/custom_edit_form.dart';
 import 'package:ebbie/widgets/module_forms/custom_ok.dart';
 import 'package:ebbie/widgets/module_forms/custom_review_form.dart';
-import 'package:ebbie/widgets/module_forms/custom_review_mood.dart';
 import 'package:ebbie/widgets/module_homepage/custom_filter.dart';
 import 'package:ebbie/widgets/module_homepage/custom_review_card.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +30,8 @@ class _MyHomePageState extends State<MyHomePage> {
   String _periodoSelecionado = 'HOJE';
   List<Map<String, dynamic>> reviews = []; // lista de reviews exibida
   List<Map<String, dynamic>> dados = [];
+  Map<String, dynamic>? userData;
+  Map<String, int>? userStats;
 
   @override
   void initState() {
@@ -58,13 +58,28 @@ class _MyHomePageState extends State<MyHomePage> {
       );
 
       if (tarefaDia.isBefore(somenteHoje) && tarefa['wasReviewd'] != 1) {
-        // Atualiza a tarefa para o dia atual e marca como pulada
         await dbHelper.update(
           'tarefa',
           {'dataRevisao': somenteHoje.toIso8601String(), 'wasSkipped': 1},
           'id = ?',
           [tarefa['id']],
         );
+
+        final userData = await dbHelper.query(
+          'user',
+          where: 'id = ?',
+          whereArgs: [tarefa['idUsuario']],
+        );
+
+        if (userData.isNotEmpty) {
+          final usuario = userData[0];
+          await dbHelper.update(
+            'user',
+            {'revisoesPuladas': (usuario['revisoesPuladas'] ?? 0) + 1},
+            'id = ?',
+            [tarefa['idUsuario']],
+          );
+        }
       }
     }
   }
@@ -88,6 +103,43 @@ class _MyHomePageState extends State<MyHomePage> {
       });
 
       _loadReviews(_periodoSelecionado);
+    }
+  }
+
+  Future<void> _loadUser() async {
+    userId = await UserService.getUserId();
+    if (userId != null) {
+      final resultados = await dbHelper.query(
+        'user',
+        where: 'id = ?',
+        whereArgs: [userId],
+      );
+      if (resultados.isNotEmpty) {
+        setState(() {
+          userData = resultados.first; // pega o primeiro usuário
+        });
+      }
+    }
+  }
+
+  Future<void> _loadStats() async {
+    if (userId != null) {
+      final result = await dbHelper.query(
+        'user',
+        where: 'id = ?',
+        whereArgs: [userId],
+      );
+
+      if (result.isNotEmpty) {
+        final user = result.first;
+        setState(() {
+          userStats = {
+            'realizou': user['totalEstudadas'] ?? 0,
+            'pulou': user['totalPuladas'] ?? 0,
+            'memorizou': user['totalMemorizadas'] ?? 0,
+          };
+        });
+      }
     }
   }
 
@@ -200,6 +252,32 @@ class _MyHomePageState extends State<MyHomePage> {
                           _diaSelecionado = selectedDay;
                         });
 
+                        // Verifica se o usuário tem módulos
+                        final modulos = await dbHelper.query(
+                          'modulo', // ou o nome correto da tabela de módulos
+                          where: 'idUsuario = ?',
+                          whereArgs: [userId],
+                        );
+
+                        if (modulos.isEmpty) {
+                          // Mostra aviso e sai
+                          if (mounted) {
+                            showDialog(
+                              context: context,
+                              builder: (context) => CustomMsgDialog(
+                                title: 'Ops!',
+                                content:
+                                    'Você ainda não cadastrou nenhum módulo. Crie um módulo antes de adicionar revisões.',
+                                ok: CustomOk(
+                                  function: () => Navigator.pop(context),
+                                ),
+                              ),
+                            );
+                          }
+                          return;
+                        }
+
+                        // Abre diálogo de review
                         final result = await showDialog(
                           context: context,
                           builder: (BuildContext dialogContext) {
@@ -215,7 +293,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         }
                       },
                       calendarFormat: CalendarFormat.month,
-                      startingDayOfWeek: StartingDayOfWeek.sunday,
+                      startingDayOfWeek: StartingDayOfWeek.monday,
                       headerStyle: HeaderStyle(
                         formatButtonVisible: false,
                         titleCentered: true,
@@ -384,7 +462,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         dataReview: data,
                         hasStudy: (String? selectedMood) async {
                           final tarefaId = t['id'];
-                          if (userId == null) return;
+                          if (userId == null || selectedMood == null) return;
 
                           final tarefaData = await dbHelper.query(
                             'tarefa',
@@ -395,7 +473,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           final tarefa = tarefaData[0];
 
                           DateTime dataRevisao =
-                              DateTime.tryParse(tarefa['dataRevisao']) ??
+                              DateTime.tryParse(tarefa['dataRevisao'] ?? '') ??
                               DateTime.now();
                           DateTime hoje = DateTime.now();
                           DateTime tarefaDia = DateTime(
@@ -409,7 +487,6 @@ class _MyHomePageState extends State<MyHomePage> {
                             hoje.day,
                           );
 
-                          // Bloqueio para marcar fora do dia da revisão
                           if (tarefaDia != somenteHoje) {
                             if (mounted) {
                               showDialog(
@@ -427,57 +504,152 @@ class _MyHomePageState extends State<MyHomePage> {
                             return;
                           }
 
-                          // Usuário fechou diálogo sem escolher mood
-                          if (selectedMood == null) return;
+                          final lastReview = await dbHelper.query(
+                            'review_stats',
+                            where: 'idTarefa = ?',
+                            whereArgs: [tarefaId],
+                            orderBy: 'id DESC',
+                            limit: 1,
+                          );
 
-                          // Calcula moedas com base no mood
-                          int moedas = 0;
+                          int repeticoes = 0;
+                          double easiness = 2.5;
+                          int intervalo = 1;
+
+                          if (lastReview.isNotEmpty) {
+                            repeticoes = lastReview[0]['repeticoes'] ?? 0;
+                            easiness = lastReview[0]['easiness'] ?? 2.5;
+                            intervalo = lastReview[0]['intervalo'] ?? 1;
+                          }
+
+                          int nota = 3;
                           switch (selectedMood) {
                             case 'mal':
-                              moedas = 1;
+                              nota = 1;
                               break;
                             case 'ok':
-                              moedas = 2;
+                              nota = 3;
                               break;
                             case 'bem':
-                              moedas = 3;
+                              nota = 5;
                               break;
                           }
 
-                          // Atualiza a carteira do usuário
+                          if (nota < 3) {
+                            repeticoes = 0;
+                            intervalo = 1;
+                            easiness = (easiness - 0.2).clamp(1.3, 2.5);
+                          } else {
+                            repeticoes++;
+                            if (repeticoes == 1)
+                              intervalo = 1;
+                            else if (repeticoes == 2)
+                              intervalo = 3;
+                            else
+                              intervalo = (intervalo * easiness).round();
+
+                            easiness =
+                                easiness +
+                                0.1 -
+                                (5 - nota) * (0.08 + (5 - nota) * 0.02);
+                            if (easiness < 1.3) easiness = 1.3;
+                          }
+
+                          bool memorizado =
+                              repeticoes >= 5 && selectedMood == 'bem';
+
                           final userData = await dbHelper.query(
                             'user',
                             where: 'id = ?',
                             whereArgs: [userId],
                           );
-                          if (userData.isNotEmpty) {
-                            final carteiraAtual = userData[0]['carteira'] ?? 0;
+                          if (userData.isEmpty) return;
+                          final usuario = userData[0];
+
+                          // ===== MEMORIZADO =====
+                          if (memorizado) {
+                            await dbHelper.update(
+                              'tarefa',
+                              {'status': 'memorizado', 'dataRevisao': null},
+                              'id = ?',
+                              [tarefaId],
+                            );
+
+                            final carteiraAtual = usuario['carteira'] ?? 0;
+                            final bonus = 10;
+
                             await dbHelper.update(
                               'user',
-                              {'carteira': carteiraAtual + moedas},
+                              {
+                                'carteira': carteiraAtual + bonus,
+                                'totalMemorizadas':
+                                    int.parse(
+                                      usuario['totalMemorizadas']?.toString() ??
+                                          '0',
+                                    ) +
+                                    1,
+                                'totalEstudadas':
+                                    int.parse(
+                                      usuario['totalEstudadas']?.toString() ??
+                                          '0',
+                                    ) +
+                                    1,
+                              },
                               'id = ?',
                               [userId],
                             );
-                            coinNotifier.value = carteiraAtual + moedas;
+                            coinNotifier.value = carteiraAtual + bonus;
+
+                            if (mounted) {
+                              showDialog(
+                                context: context,
+                                builder: (dialogContext) => CustomMsgDialog(
+                                  title: 'Concluído 🎉',
+                                  content:
+                                      'Você dominou "${tarefa['topico']}"! Esta revisão foi marcada como memorizada.',
+                                  ok: CustomOk(
+                                    function: () =>
+                                        Navigator.pop(dialogContext),
+                                  ),
+                                ),
+                              );
+                            }
+
+                            if (mounted) {
+                              _loadReviews(_periodoSelecionado);
+                              _loadStats(); // atualiza os números do perfil
+                            }
+                            return;
                           }
 
-                          // Calcula próxima data de revisão
-                          DateTime proximaData;
-                          switch (selectedMood) {
-                            case 'mal':
-                              proximaData = dataRevisao.add(Duration(days: 1));
-                              break;
-                            case 'ok':
-                              proximaData = dataRevisao.add(Duration(days: 3));
-                              break;
-                            case 'bem':
-                              proximaData = dataRevisao.add(Duration(days: 7));
-                              break;
-                            default:
-                              proximaData = dataRevisao.add(Duration(days: 1));
-                          }
+                          // ===== PRÓXIMA REVISÃO =====
+                          final proximaData = hoje.add(
+                            Duration(days: intervalo),
+                          );
+                          int moedas = selectedMood == 'mal'
+                              ? 1
+                              : selectedMood == 'ok'
+                              ? 2
+                              : 3;
 
-                          // Atualiza tarefa para próxima revisão
+                          await dbHelper.update(
+                            'user',
+                            {
+                              'carteira': (usuario['carteira'] ?? 0) + moedas,
+                              'totalEstudadas':
+                                  int.parse(
+                                    usuario['totalEstudadas']?.toString() ??
+                                        '0',
+                                  ) +
+                                  1,
+                            },
+                            'id = ?',
+                            [userId],
+                          );
+                          coinNotifier.value =
+                              (usuario['carteira'] ?? 0) + moedas;
+
+                          // ===== ATUALIZA TAREFA =====
                           await dbHelper.update(
                             'tarefa',
                             {
@@ -488,15 +660,18 @@ class _MyHomePageState extends State<MyHomePage> {
                             [tarefaId],
                           );
 
-                          // Registra estatística da revisão
+                          // ===== INSERE ESTATÍSTICA =====
                           await dbHelper.insert('review_stats', {
                             'idUsuario': tarefa['idUsuario'],
                             'idTarefa': tarefaId,
                             'status': selectedMood,
-                            'data': DateTime.now().toIso8601String(),
+                            'data': hoje.toIso8601String(),
+                            'intervalo': intervalo,
+                            'easiness': easiness,
+                            'repeticoes': repeticoes,
                           });
 
-                          // Mostra diálogo com a próxima revisão
+                          // ===== FEEDBACK =====
                           if (mounted) {
                             showDialog(
                               context: context,
@@ -511,9 +686,11 @@ class _MyHomePageState extends State<MyHomePage> {
                             );
                           }
 
-                          if (mounted) _loadReviews(_periodoSelecionado);
+                          if (mounted) {
+                            _loadReviews(_periodoSelecionado);
+                            _loadStats(); // atualiza os números do perfil
+                          }
                         },
-
                         onPressed: () {
                           showModalBottomSheet(
                             context: context,
