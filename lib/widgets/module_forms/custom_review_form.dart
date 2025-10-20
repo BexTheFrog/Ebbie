@@ -5,9 +5,11 @@ import 'package:ebbie/widgets/custom_msg_dialog.dart';
 import 'package:ebbie/widgets/module_forms/custom_description.dart';
 import 'package:ebbie/widgets/module_forms/custom_form_task.dart';
 import 'package:ebbie/widgets/module_forms/custom_ok.dart';
+import 'package:ebbie/widgets/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:provider/provider.dart';
 
 class CustomDialogRevieweForm extends StatefulWidget {
   final int userId;
@@ -108,6 +110,7 @@ class _CustomDialogRevieweFormState extends State<CustomDialogRevieweForm> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.watch<ThemeController>();
     return Dialog(
       backgroundColor: const Color(0xFFF7EDE2),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -122,7 +125,7 @@ class _CustomDialogRevieweFormState extends State<CustomDialogRevieweForm> {
               // Cabeçalho
               Container(
                 decoration: BoxDecoration(
-                  color: AppColors.tealBlue,
+                  color: theme.msgDialogColor,
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(16),
                     topRight: Radius.circular(16),
@@ -179,34 +182,34 @@ class _CustomDialogRevieweFormState extends State<CustomDialogRevieweForm> {
                       hint: Text(
                         'Selecione um módulo',
                         style: TextStyle(
-                          color: AppColors.tealBlue,
+                          color: theme.msgDialogColor,
                           fontFamily: 'CerebriSansPro',
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       icon: Icon(
                         LucideIcons.circleArrowDown,
-                        color: AppColors.tealBlue,
+                        color: theme.msgDialogColor,
                       ),
                       value: selectedModuleId,
                       decoration: InputDecoration(
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: AppColors.tealBlue,
+                            color: const Color.fromARGB(255, 3, 36, 31),
                             width: 3,
                           ),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: AppColors.tealBlue,
+                            color: theme.msgDialogColor,
                             width: 3,
                           ),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         border: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: AppColors.tealBlue,
+                            color: theme.msgDialogColor,
                             width: 3,
                           ),
                           borderRadius: BorderRadius.circular(20),
