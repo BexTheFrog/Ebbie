@@ -8,8 +8,10 @@ import 'package:ebbie/widgets/module_forms/custom_ok.dart';
 import 'package:ebbie/widgets/module_forms/custom_review_form.dart';
 import 'package:ebbie/widgets/module_homepage/custom_filter.dart';
 import 'package:ebbie/widgets/module_homepage/custom_review_card.dart';
+import 'package:ebbie/widgets/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 import 'package:ebbie/services/wallet.dart';
@@ -203,6 +205,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.watch<ThemeController>();
     return Scaffold(
       appBar: CustomAppBar(),
       backgroundColor: const Color(0xFFF7EDE2),
@@ -301,7 +304,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           padding: const EdgeInsets.only(bottom: 4, right: 2),
                           child: Icon(
                             Icons.arrow_left_rounded,
-                            color: AppColors.darkSlate,
+                            color: theme.tableCalendarColor,
                             weight: 30,
                             size: 60,
                           ),
@@ -310,13 +313,13 @@ class _MyHomePageState extends State<MyHomePage> {
                           padding: const EdgeInsets.only(bottom: 4, right: 2),
                           child: Icon(
                             Icons.arrow_right_rounded,
-                            color: AppColors.darkSlate,
+                            color: theme.tableCalendarColor,
                             size: 60,
                           ),
                         ),
-                        titleTextStyle: const TextStyle(
+                        titleTextStyle: TextStyle(
                           fontFamily: 'CerebriSansPro',
-                          color: AppColors.darkSlate,
+                          color: theme.tableCalendarColor,
                           fontWeight: FontWeight.bold,
                           fontSize: 27,
                           height: 1.2,
@@ -332,17 +335,17 @@ class _MyHomePageState extends State<MyHomePage> {
                         },
                       ),
                       daysOfWeekStyle: DaysOfWeekStyle(
-                        weekdayStyle: const TextStyle(
+                        weekdayStyle: TextStyle(
                           fontFamily: 'CerebriSansPro',
                           fontWeight: FontWeight.bold,
                           fontSize: 14,
-                          color: AppColors.darkSlate,
+                          color: theme.tableCalendarColor,
                         ),
-                        weekendStyle: const TextStyle(
+                        weekendStyle: TextStyle(
                           fontFamily: 'CerebriSansPro',
                           fontWeight: FontWeight.bold,
                           fontSize: 14,
-                          color: AppColors.coral,
+                          color: theme.calendarFimSemanaColor,
                         ),
                         dowTextFormatter: (date, locale) {
                           String day = DateFormat.E(
@@ -375,7 +378,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           shape: BoxShape.circle,
                         ),
                         todayDecoration: BoxDecoration(
-                          color: Color(0xFFF6BD60),
+                          color: theme.calendarDayColor,
                           shape: BoxShape.circle,
                         ),
                         selectedDecoration: BoxDecoration(
@@ -402,7 +405,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: Container(
                         height: 5, // Espessura da linha
                         decoration: BoxDecoration(
-                          color: AppColors.tealBlue,
+                          color: theme.cerebroLineColor,
                           borderRadius: BorderRadius.circular(2),
                         ),
                       ),
@@ -412,14 +415,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: Image.asset(
                         "assets/images/brain_icon_small.png",
                         height: 50,
-                        color: AppColors.tealBlue,
+                        color: theme.cerebroLineColor,
                       ),
                     ),
                     Expanded(
                       child: Container(
                         height: 5, // Espessura da linha
                         decoration: BoxDecoration(
-                          color: AppColors.tealBlue,
+                          color: theme.cerebroLineColor,
                           borderRadius: BorderRadius.circular(2),
                         ),
                       ),
@@ -442,7 +445,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       'Nenhuma review para ${_periodoSelecionado.toLowerCase()}',
                       style: TextStyle(
                         fontFamily: 'CerebriSansPro',
-                        color: AppColors.darkSlate,
+                        color: theme.tableCalendarColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -707,7 +710,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                       'Editar',
                                       style: TextStyle(
                                         fontFamily: 'CerebriSansPro',
-                                        color: AppColors.tealBlue,
+                                        color: const Color.fromARGB(
+                                          255,
+                                          0,
+                                          0,
+                                          0,
+                                        ),
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),

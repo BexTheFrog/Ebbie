@@ -1,5 +1,7 @@
 import 'package:ebbie/config/app_colors.dart';
+import 'package:ebbie/widgets/theme_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class FiltroPeriodo extends StatelessWidget {
   final String periodoAtual;
@@ -21,6 +23,7 @@ class FiltroPeriodo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.watch<ThemeController>();
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -29,17 +32,17 @@ class FiltroPeriodo extends StatelessWidget {
           child: Icon(
             Icons.arrow_left_rounded,
             size: 60,
-            color: AppColors.darkSlate,
+            color: theme.tableCalendarColor,
           ),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
             periodoAtual,
-            style: const TextStyle(
+            style: TextStyle(
               fontFamily: 'CerebriSansPro',
               fontSize: 35,
-              color: AppColors.darkSlate,
+              color: theme.tableCalendarColor,
               height: 1,
             ),
           ),
@@ -49,7 +52,7 @@ class FiltroPeriodo extends StatelessWidget {
           child: Icon(
             Icons.arrow_right_rounded,
             size: 60,
-            color: AppColors.darkSlate,
+            color: theme.tableCalendarColor,
           ),
         ),
       ],
