@@ -1,7 +1,5 @@
 import 'package:ebbie/config/app_colors.dart';
-import 'package:ebbie/widgets/theme_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class CustomOk extends StatefulWidget {
   final Function function;
@@ -15,25 +13,20 @@ class CustomOk extends StatefulWidget {
 class _CustomOkState extends State<CustomOk> {
   @override
   Widget build(BuildContext context) {
-    final theme = context.watch<ThemeController>();
     return OutlinedButton(
       onPressed: () {
         widget.function();
       },
       style: OutlinedButton.styleFrom(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        side:  BorderSide(
-          color: theme.formReviewColor, // cor da borda
-          width: 4, // espessura da borda
-        ),
         side: const BorderSide(color: AppColors.tealBlue, width: 4),
       ),
-      child: Text(
+      child: const Text(
         'Ok',
         style: TextStyle(
           fontFamily: 'CerebriSansPro',
           fontWeight: FontWeight.bold,
-          color: theme.formReviewColor,
+          color: AppColors.tealBlue,
           fontSize: 15,
         ),
       ),

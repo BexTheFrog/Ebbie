@@ -5,12 +5,9 @@ import 'package:ebbie/widgets/custom_msg_dialog.dart';
 import 'package:ebbie/widgets/module_forms/custom_description.dart';
 import 'package:ebbie/widgets/module_forms/custom_form_task.dart';
 import 'package:ebbie/widgets/module_forms/custom_ok.dart';
-import 'package:ebbie/widgets/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
-import 'package:path/path.dart';
-import 'package:provider/provider.dart';
 
 class CustomDialogRevieweForm extends StatefulWidget {
   final int userId;
@@ -28,7 +25,6 @@ class CustomDialogRevieweForm extends StatefulWidget {
 }
 
 class _CustomDialogRevieweFormState extends State<CustomDialogRevieweForm> {
-  
   final dbHelper = DatabaseHelper();
   final TextEditingController _topicoController = TextEditingController();
   final TextEditingController _descricaoController = TextEditingController();
@@ -112,7 +108,6 @@ class _CustomDialogRevieweFormState extends State<CustomDialogRevieweForm> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.watch<ThemeController>();
     return Dialog(
       backgroundColor: const Color(0xFFF7EDE2),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -127,7 +122,7 @@ class _CustomDialogRevieweFormState extends State<CustomDialogRevieweForm> {
               // Cabeçalho
               Container(
                 decoration: BoxDecoration(
-                  color: theme.formReviewColor,
+                  color: AppColors.tealBlue,
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(16),
                     topRight: Radius.circular(16),

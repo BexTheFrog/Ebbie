@@ -278,60 +278,23 @@ class _PomodoroPageState extends State<PomodoroPage> {
   }
 
   Widget _buildTimeEditor(
-  String label,
-  TextEditingController controller,
-  Color color,
-) {
-  final theme = context.watch<ThemeController>();
+    String label,
+    TextEditingController controller,
+    Color color,
+  ) {
+    final theme = context.watch<ThemeController>();
 
-  return Container(
-    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-    decoration: BoxDecoration(
-      color: color.withOpacity(0.2),
-      borderRadius: BorderRadius.circular(12),
-    ),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          label,
-          style: TextStyle(
-            color: color,
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
-          ),
-        ),
-        SizedBox(
-          width: 70,
-          child: TextField(
-            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            maxLength: 2,
-            controller: controller,
-            keyboardType: TextInputType.number,
-            textAlign: TextAlign.center,
-            decoration: InputDecoration(
-              counterText: '',
-              hintText: "min",
-              hintStyle: TextStyle(fontSize: 15, color: color.withOpacity(0.6)),
-
-              
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(
-                  color: color.withOpacity(0.6), 
-                  width: 1.5,
-                ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(
-                  color: theme.appbarColor.withOpacity(0.8), 
-                  width: 2.2,
-                ),
-              ),
-              isDense: true,
-              contentPadding: const EdgeInsets.symmetric(vertical: 8),
-            ),
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.2),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            label,
             style: TextStyle(
               color: color,
               fontWeight: FontWeight.bold,

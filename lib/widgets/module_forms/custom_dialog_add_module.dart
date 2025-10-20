@@ -3,11 +3,8 @@ import 'package:ebbie/widgets/custom_msg_dialog.dart';
 import 'package:ebbie/widgets/module_forms/custom_description.dart';
 import 'package:ebbie/widgets/module_forms/custom_form_task.dart';
 import 'package:ebbie/widgets/module_forms/custom_ok.dart';
-import 'package:ebbie/widgets/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
-import 'package:path/path.dart';
-import 'package:provider/provider.dart';
 
 class CustomDialogAddModule extends StatefulWidget {
   final Map<String, dynamic>? module;
@@ -19,7 +16,6 @@ class CustomDialogAddModule extends StatefulWidget {
 }
 
 class _CustomDialogAddModuleState extends State<CustomDialogAddModule> {
-  
   final TextEditingController _nomeController = TextEditingController();
   final TextEditingController _descricaoController = TextEditingController();
 
@@ -34,7 +30,6 @@ class _CustomDialogAddModuleState extends State<CustomDialogAddModule> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.watch<ThemeController>();
     return Dialog(
       backgroundColor: const Color(0xFFF7EDE2),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -44,7 +39,7 @@ class _CustomDialogAddModuleState extends State<CustomDialogAddModule> {
           // Cabeçalho
           Container(
             decoration: BoxDecoration(
-              color: theme.formReviewColor,
+              color: AppColors.tealBlue,
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(16),
                 topRight: Radius.circular(16),
