@@ -2,9 +2,10 @@ import 'package:ebbie/config/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class CustomRoundBtn extends StatefulWidget {
-  const CustomRoundBtn({super.key, required this.btnIcon});
+  const CustomRoundBtn({super.key, required this.btnIcon, required this.onTap});
 
   final IconData btnIcon;
+  final VoidCallback onTap;
 
   @override
   State<CustomRoundBtn> createState() => _CustomRoundBtnState();
@@ -14,7 +15,7 @@ class _CustomRoundBtnState extends State<CustomRoundBtn> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: widget.onTap,
       style: ElevatedButton.styleFrom(
         shape: CircleBorder(
           side: BorderSide(color: AppColors.pastelYellow, width: 3),
