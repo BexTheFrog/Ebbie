@@ -8,11 +8,8 @@ import 'package:ebbie/widgets/module_forms/custom_ok.dart';
 import 'package:ebbie/widgets/module_forms/custom_review_form.dart';
 import 'package:ebbie/widgets/module_homepage/custom_filter.dart';
 import 'package:ebbie/widgets/module_homepage/custom_review_card.dart';
-import 'package:ebbie/widgets/theme_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
-
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 import 'package:ebbie/services/wallet.dart';
@@ -206,7 +203,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.watch<ThemeController>();
     return Scaffold(
       appBar: CustomAppBar(),
       backgroundColor: const Color(0xFFF7EDE2),
@@ -305,7 +301,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           padding: const EdgeInsets.only(bottom: 4, right: 2),
                           child: Icon(
                             Icons.arrow_left_rounded,
-                            color: theme.tableCalendarColor,
+                            color: AppColors.darkSlate,
                             weight: 30,
                             size: 60,
                           ),
@@ -314,13 +310,13 @@ class _MyHomePageState extends State<MyHomePage> {
                           padding: const EdgeInsets.only(bottom: 4, right: 2),
                           child: Icon(
                             Icons.arrow_right_rounded,
-                            color: theme.tableCalendarColor,
+                            color: AppColors.darkSlate,
                             size: 60,
                           ),
                         ),
-                        titleTextStyle:  TextStyle(
+                        titleTextStyle: const TextStyle(
                           fontFamily: 'CerebriSansPro',
-                          color: theme.tableCalendarColor,
+                          color: AppColors.darkSlate,
                           fontWeight: FontWeight.bold,
                           fontSize: 27,
                           height: 1.2,
@@ -336,17 +332,17 @@ class _MyHomePageState extends State<MyHomePage> {
                         },
                       ),
                       daysOfWeekStyle: DaysOfWeekStyle(
-                        weekdayStyle: TextStyle(
+                        weekdayStyle: const TextStyle(
                           fontFamily: 'CerebriSansPro',
                           fontWeight: FontWeight.bold,
                           fontSize: 14,
-                          color: theme.tableCalendarColor,
+                          color: AppColors.darkSlate,
                         ),
-                        weekendStyle: TextStyle(
+                        weekendStyle: const TextStyle(
                           fontFamily: 'CerebriSansPro',
                           fontWeight: FontWeight.bold,
                           fontSize: 14,
-                          color: theme.calendarFimSemanaColor,
+                          color: AppColors.coral,
                         ),
                         dowTextFormatter: (date, locale) {
                           String day = DateFormat.E(
@@ -379,7 +375,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           shape: BoxShape.circle,
                         ),
                         todayDecoration: BoxDecoration(
-                          color: theme.calendarDayColor,
+                          color: Color(0xFFF6BD60),
                           shape: BoxShape.circle,
                         ),
                         selectedDecoration: BoxDecoration(
@@ -406,7 +402,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: Container(
                         height: 5, // Espessura da linha
                         decoration: BoxDecoration(
-                          color: theme.cerebroLineColor,
+                          color: AppColors.tealBlue,
                           borderRadius: BorderRadius.circular(2),
                         ),
                       ),
@@ -416,14 +412,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: Image.asset(
                         "assets/images/brain_icon_small.png",
                         height: 50,
-                        color: theme.cerebroLineColor,
+                        color: AppColors.tealBlue,
                       ),
                     ),
                     Expanded(
                       child: Container(
                         height: 5, // Espessura da linha
                         decoration: BoxDecoration(
-                          color: theme.cerebroLineColor,
+                          color: AppColors.tealBlue,
                           borderRadius: BorderRadius.circular(2),
                         ),
                       ),
@@ -431,38 +427,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   ],
                 ),
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Align(
-                      alignment: Alignment.center,
-                      child: Icon(
-                        Icons.arrow_left_rounded,
-                        size: 60,
-                        color: theme.tableCalendarColor,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "HOJE",
-                        style: TextStyle(
-                          fontFamily: 'CerebriSansPro',
-                          fontSize: 35,
-                          color: theme.tableCalendarColor,
-                          height: 1,
-                        ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: Icon(
-                        Icons.arrow_right_rounded,
-                        size: 60,
-                        color: theme.tableCalendarColor,
-                      ),
-                    ),
-                  ],
                 FiltroPeriodo(
                   onPeriodoChanged: _onPeriodoChanged,
                   periodoAtual: _periodoSelecionado,
