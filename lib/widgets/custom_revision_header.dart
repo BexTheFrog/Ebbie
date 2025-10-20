@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
 class GramaticaHeader extends StatelessWidget {
-  const GramaticaHeader({super.key});
+  final String title;
+
+  const GramaticaHeader({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Text(
-          'GRAMÁTICA',
+        Text(
+          title,
           style: TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.bold,

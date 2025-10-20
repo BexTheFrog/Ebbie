@@ -5,15 +5,17 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:provider/provider.dart';
 
 class DropdownModulos extends StatefulWidget {
-  final List<String> lista; // lista de módulos
-  final Function(String?) onChanged;
+  final List<String> lista; // lista de módulos (ou matérias)
+  final String? valorInicial; // valor pré-selecionado
   final String hintText;
+  final Function(String?) onChanged; // callback para pegar o valor selecionado
 
   const DropdownModulos({
     super.key,
     required this.hintText,
     required this.lista,
     required this.onChanged,
+    this.valorInicial,
   });
 
   @override
@@ -24,12 +26,17 @@ class _DropdownModulosState extends State<DropdownModulos> {
   String? selectedItem;
 
   @override
+  void initState() {
+    super.initState();
+    selectedItem = widget.valorInicial; // inicia com valor passado, se houver
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = context.watch<ThemeController>();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Dropdown
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12),
           decoration: BoxDecoration(
@@ -49,7 +56,7 @@ class _DropdownModulosState extends State<DropdownModulos> {
                 color: theme.formReviewColor,
               ),
             ),
-            underline: const SizedBox(), // remove a linha padrão
+            underline: const SizedBox(),
             items: widget.lista.map((item) {
               return DropdownMenuItem<String>(
                 value: item,
@@ -66,7 +73,7 @@ class _DropdownModulosState extends State<DropdownModulos> {
               setState(() {
                 selectedItem = value;
               });
-              widget.onChanged(value);
+              widget.onChanged(value); // aqui você recebe o valor no formulário
             },
           ),
         ),

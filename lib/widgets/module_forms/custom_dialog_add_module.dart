@@ -1,4 +1,5 @@
 import 'package:ebbie/config/app_colors.dart';
+import 'package:ebbie/widgets/custom_msg_dialog.dart';
 import 'package:ebbie/widgets/module_forms/custom_description.dart';
 import 'package:ebbie/widgets/module_forms/custom_form_task.dart';
 import 'package:ebbie/widgets/module_forms/custom_ok.dart';
@@ -9,7 +10,9 @@ import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 
 class CustomDialogAddModule extends StatefulWidget {
-  const CustomDialogAddModule({super.key});
+  final Map<String, dynamic>? module;
+
+  const CustomDialogAddModule({super.key, this.module});
 
   @override
   State<CustomDialogAddModule> createState() => _CustomDialogAddModuleState();
@@ -17,6 +20,18 @@ class CustomDialogAddModule extends StatefulWidget {
 
 class _CustomDialogAddModuleState extends State<CustomDialogAddModule> {
   
+  final TextEditingController _nomeController = TextEditingController();
+  final TextEditingController _descricaoController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.module != null) {
+      _nomeController.text = widget.module!['nome'] ?? '';
+      _descricaoController.text = widget.module!['descricao'] ?? '';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = context.watch<ThemeController>();
@@ -26,7 +41,7 @@ class _CustomDialogAddModuleState extends State<CustomDialogAddModule> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Cabeçalho com título e botão fechar
+          // Cabeçalho
           Container(
             decoration: BoxDecoration(
               color: theme.formReviewColor,
@@ -36,18 +51,13 @@ class _CustomDialogAddModuleState extends State<CustomDialogAddModule> {
               ),
             ),
             child: Padding(
-              padding: const EdgeInsets.only(
-                top: 8,
-                left: 10,
-                right: 10,
-                bottom: 8,
-              ),
+              padding: const EdgeInsets.all(8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Novo módulo',
-                    style: TextStyle(
+                  Text(
+                    widget.module == null ? 'Novo módulo' : 'Editando módulo',
+                    style: const TextStyle(
                       fontSize: 18,
                       fontFamily: 'CerebriSansPro',
                       fontWeight: FontWeight.bold,
@@ -60,11 +70,9 @@ class _CustomDialogAddModuleState extends State<CustomDialogAddModule> {
                       color: AppColors.pastelYellow,
                       size: 30,
                     ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
+                    onPressed: () => Navigator.pop(context),
                   ),
-                ], // <-- fecha o children do Row
+                ],
               ),
             ),
           ),
@@ -73,15 +81,41 @@ class _CustomDialogAddModuleState extends State<CustomDialogAddModule> {
             padding: const EdgeInsets.all(12),
             child: Column(
               children: [
-                CustomFormFieldTask(hintText: "Descrição..."),
+                CustomFormFieldTask(
+                  hintText: "Nome do módulo...",
+                  controller: _nomeController,
+                ),
                 const SizedBox(height: 12),
-                CustomDescription(),
+                CustomDescription(controller: _descricaoController),
                 const SizedBox(height: 16),
                 Align(
                   alignment: Alignment.centerRight,
                   child: CustomOk(
-                    function: () {
-                      Navigator.pop(context);
+                    function: () async {
+                      final nome = _nomeController.text.trim();
+                      final descricao = _descricaoController.text.trim();
+
+                      if (nome.isEmpty || descricao.isEmpty) {
+                        await showDialog(
+                          context: context,
+                          builder: (_) => CustomMsgDialog(
+                            title: "Campo Vazio",
+                            content:
+                                'Por favor preencha todos os campos para adicionar',
+                            ok: CustomOk(
+                              function: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ),
+                        );
+                        return;
+                      }
+
+                      Navigator.pop(context, {
+                        'nome': nome,
+                        'descricao': descricao,
+                      });
                     },
                   ),
                 ),

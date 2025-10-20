@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CustomDescription extends StatefulWidget {
-  const CustomDescription({super.key});
+  final TextEditingController controller;
+
+  const CustomDescription({super.key, required this.controller});
 
   @override
   State<CustomDescription> createState() => _CustomDescriptionState();
@@ -16,6 +18,7 @@ class _CustomDescriptionState extends State<CustomDescription> {
     final theme = context.watch<ThemeController>();
 
     return TextField(
+      controller: widget.controller,
       maxLines: 3,
       decoration: InputDecoration(
         hintText: 'Descrição...',

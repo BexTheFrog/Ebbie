@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
 class SubjectHeader extends StatelessWidget {
-  const SubjectHeader({super.key});
+  final String title;
+
+  const SubjectHeader({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Text(
-          'Francês',
+        Text(
+          title,
           style: TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.bold,

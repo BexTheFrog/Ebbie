@@ -18,7 +18,7 @@ class _CustomOkState extends State<CustomOk> {
     final theme = context.watch<ThemeController>();
     return OutlinedButton(
       onPressed: () {
-        widget.function;
+        widget.function();
       },
       style: OutlinedButton.styleFrom(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -26,6 +26,7 @@ class _CustomOkState extends State<CustomOk> {
           color: theme.formReviewColor, // cor da borda
           width: 4, // espessura da borda
         ),
+        side: const BorderSide(color: AppColors.tealBlue, width: 4),
       ),
       child: Text(
         'Ok',

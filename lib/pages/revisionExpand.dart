@@ -1,9 +1,23 @@
 import 'package:ebbie/config/app_colors.dart';
 import 'package:ebbie/widgets/custom_appbar_with_comeback.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class Revisionexpand extends StatefulWidget {
-  const Revisionexpand({super.key});
+  final String titulo;
+  final String modulo;
+  final String secao;
+  final String descricao;
+  final DateTime dataReview;
+
+  const Revisionexpand({
+    super.key,
+    required this.titulo,
+    required this.modulo,
+    required this.secao,
+    required this.descricao,
+    required this.dataReview,
+  });
 
   @override
   State<Revisionexpand> createState() => _RevisionexpandState();
@@ -32,7 +46,7 @@ class _RevisionexpandState extends State<Revisionexpand> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "TITULO REVIEW".toUpperCase(),
+                      widget.titulo.toUpperCase(),
                       style: TextStyle(
                         fontSize: 24,
                         fontFamily: 'CerebriSansPro',
@@ -41,7 +55,7 @@ class _RevisionexpandState extends State<Revisionexpand> {
                       ),
                     ),
                     Text(
-                      "DataReview".toUpperCase(),
+                      DateFormat('dd/MM/yyyy').format(widget.dataReview),
                       style: TextStyle(
                         fontSize: 16,
                         fontFamily: 'CerebriSansPro',
@@ -55,7 +69,7 @@ class _RevisionexpandState extends State<Revisionexpand> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "MÓDULO".toUpperCase(),
+                      widget.modulo.toUpperCase(),
                       style: TextStyle(
                         fontSize: 16,
                         fontFamily: 'CerebriSansPro',
@@ -64,7 +78,7 @@ class _RevisionexpandState extends State<Revisionexpand> {
                       ),
                     ),
                     Text(
-                      "SEÇÃO".toUpperCase(),
+                      widget.secao.toUpperCase(),
                       style: TextStyle(
                         fontSize: 16,
                         fontFamily: 'CerebriSansPro',
@@ -77,7 +91,7 @@ class _RevisionexpandState extends State<Revisionexpand> {
                 SingleChildScrollView(
                   scrollDirection: Axis.vertical,
                   child: Text(
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus a facilisis tortor, ut venenatis orci. Morbi pellentesque arcu quis imperdiet facilisis. Phasellus placerat purus ut nulla ullamcorper scelerisque. Sed tincidunt tortor eu efficitur luctus. Duis eu nunc a nisi tristique aliquet ac id erat. Aliquam sapien ex, porttitor ac egestas nec, tristique pulvinar mauris. Sed ultrices nibh ut laoreet tristique. Integer malesuada eros sem, sed suscipit quam dignissim commodo. Morbi viverra eu lacus et aliquam. Nunc sodales ex eu lacus porta, non congue leo aliquam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus a facilisis tortor, ut venenatis orci. Morbi pellentesque arcu quis imperdiet facilisis. Phasellus placerat purus ut nulla ullamcorper scelerisque. Sed tincidunt tortor eu efficitur luctus. Duis eu nunc a nisi tristique aliquet ac id erat. Aliquam sapien ex, porttitor ac egestas nec, tristique pulvinar mauris. Sed ultrices nibh ut laoreet tristique. Integer malesuada eros sem, sed suscipit quam dignissim commodo. Morbi viverra eu lacus et aliquam. Nunc sodales ex eu lacus porta, non congue leo aliquam",
+                    widget.descricao,
                     style: TextStyle(
                       fontFamily: 'CerebriSansPro',
                       fontSize: 14,

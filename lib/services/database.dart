@@ -19,85 +19,95 @@ class DatabaseHelper {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, 'ebbie.db');
 
-    return await openDatabase(path, version: 1, onCreate: _onCreate);
+    final db = await openDatabase(
+      path,
+      version: 1,
+      onCreate: _onCreate,
+      onConfigure: (db) async {
+        await db.execute('PRAGMA foreign_keys = ON');
+      },
+    );
+
+    return db;
   }
 
   Future _onCreate(Database db, int version) async {
-    // Usuários
     await db.execute('''
-      CREATE TABLE user(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        nome TEXT NOT NULL,
-        email TEXT NOT NULL,
-        senha TEXT NOT NULL,
-        carteira INTEGER DEFAULT 0
-      )
-    ''');
+  CREATE TABLE user(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
+    email TEXT NOT NULL,
+    senha TEXT NOT NULL,
+    carteira INTEGER DEFAULT 0,
+    totalEstudadas INTEGER DEFAULT 0,
+    totalPuladas INTEGER DEFAULT 0,
+    totalMemorizadas INTEGER DEFAULT 0
+  )
+''');
 
-    // Cortex
     await db.execute('''
-      CREATE TABLE cortex(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        idUsuario INTEGER,
-        nome TEXT NOT NULL,
-        fome REAL,
-        fit REAL,
-        higiene REAL,
-        FOREIGN KEY(idUsuario) REFERENCES user(id)
-      )
-    ''');
-
-    // Modulo
-    await db.execute('''
-      CREATE TABLE modulo(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        idUsuario INTEGER,
-        nome TEXT NOT NULL,
-        FOREIGN KEY(idUsuario) REFERENCES user(id)
-      )
-    ''');
-
-    // Materia
-    await db.execute('''
-      CREATE TABLE materia(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        idUsuario INTEGER,
-        moduloId INTEGER,
-        nome TEXT NOT NULL,
-        FOREIGN KEY(moduloId) REFERENCES modulo(id),
-        FOREIGN KEY(idUsuario) REFERENCES user(id)
-      )
-    ''');
-
-    // Tarefa
-    await db.execute('''
-      CREATE TABLE tarefa(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        idUsuario INTEGER,
-        idModulo INTEGER,
-        idMateria INTEGER,
-        topico TEXT NOT NULL,
-        dataRevisao TEXT,
-        status TEXT,
-        wasReviewd INTEGER DEFAULT 0,
-        FOREIGN KEY(idModulo) REFERENCES modulo(id),
-        FOREIGN KEY(idMateria) REFERENCES materia(id),
-        FOREIGN KEY(idUsuario) REFERENCES user(id)
-      )
-    ''');
-
-    // Estatisticas
-    await db.execute('''
-    CREATE TABLE review_stats(
+    CREATE TABLE cortex(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      idUsuario TEXT NOT NULL,
-      idTarefa TEXT NOT NULL,
-      status TEXT NOT NULL,
-      data TEXT NOT NULL,
-      FOREIGN KEY(idUsuario) REFERENCES usuarios(id) ON DELETE CASCADE,
-      FOREIGN KEY(idTarefa) REFERENCES tarefas(id) ON DELETE CASCADE
+      idUsuario INTEGER,
+      nome TEXT NOT NULL,
+      fome REAL,
+      fit REAL,
+      higiene REAL,
+      FOREIGN KEY(idUsuario) REFERENCES user(id) ON DELETE CASCADE
     )
   ''');
+
+    await db.execute('''
+    CREATE TABLE modulo(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      idUsuario INTEGER,
+      nome TEXT NOT NULL,
+      descricao TEXT NOT NULL,
+      FOREIGN KEY(idUsuario) REFERENCES user(id) ON DELETE CASCADE
+    )
+  ''');
+
+    await db.execute('''
+    CREATE TABLE materia(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      idUsuario INTEGER,
+      moduloId INTEGER,
+      nome TEXT NOT NULL,
+      FOREIGN KEY(moduloId) REFERENCES modulo(id) ON DELETE CASCADE,
+      FOREIGN KEY(idUsuario) REFERENCES user(id) ON DELETE CASCADE
+    )
+  ''');
+
+    await db.execute('''
+    CREATE TABLE tarefa(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      idUsuario INTEGER,
+      idModulo INTEGER,
+      idMateria INTEGER,
+      topico TEXT NOT NULL,
+      dataRevisao TEXT,
+      descricao TEXT,
+      status TEXT,
+      FOREIGN KEY(idModulo) REFERENCES modulo(id) ON DELETE CASCADE,
+      FOREIGN KEY(idMateria) REFERENCES materia(id) ON DELETE CASCADE,
+      FOREIGN KEY(idUsuario) REFERENCES user(id) ON DELETE CASCADE
+    )
+  ''');
+
+    await db.execute('''
+  CREATE TABLE review_stats(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    idUsuario INTEGER NOT NULL,
+    idTarefa INTEGER NOT NULL,
+    status TEXT NOT NULL,
+    data TEXT NOT NULL,
+    intervalo INTEGER NOT NULL DEFAULT 1,
+    easiness REAL NOT NULL DEFAULT 2.5,
+    repeticoes INTEGER NOT NULL DEFAULT 0,
+    FOREIGN KEY(idUsuario) REFERENCES user(id) ON DELETE CASCADE,
+    FOREIGN KEY(idTarefa) REFERENCES tarefa(id) ON DELETE CASCADE
+  )
+''');
   }
 
   // ---------------------- CRUD Genérico ----------------------
@@ -135,6 +145,7 @@ class DatabaseHelper {
     String? where,
     List<dynamic>? whereArgs,
     String? orderBy,
+    int? limit,
   }) async {
     final db = await database;
     return await db.query(
@@ -142,6 +153,45 @@ class DatabaseHelper {
       where: where,
       whereArgs: whereArgs,
       orderBy: orderBy,
+      limit: limit,
     );
+  }
+
+  // ------------ Buscar estatisticas do perfil --------
+
+  Future<Map<String, int>> getUserStats(int userId) async {
+    final db = await database;
+
+    // Contar revisões realizadas
+    final realizado =
+        Sqflite.firstIntValue(
+          await db.rawQuery(
+            'SELECT COUNT(*) FROM review_stats WHERE idUsuario = ? AND status = ?',
+            [userId, 'realizado'],
+          ),
+        ) ??
+        0;
+
+    // Contar revisões puladas
+    final pulou =
+        Sqflite.firstIntValue(
+          await db.rawQuery(
+            'SELECT COUNT(*) FROM review_stats WHERE idUsuario = ? AND status = ?',
+            [userId, 'pulou'],
+          ),
+        ) ??
+        0;
+
+    // Contar tópicos memorizados
+    final memorizou =
+        Sqflite.firstIntValue(
+          await db.rawQuery(
+            'SELECT COUNT(DISTINCT idTarefa) FROM review_stats WHERE idUsuario = ? AND status = ?',
+            [userId, 'memorizou'],
+          ),
+        ) ??
+        0;
+
+    return {'realizou': realizado, 'pulou': pulou, 'memorizou': memorizou};
   }
 }

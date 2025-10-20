@@ -335,14 +335,49 @@ class _PomodoroPageState extends State<PomodoroPage> {
             style: TextStyle(
               color: color,
               fontWeight: FontWeight.bold,
+              fontSize: 16,
             ),
           ),
-        ),
-      ],
-    ),
-  );
-}
+          SizedBox(
+            width: 70,
+            child: TextField(
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              maxLength: 2,
+              controller: controller,
+              keyboardType: TextInputType.number,
+              textAlign: TextAlign.center,
+              decoration: InputDecoration(
+                counterText: '',
+                hintText: "min",
+                hintStyle: TextStyle(
+                  fontSize: 15,
+                  color: color.withOpacity(0.6),
+                ),
 
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(
+                    color: theme.appbarColor.withOpacity(0.6),
+                    width: 1.5,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(
+                    color: color.withOpacity(0.8),
+                    width: 2.2,
+                  ),
+                ),
+                isDense: true,
+                contentPadding: const EdgeInsets.symmetric(vertical: 8),
+              ),
+              style: TextStyle(color: color, fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   void _showOverlay() {
     _overlayEntry = _createOverlayEntry(context);
@@ -423,7 +458,7 @@ class _PomodoroPageState extends State<PomodoroPage> {
     final theme = context.watch<ThemeController>();
 
     return Scaffold(
-      appBar: const CustomAppBar(coinCount: 15),
+      appBar: const CustomAppBar(),
       backgroundColor: const Color(0xFFFDF7E4),
       body: Column(
         children: [
@@ -477,7 +512,7 @@ class _PomodoroPageState extends State<PomodoroPage> {
             children: [
               Transform.scale(
                 scaleY: 1.3,
-                scaleX: 1.3, 
+                scaleX: 1.3,
                 child: Text(
                   minutes,
                   style: TextStyle(
@@ -488,23 +523,22 @@ class _PomodoroPageState extends State<PomodoroPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 50,),
+              SizedBox(height: 50),
 
               Transform.scale(
                 scaleY: 1.3,
-                scaleX: 1.3, 
+                scaleX: 1.3,
                 child: Text(
                   seconds,
                   style: TextStyle(
                     height: 0.9,
                     fontSize: 200,
-                    
+
                     color: theme.accentColor,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-              )
-
+              ),
             ],
           ),
           const SizedBox(height: 60),

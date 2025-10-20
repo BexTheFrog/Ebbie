@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 
 class RevisionCard extends StatelessWidget {
-  final String title;
-  final String subtitle;
+  final String titleReview;
+  final String staticReview;
 
-  const RevisionCard({super.key, required this.title, required this.subtitle});
+  const RevisionCard({
+    super.key,
+    required this.titleReview,
+    required this.staticReview,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +36,9 @@ class RevisionCard extends StatelessWidget {
                 const Icon(Icons.bookmark, color: Color(0xFFF4F1BB)),
                 const SizedBox(width: 10),
                 Text(
-                  title,
+                  titleReview,
                   style: const TextStyle(
+                    fontFamily: 'CerebriSansPro',
                     color: Colors.white,
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -41,50 +46,18 @@ class RevisionCard extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 15),
             Text(
-              subtitle,
+              staticReview,
               style: TextStyle(
+                fontFamily: 'CerebriSansPro',
                 color: Colors.white.withOpacity(0.8),
                 fontSize: 14,
               ),
             ),
             const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                _CardButton(text: 'Revisões', icon: Icons.description_outlined),
-                _CardButton(text: 'Estatísticas', icon: Icons.data_usage),
-              ],
-            ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _CardButton extends StatelessWidget {
-  final String text;
-  final IconData icon;
-
-  const _CardButton({required this.text, required this.icon});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      decoration: BoxDecoration(
-        color: const Color(0xFF9BC1BC),
-        borderRadius: BorderRadius.circular(10.0),
-        border: Border.all(color: Color(0xFFF4F1BB), width: 2),
-      ),
-      child: Row(
-        children: [
-          Icon(icon, color: Colors.white, size: 20),
-          const SizedBox(width: 8),
-          Text(text, style: const TextStyle(color: Colors.white, fontSize: 16)),
-        ],
       ),
     );
   }

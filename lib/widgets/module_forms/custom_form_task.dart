@@ -5,8 +5,13 @@ import '../../../config/app_colors.dart';
 
 class CustomFormFieldTask extends StatefulWidget {
   final String hintText;
+  final TextEditingController controller;
 
-  const CustomFormFieldTask({super.key, required this.hintText});
+  const CustomFormFieldTask({
+    super.key,
+    required this.hintText,
+    required this.controller,
+  });
 
   @override
   State<CustomFormFieldTask> createState() => _CustomFormFieldTaskState();
@@ -19,6 +24,8 @@ class _CustomFormFieldTaskState extends State<CustomFormFieldTask> {
     return SizedBox(
       width: 350,
       child: TextFormField(
+        maxLength: 15,
+        controller: widget.controller,
         decoration: InputDecoration(
           hintText: widget.hintText,
           hintStyle: TextStyle(
@@ -37,6 +44,22 @@ class _CustomFormFieldTaskState extends State<CustomFormFieldTask> {
             borderSide: BorderSide(color: theme.formReviewColor, width: 3),
           ),
         ),
+        buildCounter:
+            (
+              BuildContext context, {
+              int? currentLength,
+              int? maxLength,
+              bool? isFocused,
+            }) {
+              return Text(
+                "${maxLength! - currentLength!} caracteres restantes",
+                style: TextStyle(
+                  color: AppColors.tealBlue,
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
+              );
+            },
       ),
     );
   }
