@@ -1,3 +1,4 @@
+import 'package:ebbie/pages/accessibility_page.dart';
 import 'package:ebbie/pages/bottom_nav.dart';
 import 'package:ebbie/pages/intro_page.dart';
 import 'package:ebbie/services/user_service.dart';
@@ -78,7 +79,9 @@ class _EbbieState extends State<Ebbie> {
             ),
           ),
           // Página inicial decide pelo userId
-          home: userId != null ? SafeArea(child: const BottomNav()) : const IntroPage(),
+          home: userId != null
+              ? SafeArea(child: const BottomNav())
+              : const IntroPage(),
         );
       },
     );

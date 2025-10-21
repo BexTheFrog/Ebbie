@@ -4,7 +4,9 @@ import 'package:ebbie/services/user_service.dart';
 import 'package:ebbie/widgets/custom_msg_dialog.dart';
 import 'package:ebbie/widgets/module_forms/custom_ok.dart';
 import 'package:ebbie/widgets/module_homepage/custom_review_card.dart';
+import 'package:ebbie/widgets/theme_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../widgets/custom_appbar.dart';
 import '../widgets/custom_dropdown_menu.dart';
 import '../widgets/empty_search_state.dart';
@@ -57,6 +59,7 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.watch<ThemeController>();
     return Scaffold(
       appBar: const CustomAppBar(),
       backgroundColor: const Color(0xFFF7EDE2),
@@ -70,31 +73,22 @@ class _SearchPageState extends State<SearchPage> {
               onChanged: filterTarefas,
               decoration: InputDecoration(
                 hintText: 'Buscar por tópico...',
-                hintStyle: TextStyle(color: AppColors.darkSlate.withAlpha(150)),
+                hintStyle: TextStyle(color: theme.appbarColor.withAlpha(150)),
                 filled: true,
                 fillColor: const Color(0xFFF7EDE2),
                 contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
-                suffixIcon: const Icon(Icons.search, color: Color(0xFF9BC1BC)),
+                suffixIcon: Icon(Icons.search, color: theme.searchColor),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(12)),
-                  borderSide: const BorderSide(
-                    color: Color(0xFF9BC1BC),
-                    width: 3,
-                  ),
+                  borderSide: BorderSide(color: theme.appbarColor, width: 3),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(12)),
-                  borderSide: const BorderSide(
-                    color: Color(0xFF9BC1BC),
-                    width: 3,
-                  ),
+                  borderSide: BorderSide(color: theme.searchColor, width: 3),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(12)),
-                  borderSide: const BorderSide(
-                    color: Color(0xFF9BC1BC),
-                    width: 3,
-                  ),
+                  borderSide: BorderSide(color: theme.searchColor, width: 3),
                 ),
               ),
             ),
@@ -104,7 +98,7 @@ class _SearchPageState extends State<SearchPage> {
               child: RefreshIndicator(
                 onRefresh:
                     fetchTarefas, // precisa ser async e retornar Future<void>
-                color: AppColors.tealBlue, // cor do loading
+                color: theme.searchColor, // cor do loading
                 backgroundColor: Colors.white, // fundo do loading
                 child: filteredTarefas.isEmpty
                     ? const EmptySearchState()
