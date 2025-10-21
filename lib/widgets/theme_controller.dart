@@ -37,6 +37,16 @@ class ThemeController extends ChangeNotifier {
 
   String _daltonismMode = 'Normal';
 
+  // Adicione estas propriedades para a navbar
+  Color get navBarIconsColor {
+    // Retorna uma cor que contraste bem com appbarColor
+    return _textColor; // Ou você pode definir uma cor específica
+  }
+
+  Color get navBarBackgroundColor {
+    return _appbarColor;
+  }
+
   Color get primaryColor => _primaryColor;
   Color get secondaryColor => _secondaryColor;
   Color get accentColor => _accentColor;
