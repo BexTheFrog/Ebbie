@@ -1,4 +1,6 @@
+import 'package:ebbie/widgets/theme_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../config/app_colors.dart';
 
 class CustomFormField extends StatefulWidget {
@@ -30,6 +32,7 @@ class _CustomFormFieldState extends State<CustomFormField> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.watch<ThemeController>();
     return SizedBox(
       width: 350,
       child: TextFormField(
@@ -50,17 +53,17 @@ class _CustomFormFieldState extends State<CustomFormField> {
                   },
                   child: Icon(
                     _obscureText ? Icons.visibility_off : Icons.visibility,
-                    color: AppColors.tealBlue,
+                    color: theme.msgDialogColor,
                   ),
                 )
               : null,
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(15)),
-            borderSide: BorderSide(color: AppColors.tealBlue, width: 3),
+            borderSide: BorderSide(color: theme.msgDialogColor, width: 3),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(15)),
-            borderSide: BorderSide(color: AppColors.tealBlue, width: 3),
+            borderSide: BorderSide(color: theme.msgDialogColor, width: 3),
           ),
         ),
       ),

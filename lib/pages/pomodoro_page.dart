@@ -423,146 +423,152 @@ class _PomodoroPageState extends State<PomodoroPage> {
     return Scaffold(
       appBar: const CustomAppBar(),
       backgroundColor: const Color(0xFFFDF7E4),
-      body: Column(
-        children: [
-          const SizedBox(height: 35),
-          GestureDetector(
-            onTap: nextMode,
-            child: IntrinsicWidth(
-              child: Container(
-                height: 50,
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                decoration: BoxDecoration(
-                  color: currentMode == PomodoroMode.foco
-                      ? theme.primaryColor
-                      : currentMode == PomodoroMode.pausaCurta
-                      ? theme.secondaryColor
-                      : theme.accentColor,
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      currentMode == PomodoroMode.foco
-                          ? Icons.psychology
-                          : currentMode == PomodoroMode.pausaCurta
-                          ? Icons.local_cafe
-                          : Icons.coffee,
-                      color: theme.textColor,
-                      size: 25,
-                    ),
-                    const SizedBox(width: 5),
-                    Text(
-                      currentMode == PomodoroMode.foco
-                          ? "Foco"
-                          : currentMode == PomodoroMode.pausaCurta
-                          ? "Pausa Curta"
-                          : "Pausa Longa",
-                      style: TextStyle(
+      body: Expanded(
+        child: Column(
+          children: [
+            const SizedBox(height: 35),
+            GestureDetector(
+              onTap: nextMode,
+              child: IntrinsicWidth(
+                child: Container(
+                  height: 55,
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  decoration: BoxDecoration(
+                    color: currentMode == PomodoroMode.foco
+                        ? theme.primaryColor
+                        : currentMode == PomodoroMode.pausaCurta
+                        ? theme.secondaryColor
+                        : theme.accentColor,
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        currentMode == PomodoroMode.foco
+                            ? Icons.psychology
+                            : currentMode == PomodoroMode.pausaCurta
+                            ? Icons.local_cafe
+                            : Icons.coffee,
                         color: theme.textColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
+                        size: 30,
                       ),
-                    ),
-                  ],
+                      const SizedBox(width: 10),
+                      Text(
+                        currentMode == PomodoroMode.foco
+                            ? "Foco"
+                            : currentMode == PomodoroMode.pausaCurta
+                            ? "Pausa Curta"
+                            : "Pausa Longa",
+                        style: TextStyle(
+                          color: theme.textColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          const SizedBox(height: 50),
-          Column(
-            children: [
-              Transform.scale(
-                scaleY: 1.3,
-                scaleX: 1.3,
-                child: Text(
-                  minutes,
-                  style: TextStyle(
-                    height: 0.9,
-                    fontSize: 200,
-                    color: theme.accentColor,
-                    fontWeight: FontWeight.bold,
+            const SizedBox(height: 50),
+            Column(
+              children: [
+                Transform.scale(
+                  scaleY: 1.3,
+                  scaleX: 1.3,
+                  child: Text(
+                    minutes,
+                    style: TextStyle(
+                      height: 0.9,
+                      fontSize: 200,
+                      color: theme.accentColor,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(height: 50),
+                SizedBox(height: 30),
 
-              Transform.scale(
-                scaleY: 1.3,
-                scaleX: 1.3,
-                child: Text(
-                  seconds,
-                  style: TextStyle(
-                    height: 0.9,
-                    fontSize: 200,
+                Transform.scale(
+                  scaleY: 1.3,
+                  scaleX: 1.3,
+                  child: Text(
+                    seconds,
+                    style: TextStyle(
+                      height: 0.9,
+                      fontSize: 200,
 
-                    color: theme.accentColor,
-                    fontWeight: FontWeight.bold,
+                      color: theme.accentColor,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 60),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  if (_overlayEntry == null) {
-                    _showOverlay();
-                  } else {
-                    _hideOverlay();
-                  }
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: theme.secondaryBotomColor,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  height: 70,
-                  width: 70,
-                  child: Icon(
-                    Icons.more_horiz,
-                    color: theme.textColor,
-                    size: 35,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 15),
-              GestureDetector(
-                onTap: () => isRunning ? pauseTimer() : startTimer(),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: theme.botomPlayColor,
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  height: 80,
-                  width: 120,
-                  child: Icon(
-                    isRunning ? Icons.pause : Icons.play_arrow,
-                    color: theme.textColor,
-                    size: 40,
+              ],
+            ),
+            const SizedBox(height: 50),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    if (_overlayEntry == null) {
+                      _showOverlay();
+                    } else {
+                      _hideOverlay();
+                    }
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: theme.secondaryBotomColor,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    height: 70,
+                    width: 70,
+                    child: Icon(
+                      Icons.more_horiz,
+                      color: theme.textColor,
+                      size: 50,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(width: 15),
-              GestureDetector(
-                onTap: resetTimer,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: theme.secondaryBotomColor,
-                    borderRadius: BorderRadius.circular(20),
+                const SizedBox(width: 15),
+                GestureDetector(
+                  onTap: () => isRunning ? pauseTimer() : startTimer(),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: theme.botomPlayColor,
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    height: 80,
+                    width: 120,
+                    child: Icon(
+                      isRunning ? Icons.pause : Icons.play_arrow,
+                      color: theme.textColor,
+                      size: 50,
+                    ),
                   ),
-                  height: 70,
-                  width: 70,
-                  child: Icon(Icons.refresh, color: theme.textColor, size: 35),
                 ),
-              ),
-            ],
-          ),
-        ],
+                const SizedBox(width: 15),
+                GestureDetector(
+                  onTap: resetTimer,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: theme.secondaryBotomColor,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    height: 70,
+                    width: 70,
+                    child: Icon(
+                      Icons.refresh,
+                      color: theme.textColor,
+                      size: 50,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

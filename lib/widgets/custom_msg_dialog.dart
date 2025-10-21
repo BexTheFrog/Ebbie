@@ -1,6 +1,8 @@
 import 'package:ebbie/config/app_colors.dart';
+import 'package:ebbie/widgets/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:provider/provider.dart';
 
 class CustomMsgDialog extends StatefulWidget {
   final String title;
@@ -21,6 +23,7 @@ class CustomMsgDialog extends StatefulWidget {
 class _CustomMsgDialogState extends State<CustomMsgDialog> {
   @override
   Widget build(BuildContext context) {
+    final theme = context.watch<ThemeController>();
     return Dialog(
       backgroundColor: const Color(0xFFF7EDE2),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -30,7 +33,7 @@ class _CustomMsgDialogState extends State<CustomMsgDialog> {
           // Cabeçalho com título e botão fechar
           Container(
             decoration: BoxDecoration(
-              color: AppColors.tealBlue,
+              color: theme.msgDialogColor,
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(16),
                 topRight: Radius.circular(16),
@@ -79,7 +82,7 @@ class _CustomMsgDialogState extends State<CustomMsgDialog> {
                   widget.content,
                   style: TextStyle(
                     fontFamily: 'CerebriSansPro',
-                    color: AppColors.tealBlue,
+                    color: theme.msgDialogColor,
                   ),
                 ),
                 const SizedBox(height: 10),
