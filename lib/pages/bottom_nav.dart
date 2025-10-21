@@ -1,4 +1,5 @@
 import 'package:ebbie/pages/pet_page.dart';
+import 'package:ebbie/services/database.dart';
 import 'package:ebbie/services/user_service.dart';
 import 'package:ebbie/widgets/custom_msg_dialog.dart';
 import 'package:ebbie/widgets/module_forms/custom_ok.dart';
@@ -33,6 +34,10 @@ class _BottomNavState extends State<BottomNav>
   // Pegando UserId
   int? userId;
 
+  // Inicia o banco
+  final dbHelper = DatabaseHelper();
+  final DateTime _diaAtual = DateTime.now();
+
   Future<void> _loadUserId() async {
     int? id = await UserService.getUserId();
     setState(() {
@@ -49,7 +54,7 @@ class _BottomNavState extends State<BottomNav>
       vsync: this,
       duration: const Duration(milliseconds: 250),
     );
-    // ✅ FORÇA SYSTEM UI AO INICIAR
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _updateSystemUIOverlay();
     });
@@ -63,14 +68,16 @@ class _BottomNavState extends State<BottomNav>
 
   void _updateSystemUIOverlay() {
     final theme = context.read<ThemeController>();
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      systemNavigationBarColor: theme.appbarColor,
-      systemNavigationBarIconBrightness: Brightness.light,
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.light,
-      systemStatusBarContrastEnforced: true,
-      systemNavigationBarContrastEnforced: true,
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        systemNavigationBarColor: theme.appbarColor,
+        systemNavigationBarIconBrightness: Brightness.light,
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.light,
+        systemStatusBarContrastEnforced: true,
+        systemNavigationBarContrastEnforced: true,
+      ),
+    );
   }
 
   @override
@@ -92,7 +99,7 @@ class _BottomNavState extends State<BottomNav>
 
   List<Widget> _buildScreens() {
     return [
-      const MyHomePage(), // ✅ CORRIGIDO: MyHomePage → HomePage
+      const MyHomePage(),
       const SearchPage(),
       Container(),
       const PomodoroPage(),
@@ -102,7 +109,7 @@ class _BottomNavState extends State<BottomNav>
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
     final theme = context.read<ThemeController>();
-    
+
     return [
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.home, size: 24),
@@ -215,7 +222,9 @@ class _BottomNavState extends State<BottomNav>
                 onPressed: _toggleFab,
                 backgroundColor: _isFabOpen
                     ? const Color(0xFFED6A5A) // 🔴 Vermelho quando ABERTO
-                    : const Color(0xFFC0D9D5), // ✅ #C0D9D5 SEMPRE quando FECHADO
+                    : const Color(
+                        0xFFC0D9D5,
+                      ), // ✅ #C0D9D5 SEMPRE quando FECHADO
                 foregroundColor: const Color(0xFFF4F1BB),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(25),
@@ -224,10 +233,7 @@ class _BottomNavState extends State<BottomNav>
                 child: AnimatedRotation(
                   turns: _isFabOpen ? 0.125 : 0.0,
                   duration: const Duration(milliseconds: 250),
-                  child: Icon(
-                    _isFabOpen ? Icons.close : Icons.add,
-                    size: 24,
-                  ),
+                  child: Icon(_isFabOpen ? Icons.close : Icons.add, size: 24),
                 ),
               ),
             ),
@@ -318,8 +324,42 @@ class _BottomNavState extends State<BottomNav>
                           },
                           child: _buildFabChild(
                             icon: Icons.note_add,
-                            onTap: () {
+                            onTap: () async {
                               _toggleFab();
+                              final modulos = await dbHelper.query(
+                                'modulo',
+                                where: 'idUsuario = ?',
+                                whereArgs: [userId],
+                              );
+
+                              if (modulos.isEmpty) {
+                                // Mostra aviso e sai
+                                if (mounted) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => CustomMsgDialog(
+                                      title: 'Ops!',
+                                      content:
+                                          'Você ainda não cadastrou nenhum módulo. Crie um módulo antes de adicionar revisões.',
+                                      ok: CustomOk(
+                                        function: () => Navigator.pop(context),
+                                      ),
+                                    ),
+                                  );
+                                }
+                                return;
+                              }
+
+                              // Abre diálogo de review
+                              final result = await showDialog(
+                                context: context,
+                                builder: (BuildContext dialogContext) {
+                                  return CustomDialogRevieweForm(
+                                    dataReview: _diaAtual,
+                                    userId: userId!,
+                                  );
+                                },
+                              );
                             },
                           ),
                         ),
@@ -350,7 +390,9 @@ class _BottomNavState extends State<BottomNav>
                             onTap: () {
                               _toggleFab();
                               Navigator.of(context).push(
-                                MaterialPageRoute(builder: (context) => PetPage()),
+                                MaterialPageRoute(
+                                  builder: (context) => PetPage(),
+                                ),
                               );
                             },
                           ),

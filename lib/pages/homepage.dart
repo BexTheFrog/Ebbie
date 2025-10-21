@@ -674,7 +674,6 @@ class _MyHomePageState extends State<MyHomePage> {
                             'repeticoes': repeticoes,
                           });
 
-                          // ===== FEEDBACK =====
                           if (mounted) {
                             showDialog(
                               context: context,

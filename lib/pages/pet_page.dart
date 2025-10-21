@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:ebbie/widgets/custom_msg_dialog.dart';
+import 'package:ebbie/widgets/module_forms/custom_edit_cortex_name.dart';
 import 'package:ebbie/widgets/module_forms/custom_ok.dart';
 import 'package:flutter/material.dart';
 import 'package:ebbie/config/app_colors.dart';
@@ -20,8 +21,10 @@ class PetPage extends StatefulWidget {
 
 class _PetPageState extends State<PetPage> {
   final dbHelper = DatabaseHelper();
+  final TextEditingController nameController = TextEditingController();
   int? userId;
 
+  String nome = 'CortexTeste';
   double fome = 0.5;
   double fit = 0.5;
   double higiene = 0.5;
@@ -55,6 +58,7 @@ class _PetPageState extends State<PetPage> {
       if (petData.isNotEmpty) {
         final pet = petData.first;
         setState(() {
+          nome = (pet['nome'] ?? 'noName');
           fome = (pet['fome'] ?? 0.5).toDouble();
           fit = (pet['fit'] ?? 0.5).toDouble();
           higiene = (pet['higiene'] ?? 0.5).toDouble();
@@ -62,7 +66,7 @@ class _PetPageState extends State<PetPage> {
       } else {
         await dbHelper.insert('cortex', {
           'idUsuario': userId,
-          'nome': 'Cortex',
+          'nome': nome,
           'fome': fome,
           'fit': fit,
           'higiene': higiene,
@@ -80,10 +84,8 @@ class _PetPageState extends State<PetPage> {
       coinNotifier.value -= cost;
       action();
 
-      // Troca GIF temporariamente
       setState(() => currentGif = gifPath);
 
-      // Atualiza banco
       if (userId != null) {
         await dbHelper.update(
           'user',
@@ -99,7 +101,6 @@ class _PetPageState extends State<PetPage> {
         );
       }
 
-      // Volta para idle após 1.5s
       Timer(const Duration(milliseconds: 1500), () {
         if (mounted) setState(() => currentGif = idleGif);
       });
@@ -124,121 +125,151 @@ class _PetPageState extends State<PetPage> {
     return Scaffold(
       appBar: const CustomAppBarWithComeback(),
       backgroundColor: const Color(0xFFF7EDE2),
-      body: ListView(
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(height: 80),
-              Stack(
-                children: [
-                  Positioned(
-                    top: 15,
-                    left: 45,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        GestureDetector(
-                          child: Row(
-                            children: [
-                              Text(
-                                "Cortex",
-                                style: TextStyle(
-                                  color: AppColors.coral,
-                                  fontFamily: 'CerebriSansPro',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 36,
-                                ),
-                              ),
-                              Icon(
-                                LucideIcons.squarePen,
-                                color: AppColors.coral,
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              CustomProgressBar(
-                                barIcon: LucideIcons.brushCleaning,
-                                barTitle: "HIGIENE",
-                                progression: higiene,
-                              ),
-                              CustomProgressBar(
-                                barIcon: LucideIcons.weight,
-                                barTitle: "FIT",
-                                progression: fit,
-                              ),
-                              CustomProgressBar(
-                                barIcon: LucideIcons.cookie,
-                                barTitle: "FOME",
-                                progression: fome,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    height: 600,
-                    width: 350,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: AppColors.coral.withAlpha(25),
-                      borderRadius: BorderRadius.circular(60),
-                    ),
-                    child: Image.asset(currentGif, fit: BoxFit.contain),
-                  ),
-                  Positioned(
-                    bottom: 15,
-                    left: 20,
-                    child: Container(
-                      width: 300,
-                      height: 80,
+      body: Padding(
+        padding: const EdgeInsets.all(12),
+        child: ListView(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      height: 750,
+                      width: 350,
+                      alignment: Alignment.center,
                       decoration: BoxDecoration(
-                        color: AppColors.pastelYellow.withAlpha(150),
-                        borderRadius: BorderRadius.circular(30),
+                        color: AppColors.coral.withAlpha(25),
+                        borderRadius: BorderRadius.circular(60),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+
+                      child: IgnorePointer(child: Image.asset(currentGif)),
+                    ),
+
+                    Positioned(
+                      top: 15,
+                      left: 45,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          CustomRoundBtn(
-                            btnIcon: LucideIcons.brushCleaning,
-                            onTap: () => performAction(
-                              () => higiene = (higiene + 0.1).clamp(0.0, 1.0),
-                              gifPath: 'assets/images/cortex/cortex_shower.gif',
+                          GestureDetector(
+                            onTap: () async {
+                              final result = await showDialog<String>(
+                                context: context,
+                                builder: (BuildContext dialogContext) {
+                                  return CustomEditCortexName(
+                                    controller: nameController,
+                                  );
+                                },
+                              );
+
+                              if (result != null && result.isNotEmpty) {
+                                await dbHelper.update(
+                                  'cortex',
+                                  {'nome': result},
+                                  'idUsuario = ?',
+                                  [userId],
+                                );
+
+                                setState(() => nome = result);
+                              }
+                            },
+                            child: Row(
+                              children: [
+                                Text(
+                                  nome,
+                                  style: TextStyle(
+                                    color: AppColors.coral,
+                                    fontFamily: 'CerebriSansPro',
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 36,
+                                  ),
+                                ),
+                                Icon(
+                                  LucideIcons.squarePen,
+                                  color: AppColors.coral,
+                                ),
+                              ],
                             ),
                           ),
-                          const SizedBox(width: 20),
-                          CustomRoundBtn(
-                            btnIcon: LucideIcons.dumbbell,
-                            onTap: () => performAction(
-                              () => fit = (fit + 0.1).clamp(0.0, 1.0),
-                              gifPath:
-                                  'assets/images/cortex/cortex_workout.gif',
-                            ),
-                          ),
-                          const SizedBox(width: 20),
-                          CustomRoundBtn(
-                            btnIcon: LucideIcons.cookie,
-                            onTap: () => performAction(
-                              () => fome = (fome + 0.1).clamp(0.0, 1.0),
-                              gifPath: 'assets/images/cortex/cortex_eating.gif',
+                          const SizedBox(height: 16),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              spacing: 10,
+                              children: [
+                                CustomProgressBar(
+                                  barIcon: LucideIcons.brushCleaning,
+                                  barTitle: "HIGIENE",
+                                  progression: higiene,
+                                ),
+                                CustomProgressBar(
+                                  barIcon: LucideIcons.weight,
+                                  barTitle: "FIT",
+                                  progression: fit,
+                                ),
+                                CustomProgressBar(
+                                  barIcon: LucideIcons.cookie,
+                                  barTitle: "FOME",
+                                  progression: fome,
+                                ),
+                              ],
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
+
+                    Positioned(
+                      bottom: 25,
+                      left: 20,
+                      child: Container(
+                        width: 300,
+                        height: 80,
+                        decoration: BoxDecoration(
+                          color: AppColors.pastelYellow.withAlpha(150),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CustomRoundBtn(
+                              btnIcon: LucideIcons.brushCleaning,
+                              onTap: () => performAction(
+                                () => higiene = (higiene + 0.1).clamp(0.0, 1.0),
+                                gifPath:
+                                    'assets/images/cortex/cortex_shower.gif',
+                              ),
+                            ),
+                            const SizedBox(width: 20),
+                            CustomRoundBtn(
+                              btnIcon: LucideIcons.dumbbell,
+                              onTap: () => performAction(
+                                () => fit = (fit + 0.1).clamp(0.0, 1.0),
+                                gifPath:
+                                    'assets/images/cortex/cortex_workout.gif',
+                              ),
+                            ),
+                            const SizedBox(width: 20),
+                            CustomRoundBtn(
+                              btnIcon: LucideIcons.cookie,
+                              onTap: () => performAction(
+                                () => fome = (fome + 0.1).clamp(0.0, 1.0),
+                                gifPath:
+                                    'assets/images/cortex/cortex_eating.gif',
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
