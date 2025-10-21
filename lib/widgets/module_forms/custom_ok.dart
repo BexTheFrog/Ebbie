@@ -22,14 +22,14 @@ class _CustomOkState extends State<CustomOk> {
       },
       style: OutlinedButton.styleFrom(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        side: BorderSide(color: theme.msgDialogColor, width: 4),
+        side: BorderSide(color: theme.overlayColor, width: 4),
       ),
       child: Text(
         'Ok',
         style: TextStyle(
           fontFamily: 'CerebriSansPro',
           fontWeight: FontWeight.bold,
-          color: theme.msgDialogColor,
+          color: theme.overlayColor,
           fontSize: 15,
         ),
       ),

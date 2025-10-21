@@ -125,7 +125,7 @@ class _CustomDialogRevieweFormState extends State<CustomDialogRevieweForm> {
               // Cabeçalho
               Container(
                 decoration: BoxDecoration(
-                  color: theme.msgDialogColor,
+                  color: theme.overlayColor,
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(16),
                     topRight: Radius.circular(16),
@@ -182,14 +182,14 @@ class _CustomDialogRevieweFormState extends State<CustomDialogRevieweForm> {
                       hint: Text(
                         'Selecione um módulo',
                         style: TextStyle(
-                          color: theme.msgDialogColor,
+                          color: theme.overlayColor,
                           fontFamily: 'CerebriSansPro',
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       icon: Icon(
                         LucideIcons.circleArrowDown,
-                        color: theme.msgDialogColor,
+                        color: theme.overlayColor,
                       ),
                       value: selectedModuleId,
                       decoration: InputDecoration(
@@ -202,14 +202,14 @@ class _CustomDialogRevieweFormState extends State<CustomDialogRevieweForm> {
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: theme.msgDialogColor,
+                            color: theme.overlayColor,
                             width: 3,
                           ),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         border: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: theme.msgDialogColor,
+                            color: theme.overlayColor,
                             width: 3,
                           ),
                           borderRadius: BorderRadius.circular(20),

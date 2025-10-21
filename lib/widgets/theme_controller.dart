@@ -9,7 +9,8 @@ class ThemeController extends ChangeNotifier {
     167,
     81,
     1,
-  ); // Cor pontos do pet geral
+  ); // Cor pontos do pet gera
+  Color _overlayColor = Color(0xFF9BC1BC);
 
   // Cor Home
   Color _tablecalendarColor = Color(0xFF5D576B);
@@ -19,10 +20,6 @@ class ThemeController extends ChangeNotifier {
   Color _cerebroLineColor = Color(0xFF9BC1BC);
   Color _tituloCardReviwColor = Color(0xFFED6A5A);
   Color _subTituloCardReviwColor = Color(0xFF9BC1BC);
-  Color _descricaoCardReviwColor = Color(0xFF5D576B);
-
-  // msg dialog
-  Color _msgDialogColor = Color(0xFF9BC1BC);
 
   // Cor Pomodoro
   Color _primaryColor = const Color(0xFFEA6D5A); // Cor principal do Pomodoro
@@ -51,9 +48,8 @@ class ThemeController extends ChangeNotifier {
   Color get cerebroLineColor => _cerebroLineColor;
   Color get tituloCardReviwColor => _tituloCardReviwColor;
   Color get subTituloCardReviwColor => _subTituloCardReviwColor;
-  Color get descricaoCardReviwColor => _descricaoCardReviwColor;
   Color get formReviewColor => _formReviewColor;
-  Color get msgDialogColor => _msgDialogColor;
+  Color get overlayColor => _overlayColor;
 
   String get daltonismMode => _daltonismMode;
 
@@ -66,6 +62,7 @@ class ThemeController extends ChangeNotifier {
         _textColor = Colors.white; // Cor para texto geral
         _appbarColor = const Color(0xFF2e2e2e); // Cor do appBar e navBar geral
         _pointsColor = const Color(0xFFB56576); // Cor pontos do pet geral
+        _overlayColor = Color(0xFFE56B6F); // Cor overlay geral
 
         // Cor homepage
         _tablecalendarColor = Color(0xFF4B3A4B);
@@ -75,10 +72,6 @@ class ThemeController extends ChangeNotifier {
         _cerebroLineColor = Color(0xBFE56B6F);
         _tituloCardReviwColor = Color(0xFFB56576);
         _subTituloCardReviwColor = Color(0xFFE56B6F);
-        _descricaoCardReviwColor = Color(0xFFE56B6F);
-
-        // msg dialog
-        _msgDialogColor = Color(0xFFE56B6F);
 
         // Cor Pomodoro
         _primaryColor = const Color(0xFFB56576); // Cor principal do Pomodoro
@@ -96,6 +89,7 @@ class ThemeController extends ChangeNotifier {
         _textColor = Colors.white; // Cor para texto geral
         _appbarColor = const Color(0xFF4A3F4A); // Cor do appBar e navBar geral
         _pointsColor = const Color(0xFFEAAC8B); // Cor pontos do pet geral
+        _overlayColor = Color(0xFFB56576); // Cor overlay geral
 
         // Cor homepage
         _tablecalendarColor = Color(0xFF3D303D);
@@ -105,10 +99,6 @@ class ThemeController extends ChangeNotifier {
         _cerebroLineColor = Color(0xBF4A3F4A);
         _tituloCardReviwColor = Color(0xFFEAAC8B);
         _subTituloCardReviwColor = Color(0xFF4B3A4B);
-        _descricaoCardReviwColor = Color(0xFF4A3F4A);
-
-        // msg dialog
-        _msgDialogColor = Color(0xFFB56576);
 
         // Cor Pomodoro
         _primaryColor = const Color(0xFF6D597A); // Cor principal do Pomodoro
@@ -126,6 +116,7 @@ class ThemeController extends ChangeNotifier {
         _textColor = Colors.white; // Cor para texto geral
         _appbarColor = const Color(0xFF2F3B50); // Cor do appBar e navBar geral
         _pointsColor = const Color(0xFFB56576); // Cor pontos do pet geral
+        _overlayColor = Color(0xFF355070); // Cor overlay geral
 
         // Cor homepage
         _tablecalendarColor = Color(0xFF2F3B50);
@@ -135,10 +126,6 @@ class ThemeController extends ChangeNotifier {
         _cerebroLineColor = Color(0xBF6D597A);
         _tituloCardReviwColor = Color(0xFF2F3B50);
         _subTituloCardReviwColor = Color(0xFF6D597A);
-        _descricaoCardReviwColor = Color(0xFF6D597A);
-
-        // msg dialog
-        _msgDialogColor = Color(0xFF355070);
 
         // Cor Pomodoro
         _primaryColor = const Color(0xFF355070); // Cor principal do Pomodoro
@@ -161,6 +148,7 @@ class ThemeController extends ChangeNotifier {
           81,
           1,
         ); // Cor pontos do pet geral
+        _overlayColor = Color(0xFF9BC1BC); // Cor overlay geral
 
         // Cor homepage
         _tablecalendarColor = Color(0xFF5D576B);
@@ -170,10 +158,6 @@ class ThemeController extends ChangeNotifier {
         _cerebroLineColor = Color(0xBF9BC1BC);
         _tituloCardReviwColor = Color(0xFFED6A5A);
         _subTituloCardReviwColor = Color(0xFF9BC1BC);
-        _descricaoCardReviwColor = Color(0xFF5D576B);
-
-        // msg dialog
-        _msgDialogColor = Color(0xFF9BC1BC);
 
         // Cor Pomodoro
         _primaryColor = const Color(0xFFEA6D5A); // Cor principal do Pomodoro
