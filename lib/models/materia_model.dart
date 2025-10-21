@@ -14,16 +14,10 @@ class MateriaModel {
     required this.modulo,
   });
 
-  // Converte o objeto em mapa (para salvar no Firestore)
   Map<String, dynamic> toMap() {
-    return {
-      'idUsuario': idUsuario,
-      'materia': materia,
-      'moduloId': modulo.id, // referência ao módulo
-    };
+    return {'idUsuario': idUsuario, 'materia': materia, 'moduloId': modulo.id};
   }
 
-  // Cria um objeto a partir de um documento do Firestore
   factory MateriaModel.fromMap(
     String? id,
     Map<String, dynamic> map,
