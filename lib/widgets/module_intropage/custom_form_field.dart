@@ -63,7 +63,7 @@ class _CustomFormFieldState extends State<CustomFormField> {
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(15)),
-            borderSide: BorderSide(color: theme.overlayColor, width: 3),
+            borderSide: BorderSide(color: theme.selectOverlayColor, width: 3),
           ),
         ),
       ),

@@ -11,6 +11,7 @@ class ThemeController extends ChangeNotifier {
     1,
   ); // Cor pontos do pet gera
   Color _overlayColor = Color(0xFF9BC1BC);
+  Color _selectOverlayColor = Color(0xFF5D576B);
 
   // Cor Home
   Color _tablecalendarColor = Color(0xFF5D576B);
@@ -54,6 +55,7 @@ class ThemeController extends ChangeNotifier {
   Color get formReviewColor => _formReviewColor;
   Color get overlayColor => _overlayColor;
   Color get searchColor => _searchColor;
+  Color get selectOverlayColor => _selectOverlayColor;
 
   String get daltonismMode => _daltonismMode;
 
@@ -67,6 +69,7 @@ class ThemeController extends ChangeNotifier {
         _appbarColor = const Color(0xFF2e2e2e); // Cor do appBar e navBar geral
         _pointsColor = const Color(0xFFB56576); // Cor pontos do pet geral
         _overlayColor = Color(0xFFE56B6F); // Cor overlay geral
+        _selectOverlayColor = Color(0xFFB56576);
 
         // Cor Homepage
         _tablecalendarColor = Color(0xFF4B3A4B);
@@ -78,7 +81,7 @@ class ThemeController extends ChangeNotifier {
         _subTituloCardReviwColor = Color(0xFFE56B6F);
 
         // Cor Search
-        _searchColor = Color(0xFF9BC1BC);
+        _searchColor = Color(0xFF3C2F3C);
 
         // Cor Pomodoro
         _primaryColor = const Color(0xFFB56576); // Cor principal do Pomodoro
@@ -97,6 +100,7 @@ class ThemeController extends ChangeNotifier {
         _appbarColor = const Color(0xFF4A3F4A); // Cor do appBar e navBar geral
         _pointsColor = const Color(0xFFEAAC8B); // Cor pontos do pet geral
         _overlayColor = Color(0xFFB56576); // Cor overlay geral
+        _selectOverlayColor = Color(0xFF6D597A);
 
         // Cor Homepage
         _tablecalendarColor = Color(0xFF3D303D);
@@ -108,7 +112,7 @@ class ThemeController extends ChangeNotifier {
         _subTituloCardReviwColor = Color(0xFF4B3A4B);
 
         // Cor Search
-        _searchColor = Color(0xFF9BC1BC);
+        _searchColor = Color(0xFF6D597A);
 
         // Cor Pomodoro
         _primaryColor = const Color(0xFF6D597A); // Cor principal do Pomodoro
@@ -127,6 +131,7 @@ class ThemeController extends ChangeNotifier {
         _appbarColor = const Color(0xFF2F3B50); // Cor do appBar e navBar geral
         _pointsColor = const Color(0xFFB56576); // Cor pontos do pet geral
         _overlayColor = Color(0xFF355070); // Cor overlay geral
+        _selectOverlayColor = Color(0xFFB56576);
 
         // Cor Homepage
         _tablecalendarColor = Color(0xFF2F3B50);
@@ -138,7 +143,7 @@ class ThemeController extends ChangeNotifier {
         _subTituloCardReviwColor = Color(0xFF6D597A);
 
         // Cor Search
-        _searchColor = Color(0xFF9BC1BC);
+        _searchColor = Color(0xFF3B4A66);
 
         // Cor Pomodoro
         _primaryColor = const Color(0xFF355070); // Cor principal do Pomodoro
@@ -162,6 +167,7 @@ class ThemeController extends ChangeNotifier {
           1,
         ); // Cor pontos do pet geral
         _overlayColor = Color(0xFF9BC1BC); // Cor overlay geral
+        _selectOverlayColor = Color.fromARGB(255, 54, 123, 114);
 
         // Cor Homepage
         _tablecalendarColor = Color(0xFF5D576B);
