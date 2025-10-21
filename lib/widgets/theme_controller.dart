@@ -20,9 +20,10 @@ class ThemeController extends ChangeNotifier {
   Color _tituloCardReviwColor = Color(0xFFED6A5A);
   Color _subTituloCardReviwColor = Color(0xFF9BC1BC);
   Color _descricaoCardReviwColor = Color(0xFF5D576B);
+  Color _msgDialogColor = Color(0xFF9BC1BC); // msg dialog
 
-  // msg dialog
-  Color _msgDialogColor = Color(0xFF9BC1BC);
+  // Cor Search
+  Color _searchColor = Color(0xFF9BC1BC);
 
   // Cor Pomodoro
   Color _primaryColor = const Color(0xFFEA6D5A); // Cor principal do Pomodoro
@@ -54,6 +55,7 @@ class ThemeController extends ChangeNotifier {
   Color get descricaoCardReviwColor => _descricaoCardReviwColor;
   Color get formReviewColor => _formReviewColor;
   Color get msgDialogColor => _msgDialogColor;
+  Color get searchColor => _searchColor;
 
   String get daltonismMode => _daltonismMode;
 
@@ -76,9 +78,10 @@ class ThemeController extends ChangeNotifier {
         _tituloCardReviwColor = Color(0xFFB56576);
         _subTituloCardReviwColor = Color(0xFFE56B6F);
         _descricaoCardReviwColor = Color(0xFFE56B6F);
+        _msgDialogColor = Color(0xFFE56B6F); // msg dialog
 
-        // msg dialog
-        _msgDialogColor = Color(0xFFE56B6F);
+        // Cor Search
+        _searchColor = Color(0xFF3C2F3C);
 
         // Cor Pomodoro
         _primaryColor = const Color(0xFFB56576); // Cor principal do Pomodoro
@@ -106,9 +109,10 @@ class ThemeController extends ChangeNotifier {
         _tituloCardReviwColor = Color(0xFFEAAC8B);
         _subTituloCardReviwColor = Color(0xFF4B3A4B);
         _descricaoCardReviwColor = Color(0xFF4A3F4A);
+        _msgDialogColor = Color(0xFFB56576); // msg dialog
 
-        // msg dialog
-        _msgDialogColor = Color(0xFFB56576);
+        // Cor Search
+        _searchColor = Color(0xFF6D597A);
 
         // Cor Pomodoro
         _primaryColor = const Color(0xFF6D597A); // Cor principal do Pomodoro
@@ -136,9 +140,10 @@ class ThemeController extends ChangeNotifier {
         _tituloCardReviwColor = Color(0xFF2F3B50);
         _subTituloCardReviwColor = Color(0xFF6D597A);
         _descricaoCardReviwColor = Color(0xFF6D597A);
+        _msgDialogColor = Color(0xFF355070); // msg dialog
 
-        // msg dialog
-        _msgDialogColor = Color(0xFF355070);
+        // Cor Search
+        _searchColor = Color(0xFF3B4A66);
 
         // Cor Pomodoro
         _primaryColor = const Color(0xFF355070); // Cor principal do Pomodoro
@@ -171,9 +176,10 @@ class ThemeController extends ChangeNotifier {
         _tituloCardReviwColor = Color(0xFFED6A5A);
         _subTituloCardReviwColor = Color(0xFF9BC1BC);
         _descricaoCardReviwColor = Color(0xFF5D576B);
+        _msgDialogColor = Color(0xFF9BC1BC); // msg dialog
 
-        // msg dialog
-        _msgDialogColor = Color(0xFF9BC1BC);
+        // Cor Search
+        _searchColor = Color(0xFF9BC1BC);
 
         // Cor Pomodoro
         _primaryColor = const Color(0xFFEA6D5A); // Cor principal do Pomodoro

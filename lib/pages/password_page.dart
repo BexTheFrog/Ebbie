@@ -1,4 +1,5 @@
 import 'package:ebbie/widgets/custom_appbar_no_icon.dart';
+import 'package:ebbie/widgets/widget_salvar/widget_salvar.dart';
 import 'package:flutter/material.dart';
 
 class PasswordPage extends StatefulWidget {
@@ -135,10 +136,19 @@ class _PasswordPageState extends State<PasswordPage> {
                   ),
                 ),
               ),
+              const Spacer(),
+              Padding(
+        padding: const EdgeInsets.all(16),
+        child: SalvarButtonWidget(
+          onPressed: () {},
+        ),
+      ),
             ],
+            
           ),
         ),
       ),
+      
     );
   }
 }

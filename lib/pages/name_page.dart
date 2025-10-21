@@ -1,4 +1,5 @@
 import 'package:ebbie/widgets/custom_appbar_no_icon.dart';
+import 'package:ebbie/widgets/widget_salvar/widget_salvar.dart';
 import 'package:flutter/material.dart';
 
 class NamePage extends StatefulWidget {
@@ -110,6 +111,11 @@ class _NamePageState extends State<NamePage> {
                     fontFamily: 'CerebriSansPro',
                   ),
                 ),
+              ),
+              const Spacer(),
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: SalvarButtonWidget(onPressed: () {}),
               ),
             ],
           ),
