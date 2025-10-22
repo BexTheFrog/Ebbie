@@ -49,7 +49,7 @@ class DatabaseHelper {
     CREATE TABLE cortex(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       idUsuario INTEGER,
-      nome TEXT NOT NULL,
+      nome TEXT NOT NULL DEFAULT 'Cortex',
       fome REAL,
       fit REAL,
       higiene REAL,

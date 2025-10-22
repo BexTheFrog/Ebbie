@@ -1,13 +1,15 @@
 import 'package:ebbie/pages/pet_page.dart';
+import 'package:ebbie/services/database.dart';
 import 'package:ebbie/services/user_service.dart';
 import 'package:ebbie/widgets/custom_msg_dialog.dart';
 import 'package:ebbie/widgets/module_forms/custom_ok.dart';
 import 'package:ebbie/widgets/module_forms/custom_review_form.dart';
-import 'package:ebbie/widgets/module_profile.dart';
 import 'package:ebbie/widgets/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 // Importando suas páginas
 import 'package:ebbie/pages/search_page.dart';
@@ -15,7 +17,6 @@ import 'package:ebbie/pages/pomodoro_page.dart';
 import 'package:ebbie/pages/profile_page.dart';
 import 'package:ebbie/pages/settings_page.dart';
 import 'package:ebbie/pages/homepage.dart';
-import 'package:provider/provider.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key});
@@ -33,22 +34,16 @@ class _BottomNavState extends State<BottomNav>
   // Pegando UserId
   int? userId;
 
+  // Inicia o banco
+  final dbHelper = DatabaseHelper();
+  final DateTime _diaAtual = DateTime.now();
+
   Future<void> _loadUserId() async {
     int? id = await UserService.getUserId();
     setState(() {
       userId = id;
     });
   }
-
-  // Cores
-  final Color navBarColor = const Color(0xFF5D576B);
-  final Color navBarIconsColor = const Color(0xFFF4F1BB);
-  final Color fabBackgroundColor = const Color(0xFF5D576B);
-  final Color fabIconsColor = const Color(0xFFF4F1BB);
-  final Color fabChildrenBackground = const Color(0xFF9BC1BC);
-  final Color fabChildrenIconsColor = const Color(0xFFF4F1BB);
-
-  final DateTime _diaAtual = DateTime.now().add(const Duration(days: 1));
 
   @override
   void initState() {
@@ -57,7 +52,31 @@ class _BottomNavState extends State<BottomNav>
     _controller = PersistentTabController(initialIndex: 0);
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 250), // Animação mais rápida
+      duration: const Duration(milliseconds: 250),
+    );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _updateSystemUIOverlay();
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _updateSystemUIOverlay();
+  }
+
+  void _updateSystemUIOverlay() {
+    final theme = context.read<ThemeController>();
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        systemNavigationBarColor: theme.appbarColor,
+        systemNavigationBarIconBrightness: Brightness.light,
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.light,
+        systemStatusBarContrastEnforced: true,
+        systemNavigationBarContrastEnforced: true,
+      ),
     );
   }
 
@@ -82,233 +101,54 @@ class _BottomNavState extends State<BottomNav>
     return [
       const MyHomePage(),
       const SearchPage(),
-      Container(), // Página vazia para o FAB
+      Container(),
       const PomodoroPage(),
       const ProfilePage(),
     ];
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
+    final theme = context.read<ThemeController>();
+
     return [
       PersistentBottomNavBarItem(
-        icon: const Icon(Icons.home),
+        icon: const Icon(Icons.home, size: 24),
         title: "Home",
-        activeColorPrimary: navBarIconsColor,
+        activeColorPrimary: const Color(0xFFF4F1BB),
         inactiveColorPrimary: Colors.grey,
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(Icons.search),
+        icon: const Icon(Icons.search, size: 24),
         title: "Buscar",
-        activeColorPrimary: navBarIconsColor,
+        activeColorPrimary: const Color(0xFFF4F1BB),
         inactiveColorPrimary: Colors.grey,
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(Icons.circle, color: Colors.transparent),
+        icon: const Icon(Icons.circle, color: Colors.transparent, size: 24),
         title: "",
         activeColorPrimary: Colors.transparent,
         inactiveColorPrimary: Colors.transparent,
-        onPressed: (context) {
-          // Não faz nada - desativa o clique
-          return false;
-        },
+        onPressed: (context) => false,
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(LucideIcons.timer),
+        icon: const Icon(LucideIcons.timer, size: 24),
         title: "Pomodoro",
-        activeColorPrimary: navBarIconsColor,
+        activeColorPrimary: const Color(0xFFF4F1BB),
         inactiveColorPrimary: Colors.grey,
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(Icons.person),
+        icon: const Icon(Icons.person, size: 24),
         title: "Perfil",
-        activeColorPrimary: navBarIconsColor,
+        activeColorPrimary: const Color(0xFFF4F1BB),
         inactiveColorPrimary: Colors.grey,
       ),
     ];
   }
 
-  Widget _buildFabWithChildren() {
-    final theme = context.watch<ThemeController>();
-    return Stack(
-      children: [
-        // Overlay escuro quando aberto
-        if (_isFabOpen)
-          GestureDetector(
-            onTap: _toggleFab,
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              color: Colors.black.withOpacity(0.5),
-            ),
-          ),
-
-        // Botões filhos em meia-lua com animação de 180°
-        Positioned(
-          bottom: 55,
-          left: 0,
-          right: 0,
-          child: AnimatedContainer(
-            duration: Duration(milliseconds: 250), // Animação mais rápida
-            height: _isFabOpen ? 120 : 0,
-            child: Stack(
-              children: [
-                // Botão 1 - Esquerda
-                Positioned(
-                  top: 40,
-                  left: MediaQuery.of(context).size.width / 2 - 110,
-                  child: AnimatedBuilder(
-                    animation: _animationController,
-                    builder: (context, child) {
-                      return Transform.translate(
-                        offset: Offset(
-                          0,
-                          50 * (1 - _animationController.value),
-                        ),
-                        child: Transform.rotate(
-                          angle: -0.3 * (1 - _animationController.value),
-                          child: Opacity(
-                            opacity: _animationController.value,
-                            child: child,
-                          ),
-                        ),
-                      );
-                    },
-                    child: _buildFabChild(
-                      icon: Icons.note_add,
-                      onTap: () async {
-                        _toggleFab();
-
-                        final modules = await dbHelper.query(
-                          'modulo',
-                          where: 'idUsuario = ?',
-                          whereArgs: [userId],
-                        );
-
-                        if (modules.isEmpty) {
-                          showDialog(
-                            context: context,
-                            builder: (context) => CustomMsgDialog(
-                              title: 'Aviso',
-                              content:
-                                  'Você precisa cadastrar pelo menos um módulo antes de adicionar uma review.',
-                              ok: CustomOk(
-                                function: () => Navigator.pop(context),
-                              ),
-                            ),
-                          );
-                        } else {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext dialogContext) {
-                              return CustomDialogRevieweForm(
-                                dataReview: _diaAtual,
-                                userId: userId!,
-                              );
-                            },
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                ),
-                // Botão 2 - Centro
-                Positioned(
-                  top: 20,
-                  left: MediaQuery.of(context).size.width / 2 - 25,
-                  child: AnimatedBuilder(
-                    animation: _animationController,
-                    builder: (context, child) {
-                      return Transform.translate(
-                        offset: Offset(
-                          0,
-                          60 * (1 - _animationController.value),
-                        ),
-                        child: Transform.rotate(
-                          angle: 0.1 * (1 - _animationController.value),
-                          child: Opacity(
-                            opacity: _animationController.value,
-                            child: child,
-                          ),
-                        ),
-                      );
-                    },
-                    child: _buildFabChild(
-                      icon: Icons.gamepad_rounded,
-                      onTap: () {
-                        _toggleFab();
-                        Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => PetPage()),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-                // Botão 3 - Direita (Settings)
-                Positioned(
-                  top: 40,
-                  right: MediaQuery.of(context).size.width / 2 - 110,
-                  child: AnimatedBuilder(
-                    animation: _animationController,
-                    builder: (context, child) {
-                      return Transform.translate(
-                        offset: Offset(
-                          0,
-                          50 * (1 - _animationController.value),
-                        ),
-                        child: Transform.rotate(
-                          angle: 0.3 * (1 - _animationController.value),
-                          child: Opacity(
-                            opacity: _animationController.value,
-                            child: child,
-                          ),
-                        ),
-                      );
-                    },
-                    child: _buildFabChild(
-                      icon: Icons.settings,
-                      onTap: () {
-                        _toggleFab();
-                        print('Ir para Configurações');
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => SettingsPage(),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-
-        // FAB principal
-        Positioned(
-          bottom: 20,
-          left: MediaQuery.of(context).size.width / 2 - 30,
-          child: FloatingActionButton(
-            onPressed: _toggleFab,
-            backgroundColor: theme.appbarColor,
-            foregroundColor: fabIconsColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
-            ),
-            child: AnimatedRotation(
-              turns: _isFabOpen ? 0.125 : 0.0,
-              duration: Duration(milliseconds: 250), // Animação mais rápida
-              child: Icon(_isFabOpen ? Icons.close : Icons.add),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget _buildFabChild({required IconData icon, required VoidCallback onTap}) {
     final theme = context.watch<ThemeController>();
     return Material(
-      shape: CircleBorder(),
+      shape: const CircleBorder(),
       color: theme.appbarColor,
       elevation: 8,
       child: InkWell(
@@ -323,23 +163,34 @@ class _BottomNavState extends State<BottomNav>
               BoxShadow(
                 color: Colors.black.withOpacity(0.2),
                 blurRadius: 8,
-                offset: Offset(0, 4),
+                offset: const Offset(0, 4),
               ),
             ],
           ),
-          child: Icon(icon, color: fabChildrenIconsColor, size: 24),
+          child: Icon(icon, color: const Color(0xFFF4F1BB), size: 24),
         ),
       ),
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final theme = context.watch<ThemeController>();
+  // ✅ ALTURA SIMPLIFICADA - EVITA OVERFLOW
+  double _getTotalBottomBarHeight(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    return 60 + mediaQuery.viewPadding.bottom;
+  }
 
-    return Scaffold(
-      body: Stack(
+  // Widget customizado que inclui a navbar E o FAB integrado
+  Widget _buildCustomBottomBar(BuildContext context) {
+    final theme = context.watch<ThemeController>();
+    final mediaQuery = MediaQuery.of(context);
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    return Container(
+      height: _getTotalBottomBarHeight(context),
+      color: theme.appbarColor,
+      child: Stack(
         children: [
+          // Navbar padrão do persistent_bottom_nav_bar
           PersistentTabView(
             context,
             controller: _controller,
@@ -350,15 +201,251 @@ class _BottomNavState extends State<BottomNav>
             handleAndroidBackButtonPress: true,
             resizeToAvoidBottomInset: true,
             stateManagement: true,
+            navBarHeight: 60,
             navBarStyle: NavBarStyle.style3,
-            decoration: NavBarDecoration(
-              borderRadius: BorderRadius.circular(0.0),
-              colorBehindNavBar: Colors.white,
+            margin: EdgeInsets.zero,
+            padding: EdgeInsets.zero,
+            decoration: const NavBarDecoration(
+              borderRadius: BorderRadius.zero,
+              colorBehindNavBar: Colors.transparent,
             ),
           ),
 
-          _buildFabWithChildren(),
+          // FAB INTEGRADO NO CENTRO DA NAVBAR
+          Positioned(
+            bottom: mediaQuery.viewPadding.bottom + 8,
+            left: screenWidth / 2 - 25,
+            child: Container(
+              height: 50,
+              width: 50,
+              child: FloatingActionButton(
+                onPressed: _toggleFab,
+                backgroundColor: _isFabOpen
+                    ? const Color(0xFFED6A5A) // 🔴 Vermelho quando ABERTO
+                    : const Color(
+                        0xFFC0D9D5,
+                      ), // ✅ #C0D9D5 SEMPRE quando FECHADO
+                foregroundColor: const Color(0xFFF4F1BB),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                elevation: 4,
+                child: AnimatedRotation(
+                  turns: _isFabOpen ? 0.125 : 0.0,
+                  duration: const Duration(milliseconds: 250),
+                  child: Icon(_isFabOpen ? Icons.close : Icons.add, size: 24),
+                ),
+              ),
+            ),
+          ),
         ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = context.watch<ThemeController>();
+    final screenWidth = MediaQuery.of(context).size.width;
+    final mediaQuery = MediaQuery.of(context);
+
+    return Scaffold(
+      extendBody: true,
+      body: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle(
+          systemNavigationBarColor: theme.appbarColor,
+          systemNavigationBarIconBrightness: Brightness.light,
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.light,
+          systemStatusBarContrastEnforced: true,
+          systemNavigationBarContrastEnforced: true,
+        ),
+        child: Stack(
+          children: [
+            // Conteúdo das páginas - COM RESIZE TO AVOID BOTTOM INSET
+            PersistentTabView(
+              context,
+              controller: _controller,
+              screens: _buildScreens(),
+              items: _navBarsItems(),
+              confineToSafeArea: true,
+              backgroundColor: Colors.transparent,
+              handleAndroidBackButtonPress: true,
+              resizeToAvoidBottomInset: true,
+              stateManagement: true,
+              navBarHeight: 0,
+              decoration: const NavBarDecoration(
+                borderRadius: BorderRadius.zero,
+                colorBehindNavBar: Colors.transparent,
+              ),
+            ),
+
+            // Overlay para quando FAB estiver aberto
+            if (_isFabOpen)
+              GestureDetector(
+                onTap: _toggleFab,
+                child: Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  color: Colors.black.withOpacity(0.5),
+                ),
+              ),
+
+            // Botões filhos do FAB - POSIÇÃO MAIS SEGURA
+            if (_isFabOpen)
+              Positioned(
+                bottom: _getTotalBottomBarHeight(context) + 60,
+                left: 0,
+                right: 0,
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 250),
+                  height: 80,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        top: 30,
+                        left: screenWidth / 2 - 110,
+                        child: AnimatedBuilder(
+                          animation: _animationController,
+                          builder: (context, child) {
+                            return Transform.translate(
+                              offset: Offset(
+                                0,
+                                40 * (1 - _animationController.value),
+                              ),
+                              child: Transform.rotate(
+                                angle: -0.3 * (1 - _animationController.value),
+                                child: Opacity(
+                                  opacity: _animationController.value,
+                                  child: child,
+                                ),
+                              ),
+                            );
+                          },
+                          child: _buildFabChild(
+                            icon: Icons.note_add,
+                            onTap: () async {
+                              _toggleFab();
+                              final modulos = await dbHelper.query(
+                                'modulo',
+                                where: 'idUsuario = ?',
+                                whereArgs: [userId],
+                              );
+
+                              if (modulos.isEmpty) {
+                                // Mostra aviso e sai
+                                if (mounted) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => CustomMsgDialog(
+                                      title: 'Ops!',
+                                      content:
+                                          'Você ainda não cadastrou nenhum módulo. Crie um módulo antes de adicionar revisões.',
+                                      ok: CustomOk(
+                                        function: () => Navigator.pop(context),
+                                      ),
+                                    ),
+                                  );
+                                }
+                                return;
+                              }
+
+                              // Abre diálogo de review
+                              final result = await showDialog(
+                                context: context,
+                                builder: (BuildContext dialogContext) {
+                                  return CustomDialogRevieweForm(
+                                    dataReview: _diaAtual,
+                                    userId: userId!,
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+
+                      Positioned(
+                        top: 15,
+                        left: screenWidth / 2 - 25,
+                        child: AnimatedBuilder(
+                          animation: _animationController,
+                          builder: (context, child) {
+                            return Transform.translate(
+                              offset: Offset(
+                                0,
+                                50 * (1 - _animationController.value),
+                              ),
+                              child: Transform.rotate(
+                                angle: 0.1 * (1 - _animationController.value),
+                                child: Opacity(
+                                  opacity: _animationController.value,
+                                  child: child,
+                                ),
+                              ),
+                            );
+                          },
+                          child: _buildFabChild(
+                            icon: Icons.gamepad_rounded,
+                            onTap: () {
+                              _toggleFab();
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => PetPage(),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+
+                      Positioned(
+                        top: 30,
+                        right: screenWidth / 2 - 110,
+                        child: AnimatedBuilder(
+                          animation: _animationController,
+                          builder: (context, child) {
+                            return Transform.translate(
+                              offset: Offset(
+                                0,
+                                40 * (1 - _animationController.value),
+                              ),
+                              child: Transform.rotate(
+                                angle: 0.3 * (1 - _animationController.value),
+                                child: Opacity(
+                                  opacity: _animationController.value,
+                                  child: child,
+                                ),
+                              ),
+                            );
+                          },
+                          child: _buildFabChild(
+                            icon: Icons.settings,
+                            onTap: () {
+                              _toggleFab();
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => SettingsPage(),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+            // Navbar customizada com FAB integrado
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: _buildCustomBottomBar(context),
+            ),
+          ],
+        ),
       ),
     );
   }
