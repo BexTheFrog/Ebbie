@@ -22,6 +22,16 @@ class _SigninPageState extends State<SigninPage> {
   final TextEditingController controllerSenha = TextEditingController();
   final TextEditingController controllerConfirmaSenha = TextEditingController();
   final TextEditingController controllerNome = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
+  Future<bool> userExists(String email) async {
+    final result = await dbHelper.query(
+      'user',
+      where: 'email = ?',
+      whereArgs: [email],
+    );
+    return result.isNotEmpty;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +91,7 @@ class _SigninPageState extends State<SigninPage> {
                   SizedBox(height: 15),
 
                   Form(
+                    key: _formKey,
                     child: Column(
                       children: [
                         Padding(
@@ -95,6 +106,24 @@ class _SigninPageState extends State<SigninPage> {
                                 controller: controllerNome,
                                 hintText: 'Seu nome...',
                                 isPassword: false,
+                                validator: (value) {
+                                  if (value == null || value.trim().isEmpty) {
+                                    return 'Nome obrigatório';
+                                  }
+
+                                  if (value.trim().length < 2) {
+                                    return 'Nome muito curto';
+                                  }
+
+                                  final nameRegex = RegExp(
+                                    r'^[A-Za-zÀ-ÿ ]+$',
+                                  ); // letras e espaços
+                                  if (!nameRegex.hasMatch(value.trim())) {
+                                    return 'Nome inválido, use apenas letras';
+                                  }
+
+                                  return null; // válido
+                                },
                               ),
                               SizedBox(height: 10),
                               LabelsForm(title: 'Email:'),
@@ -104,6 +133,18 @@ class _SigninPageState extends State<SigninPage> {
                                 controller: controllerEmail,
                                 hintText: 'User@mail.com...',
                                 isPassword: false,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Email obrigatório';
+                                  }
+                                  final emailRegex = RegExp(
+                                    r'^[\w\.-]+@[\w\.-]+\.\w+$',
+                                  );
+                                  if (!emailRegex.hasMatch(value)) {
+                                    return 'Email inválido';
+                                  }
+                                  return null;
+                                },
                               ),
                               SizedBox(height: 10),
                               LabelsForm(title: 'Senha:'),
@@ -113,6 +154,25 @@ class _SigninPageState extends State<SigninPage> {
                                 controller: controllerSenha,
                                 hintText: 'Senha...',
                                 isPassword: true,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'A senha é obrigatória';
+                                  }
+
+                                  if (value.length < 8) {
+                                    return 'A senha deve ter pelo menos 8 caracteres';
+                                  }
+
+                                  if (!RegExp(r'[A-Z]').hasMatch(value) ||
+                                      !RegExp(r'[0-9]').hasMatch(value) ||
+                                      !RegExp(
+                                        r'[!@#\$&*~.,;:?]',
+                                      ).hasMatch(value)) {
+                                    return 'Use pelo menos 1 letra maiúscula, 1 número e 1 caractere especial';
+                                  }
+
+                                  return null;
+                                },
                               ),
                               SizedBox(height: 10),
                               LabelsForm(title: 'Confirme sua senha:'),
@@ -135,12 +195,43 @@ class _SigninPageState extends State<SigninPage> {
                               title: 'Criar Conta',
                               cor: AppColors.darkSlate,
                               method: () async {
-                                String nome = controllerNome.text;
-                                String email = controllerEmail.text;
+                                if (!_formKey.currentState!.validate()) {
+                                  return;
+                                }
+
+                                String nome = controllerNome.text.trim();
+                                String email = controllerEmail.text.trim();
                                 String senha = controllerSenha.text;
                                 String confirmacao =
                                     controllerConfirmaSenha.text;
 
+                                final exists = await userExists(email);
+                                if (exists) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        'Este e-mail já está cadastrado',
+                                      ),
+                                    ),
+                                  );
+                                  return;
+                                }
+
+                                if (senha != confirmacao) {
+                                  await showDialog(
+                                    context: context,
+                                    builder: (context) => CustomMsgDialog(
+                                      title: 'Erro',
+                                      content: 'Senhas não conferem',
+                                      ok: CustomOk(
+                                        function: () => Navigator.pop(context),
+                                      ),
+                                    ),
+                                  );
+                                  return;
+                                }
+
+                                // Criar usuário
                                 UserModel usuario = UserModel(
                                   null,
                                   nome,
@@ -148,49 +239,34 @@ class _SigninPageState extends State<SigninPage> {
                                   senha,
                                   0,
                                 );
-                                if (senha == confirmacao) {
-                                  try {
-                                    await dbHelper.insert(
-                                      'user',
-                                      usuario.toMap(),
-                                    );
-                                    if (!mounted) return;
-                                    await showDialog(
-                                      context: context,
-                                      builder: (context) => CustomMsgDialog(
-                                        title: 'Completo!',
-                                        content: 'Cadastro feito com sucesso',
-                                        ok: CustomOk(
-                                          function: () {
-                                            Navigator.pop(context);
-                                          },
-                                        ),
-                                      ),
-                                    );
-                                    if (!mounted) return;
-                                    Navigator.pop(context);
-                                  } catch (erro) {
-                                    CustomMsgDialog(
-                                      title: 'Erro',
-                                      content: "Erro ao cadastrar: $erro",
+                                try {
+                                  await dbHelper.insert(
+                                    'user',
+                                    usuario.toMap(),
+                                  );
+
+                                  if (!mounted) return;
+                                  await showDialog(
+                                    context: context,
+                                    builder: (context) => CustomMsgDialog(
+                                      title: 'Completo!',
+                                      content: 'Cadastro feito com sucesso',
                                       ok: CustomOk(
-                                        function: () {
-                                          Navigator.pop(context);
-                                        },
+                                        function: () => Navigator.pop(context),
                                       ),
-                                    );
-                                    return;
-                                  }
-                                } else {
+                                    ),
+                                  );
+
+                                  if (!mounted) return;
+                                  Navigator.pop(context);
+                                } catch (erro) {
                                   await showDialog(
                                     context: context,
                                     builder: (context) => CustomMsgDialog(
                                       title: 'Erro',
-                                      content: 'Senhas não conferem',
+                                      content: 'Erro ao cadastrar: $erro',
                                       ok: CustomOk(
-                                        function: () {
-                                          Navigator.pop(context);
-                                        },
+                                        function: () => Navigator.pop(context),
                                       ),
                                     ),
                                   );

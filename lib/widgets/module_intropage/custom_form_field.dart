@@ -8,6 +8,7 @@ class CustomFormField extends StatefulWidget {
   final bool isPassword;
   final TextEditingController controller;
   final TextInputType tipoTeclado;
+  final String? Function(String?)? validator;
 
   const CustomFormField({
     super.key,
@@ -15,6 +16,7 @@ class CustomFormField extends StatefulWidget {
     required this.isPassword,
     required this.controller,
     required this.tipoTeclado,
+    this.validator,
   });
 
   @override
@@ -36,6 +38,7 @@ class _CustomFormFieldState extends State<CustomFormField> {
     return SizedBox(
       width: 350,
       child: TextFormField(
+        validator: widget.validator,
         keyboardType: widget.tipoTeclado,
         controller: widget.controller,
         obscureText: _obscureText,
@@ -64,6 +67,14 @@ class _CustomFormFieldState extends State<CustomFormField> {
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(15)),
             borderSide: BorderSide(color: theme.selectOverlayColor, width: 3),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(15)),
+            borderSide: BorderSide(color: Colors.red, width: 3),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(15)),
+            borderSide: BorderSide(color: Colors.red, width: 3),
           ),
         ),
       ),
