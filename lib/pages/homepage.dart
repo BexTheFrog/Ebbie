@@ -30,7 +30,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int? userId;
   bool _loading = false;
   String _periodoSelecionado = 'HOJE';
-  List<Map<String, dynamic>> reviews = []; // lista de reviews exibida
+  List<Map<String, dynamic>> reviews = [];
   List<Map<String, dynamic>> dados = [];
   Map<String, dynamic>? userData;
   Map<String, int>? userStats;

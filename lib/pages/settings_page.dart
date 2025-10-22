@@ -3,14 +3,51 @@ import 'package:ebbie/pages/accessibility_page.dart';
 import 'package:ebbie/pages/email_page.dart';
 import 'package:ebbie/pages/name_page.dart';
 import 'package:ebbie/pages/password_page.dart';
+import 'package:ebbie/services/database.dart';
+import 'package:ebbie/services/user_service.dart';
+import 'package:ebbie/widgets/module_profile.dart';
 import 'package:ebbie/widgets/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:ebbie/widgets/custom_appbar_no_icon.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:provider/provider.dart';
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
+
+  @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
+  final dbHelper = DatabaseHelper();
+  int? userId;
+  List<Map<String, dynamic>> dados = [];
+  Map<String, dynamic>? userData;
+
+  Future<void> _loadUserIdData() async {
+    int? id = await UserService.getUserId();
+    setState(() => userId = id);
+    if (id != null) {
+      final userData = await dbHelper.query(
+        'user',
+        where: 'id = ?',
+        whereArgs: [id],
+      );
+      setState(() {
+        dados = userData;
+        if (userData.isNotEmpty) {
+          this.userData = userData.first;
+        }
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserIdData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +118,7 @@ class SettingsPage extends StatelessWidget {
                           ),
                         ),
                         trailing: Text(
-                          "user@mail",
+                          userData?['email'] ?? 'Não encontrado',
                           style: TextStyle(
                             fontSize: 14,
                             color: borderColor,
@@ -92,7 +129,7 @@ class SettingsPage extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const EmailPage(),
+                              builder: (context) => EmailPage(userId: userId!),
                             ),
                           );
                         },
@@ -116,7 +153,7 @@ class SettingsPage extends StatelessWidget {
                           ),
                         ),
                         trailing: Text(
-                          "User Name",
+                          userData?['nome'] ?? 'Não encontrado',
                           style: TextStyle(
                             fontSize: 14,
                             color: borderColor,

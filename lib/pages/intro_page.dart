@@ -171,28 +171,30 @@ class _IntroPageState extends State<IntroPage> {
                         ),
                       ),
 
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          BtnForm(
-                            title: 'Criar Conta',
-                            cor: AppColors.tealBlue,
-                            method: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SigninPage(),
-                                ),
-                              );
-                            },
-                          ),
-                          SizedBox(width: 30),
-                          BtnForm(
-                            title: 'Esqueci a Senha',
-                            cor: AppColors.tealBlue,
-                            method: () {},
-                          ),
-                        ],
+                      SafeArea(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            BtnForm(
+                              title: 'Criar Conta',
+                              cor: AppColors.tealBlue,
+                              method: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SigninPage(),
+                                  ),
+                                );
+                              },
+                            ),
+                            SizedBox(width: 30),
+                            BtnForm(
+                              title: 'Esqueci a Senha',
+                              cor: AppColors.tealBlue,
+                              method: () {},
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
