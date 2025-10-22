@@ -88,12 +88,7 @@ class _PomodoroPageState extends State<PomodoroPage> {
                       _buildTimeEditor(
                         "Pausa Curta",
                         curtaController,
-                        theme.secondaryColor.withValues(
-                          alpha: 10,
-                          red: 100,
-                          blue: 150,
-                          green: 100,
-                        ),
+                        theme.timePersonalizedColor,
                       ),
                       const SizedBox(height: 15),
                       _buildTimeEditor(
