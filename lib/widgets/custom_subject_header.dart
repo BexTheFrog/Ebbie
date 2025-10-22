@@ -1,4 +1,6 @@
+import 'package:ebbie/widgets/theme_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SubjectHeader extends StatelessWidget {
   final String title;
@@ -7,6 +9,7 @@ class SubjectHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.watch<ThemeController>();
     return Column(
       children: [
         Text(
@@ -14,7 +17,7 @@ class SubjectHeader extends StatelessWidget {
           style: TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.bold,
-            color: Color(0xFF9BC1BC),
+            color: theme.cerebroLineColor,
             letterSpacing: 2,
             fontFamily: 'CerebriSansPro',
           ),
@@ -31,7 +34,7 @@ class SubjectHeader extends StatelessWidget {
                   child: Container(
                     height: 5, // Espessura da linha
                     decoration: BoxDecoration(
-                      color: const Color(0xFF9BC1BC),
+                      color: theme.cerebroLineColor,
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),
@@ -43,7 +46,7 @@ class SubjectHeader extends StatelessWidget {
                   child: Image.asset(
                     "assets/images/brain_icon_small.png",
                     height: 50,
-                    color: const Color(0xFF9BC1BC),
+                    color: theme.cerebroLineColor,
                   ),
                 ),
 
@@ -52,7 +55,7 @@ class SubjectHeader extends StatelessWidget {
                   child: Container(
                     height: 5, // Espessura da linha
                     decoration: BoxDecoration(
-                      color: const Color(0xFF9BC1BC),
+                      color: theme.cerebroLineColor,
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),

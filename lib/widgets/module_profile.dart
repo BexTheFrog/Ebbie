@@ -2,8 +2,10 @@ import 'package:ebbie/config/app_colors.dart';
 import 'package:ebbie/pages/subject_page.dart';
 import 'package:ebbie/services/database.dart';
 import 'package:ebbie/widgets/module_forms/custom_dialog_add_module.dart';
+import 'package:ebbie/widgets/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:provider/provider.dart';
 
 final dbHelper = DatabaseHelper();
 
@@ -63,17 +65,18 @@ class _ModuleProfileState extends State<ModuleProfile> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.watch<ThemeController>();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Padding(
+        Padding(
           padding: EdgeInsets.only(left: 8.0, bottom: 12),
           child: Text(
             "MEUS MÓDULOS",
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Color(0xFFED6A5A),
+              color: theme.profileColor,
               fontFamily: 'CerebriSansPro',
             ),
           ),
@@ -116,6 +119,7 @@ class _ModuleProfileState extends State<ModuleProfile> {
     required int moduleId,
     required VoidCallback onDelete,
   }) {
+    final theme = context.watch<ThemeController>();
     return SizedBox(
       width: 200,
       child: GestureDetector(
@@ -131,7 +135,7 @@ class _ModuleProfileState extends State<ModuleProfile> {
                 child: Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: AppColors.tealBlue,
+                    color: theme.profileColor,
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Column(
@@ -142,7 +146,7 @@ class _ModuleProfileState extends State<ModuleProfile> {
                         children: [
                           Text(
                             'Excluir $title?',
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 18,
                               fontFamily: 'CerebriSansPro',
                               fontWeight: FontWeight.bold,
@@ -151,7 +155,7 @@ class _ModuleProfileState extends State<ModuleProfile> {
                           ),
                           Expanded(child: SizedBox(width: 10)),
                           IconButton(
-                            icon: const Icon(
+                            icon: Icon(
                               LucideIcons.squareX,
                               color: AppColors.pastelYellow,
                               size: 30,
@@ -235,8 +239,8 @@ class _ModuleProfileState extends State<ModuleProfile> {
               Container(
                 height: 50,
                 padding: const EdgeInsets.all(8),
-                decoration: const BoxDecoration(
-                  color: Color(0xFFED6A5A),
+                decoration: BoxDecoration(
+                  color: theme.profileColor,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10),
@@ -271,10 +275,10 @@ class _ModuleProfileState extends State<ModuleProfile> {
                 padding: const EdgeInsets.all(12),
                 child: Text(
                   description,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
-                    color: Color(0xFF5D576B),
+                    color: theme.dadosProfileColor,
                     fontFamily: 'CerebriSansPro',
                   ),
                 ),
@@ -287,6 +291,7 @@ class _ModuleProfileState extends State<ModuleProfile> {
   }
 
   Widget _buildAddModuleCard(BuildContext context) {
+    final theme = context.watch<ThemeController>();
     return SizedBox(
       width: 200,
       child: GestureDetector(
@@ -310,8 +315,8 @@ class _ModuleProfileState extends State<ModuleProfile> {
                 height: 50,
                 width: double.infinity,
                 padding: const EdgeInsets.all(8),
-                decoration: const BoxDecoration(
-                  color: Color(0xFFED6A5A),
+                decoration: BoxDecoration(
+                  color: theme.profileColor,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10),
@@ -333,7 +338,7 @@ class _ModuleProfileState extends State<ModuleProfile> {
                 child: Icon(
                   Icons.add_circle_outline,
                   size: 40,
-                  color: Colors.red.shade400,
+                  color: theme.profileColor,
                 ),
               ),
             ],

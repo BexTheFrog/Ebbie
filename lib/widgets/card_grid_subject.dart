@@ -5,8 +5,10 @@ import 'package:ebbie/widgets/module_forms/custom_dialog_add_section.dart';
 import 'package:ebbie/pages/revision_page.dart';
 import 'package:ebbie/widgets/module_forms/custom_edit_section.dart';
 import 'package:ebbie/widgets/module_forms/custom_ok.dart';
+import 'package:ebbie/widgets/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:provider/provider.dart';
 
 class CardGridPage extends StatefulWidget {
   final int moduleId;
@@ -90,6 +92,7 @@ class _CardGridPageState extends State<CardGridPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.watch<ThemeController>();
     return Padding(
       padding: const EdgeInsets.all(32.0),
       child: GridView.count(
@@ -121,13 +124,13 @@ class _CardGridPageState extends State<CardGridPage> {
                         ListTile(
                           leading: Icon(
                             LucideIcons.squarePen,
-                            color: AppColors.tealBlue,
+                            color: theme.profileColor,
                           ),
                           title: Text(
                             'Editar',
                             style: TextStyle(
                               fontFamily: 'CerebriSansPro',
-                              color: AppColors.tealBlue,
+                              color: theme.profileColor,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -137,12 +140,15 @@ class _CardGridPageState extends State<CardGridPage> {
                           },
                         ),
                         ListTile(
-                          leading: Icon(LucideIcons.circleX, color: Colors.red),
+                          leading: Icon(
+                            LucideIcons.circleX,
+                            color: theme.profileColor,
+                          ),
                           title: Text(
                             'Excluir',
                             style: TextStyle(
                               fontFamily: 'CerebriSansPro',
-                              color: AppColors.coral,
+                              color: theme.profileColor,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -179,13 +185,14 @@ class CustomCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.watch<ThemeController>();
     return Card(
       elevation: 6,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
         side: const BorderSide(color: Color(0xFFF4F1BB), width: 3),
       ),
-      color: const Color(0xFF9BC1BC),
+      color: theme.profileColor,
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
         onTap: onTap,
@@ -229,13 +236,14 @@ class CustomCardAdd extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.watch<ThemeController>();
     return Card(
       elevation: 6,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
         side: const BorderSide(color: Color(0xFFF4F1BB), width: 3),
       ),
-      color: const Color(0xFF9BC1BC),
+      color: theme.profileColor,
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
         onTap: onTap,
