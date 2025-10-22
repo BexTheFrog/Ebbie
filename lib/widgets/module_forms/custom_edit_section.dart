@@ -3,8 +3,10 @@ import 'package:ebbie/widgets/custom_msg_dialog.dart';
 import 'package:ebbie/widgets/module_forms/custom_form_task.dart';
 import 'package:ebbie/widgets/module_forms/custom_ok.dart';
 import 'package:ebbie/widgets/module_profile.dart';
+import 'package:ebbie/widgets/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:provider/provider.dart';
 
 class CustomDialogEditSection extends StatefulWidget {
   final int idSubject;
@@ -38,6 +40,7 @@ class _CustomDialogEditSectionState extends State<CustomDialogEditSection> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.watch<ThemeController>();
     return Dialog(
       backgroundColor: const Color(0xFFF7EDE2),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -47,7 +50,7 @@ class _CustomDialogEditSectionState extends State<CustomDialogEditSection> {
           // Cabeçalho
           Container(
             decoration: BoxDecoration(
-              color: AppColors.tealBlue,
+              color: theme.overlayColor,
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(16),
                 topRight: Radius.circular(16),
@@ -64,13 +67,13 @@ class _CustomDialogEditSectionState extends State<CustomDialogEditSection> {
                       fontSize: 18,
                       fontFamily: 'CerebriSansPro',
                       fontWeight: FontWeight.bold,
-                      color: AppColors.pastelYellow,
+                      color: Color(0xFFF7EDE2),
                     ),
                   ),
                   IconButton(
                     icon: const Icon(
                       LucideIcons.squareX,
-                      color: AppColors.pastelYellow,
+                      color: Color(0xFFF7EDE2),
                       size: 30,
                     ),
                     onPressed: () => Navigator.pop(context),

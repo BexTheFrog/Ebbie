@@ -28,6 +28,8 @@ class ThemeController extends ChangeNotifier {
   ); // Cor pontos do pet gera
   Color _overlayColor = Color(0xFF9BC1BC);
   Color _selectOverlayColor = Color(0xFF5D576B);
+  Color _btnBottomNavColor = Color(0xFFC0D9D5);
+  Color _excluirBtnColor = Color(0xFFED6A5A);
 
   // Cor Home
   Color _tablecalendarColor = Color(0xFF5D576B);
@@ -37,6 +39,8 @@ class ThemeController extends ChangeNotifier {
   Color _cerebroLineColor = Color(0xFF9BC1BC);
   Color _tituloCardReviwColor = Color(0xFFED6A5A);
   Color _subTituloCardReviwColor = Color(0xFF9BC1BC);
+  Color _tarefasTituloCardColor = Color(0xFFED6A5A);
+  Color _tarefasSubTituloCardColor = Color(0xFF9BC1BC);
 
   // Cor Search
   Color _searchColor = Color(0xFF9BC1BC);
@@ -94,7 +98,9 @@ class ThemeController extends ChangeNotifier {
   Color get textOverlayColor => _textOverlayColor;
   Color get timePersonalizedColor => _timePersonalizedColor;
   Color get pointsColor => _pointsColor;
+  Color get excluirBtnColor => _excluirBtnColor;
   Color get botomPlayColor => _botomPlayColor;
+  Color get btnBottomNavColor => _btnBottomNavColor;
   Color get secondaryBotomColor => _secondaryBotomColor;
   Color get tableCalendarColor => _tablecalendarColor;
   Color get calendarFimSemanaColor => _calendarFimSemanaColor;
@@ -102,6 +108,8 @@ class ThemeController extends ChangeNotifier {
   Color get cerebroLineColor => _cerebroLineColor;
   Color get tituloCardReviwColor => _tituloCardReviwColor;
   Color get subTituloCardReviwColor => _subTituloCardReviwColor;
+  Color get tarefasTituloCardColor => _tarefasTituloCardColor; //
+  Color get tarefasSubTituloCardColor => _tarefasSubTituloCardColor;
   Color get formReviewColor => _formReviewColor;
   Color get overlayColor => _overlayColor;
   Color get searchColor => _searchColor;
@@ -133,6 +141,7 @@ class ThemeController extends ChangeNotifier {
         _pointsColor = const Color(0xFFB56576); // Cor pontos do pet geral
         _overlayColor = Color(0xFFE56B6F); // Cor overlay geral
         _selectOverlayColor = Color(0xFFB56576);
+        _excluirBtnColor = Color(0xFF2e2e2e);
 
         // Cor Homepage
         _tablecalendarColor = Color(0xFF4B3A4B);
@@ -142,6 +151,9 @@ class ThemeController extends ChangeNotifier {
         _cerebroLineColor = Color(0xBFE56B6F);
         _tituloCardReviwColor = Color(0xFFB56576);
         _subTituloCardReviwColor = Color(0xFFE56B6F);
+        _tarefasTituloCardColor = Color(0xFFB56576);
+        _tarefasSubTituloCardColor = Color(0xFF4B3A4B);
+        _btnBottomNavColor = Color(0xFF4B3A4B);
 
         // Cor Search
         _searchColor = Color(0xFF3C2F3C);
@@ -187,6 +199,7 @@ class ThemeController extends ChangeNotifier {
         _pointsColor = const Color(0xFFEAAC8B); // Cor pontos do pet geral
         _overlayColor = Color(0xFFB56576); // Cor overlay geral
         _selectOverlayColor = Color(0xFF6D597A);
+        _excluirBtnColor = Color(0xFFB56576);
 
         // Cor Homepage
         _tablecalendarColor = Color(0xFF3D303D);
@@ -196,6 +209,9 @@ class ThemeController extends ChangeNotifier {
         _cerebroLineColor = Color(0xBF4A3F4A);
         _tituloCardReviwColor = Color(0xFFEAAC8B);
         _subTituloCardReviwColor = Color(0xFF4B3A4B);
+        _tarefasTituloCardColor = Color(0xFFEAAC8B);
+        _tarefasSubTituloCardColor = Color(0xFF4A3F4A);
+        _btnBottomNavColor = Color(0xFFEAAC8B);
 
         // Cor Search
         _searchColor = Color(0xFF6D597A);
@@ -239,8 +255,9 @@ class ThemeController extends ChangeNotifier {
         _textColor = Colors.white; // Cor para texto geral
         _appbarColor = const Color(0xFF2F3B50); // Cor do appBar e navBar geral
         _pointsColor = const Color(0xFFB56576); // Cor pontos do pet geral
-        _overlayColor = Color(0xFF355070); // Cor overlay geral
+        _overlayColor = Color(0xFF6D597A); // Cor overlay geral
         _selectOverlayColor = Color(0xFFB56576);
+        _excluirBtnColor = Color(0xFF6D597A);
 
         // Cor Homepage
         _tablecalendarColor = Color(0xFF2F3B50);
@@ -250,6 +267,9 @@ class ThemeController extends ChangeNotifier {
         _cerebroLineColor = Color(0xBF6D597A);
         _tituloCardReviwColor = Color(0xFF2F3B50);
         _subTituloCardReviwColor = Color(0xFF6D597A);
+        _tarefasTituloCardColor = Color(0xFFB56576);
+        _tarefasSubTituloCardColor = Color(0xFF355070);
+        _btnBottomNavColor = Color(0xFF6D597A);
 
         // Cor Search
         _searchColor = Color(0xFF3B4A66);
@@ -300,6 +320,7 @@ class ThemeController extends ChangeNotifier {
         ); // Cor pontos do pet geral
         _overlayColor = Color(0xFF9BC1BC); // Cor overlay geral
         _selectOverlayColor = Color.fromARGB(255, 54, 123, 114);
+        _excluirBtnColor = Color(0xFFED6A5A);
 
         // Cor Homepage
         _tablecalendarColor = Color(0xFF5D576B);
@@ -309,6 +330,9 @@ class ThemeController extends ChangeNotifier {
         _cerebroLineColor = Color(0xBF9BC1BC);
         _tituloCardReviwColor = Color(0xFFED6A5A);
         _subTituloCardReviwColor = Color(0xFF9BC1BC);
+        _tarefasTituloCardColor = Color(0xFFED6A5A);
+        _tarefasSubTituloCardColor = Color(0xFF9BC1BC);
+        _btnBottomNavColor = Color(0xFFC0D9D5);
 
         // Cor Search
         _searchColor = Color(0xFF9BC1BC);

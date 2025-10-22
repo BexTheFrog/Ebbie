@@ -3,8 +3,10 @@ import 'package:ebbie/widgets/custom_msg_dialog.dart';
 import 'package:ebbie/widgets/module_forms/custom_ok.dart';
 import 'package:ebbie/widgets/module_forms/custom_review_mood.dart';
 import 'package:ebbie/widgets/module_profile.dart';
+import 'package:ebbie/widgets/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class CustomReviewCard extends StatefulWidget {
   final String materia;
@@ -47,6 +49,7 @@ class _CustomReviewCardState extends State<CustomReviewCard> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.watch<ThemeController>();
     return GestureDetector(
       onLongPress: () {
         widget.onPressed();
@@ -86,7 +89,7 @@ class _CustomReviewCardState extends State<CustomReviewCard> {
                       topLeft: Radius.circular(15),
                       topRight: Radius.circular(15),
                     ),
-                    color: AppColors.coral,
+                    color: theme.tarefasTituloCardColor,
                   ),
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20,
@@ -119,7 +122,9 @@ class _CustomReviewCardState extends State<CustomReviewCard> {
 
                 Container(
                   height: 40,
-                  decoration: BoxDecoration(color: AppColors.tealBlue),
+                  decoration: BoxDecoration(
+                    color: theme.tarefasSubTituloCardColor,
+                  ),
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20,
                     vertical: 10,
@@ -161,12 +166,7 @@ class _CustomReviewCardState extends State<CustomReviewCard> {
                     style: TextStyle(
                       fontFamily: 'CerebriSansPro',
                       fontSize: 16,
-                      color: const Color.fromARGB(
-                        255,
-                        228,
-                        111,
-                        1,
-                      ).withAlpha(200),
+                      color: const Color(0xFF78624D).withAlpha(200),
                     ),
                   ),
                 ),
@@ -242,7 +242,7 @@ class _CustomReviewCardState extends State<CustomReviewCard> {
                               : Icons.check_box_outline_blank_rounded,
                           color: widget.wasSkipped
                               ? Colors.grey
-                              : AppColors.darkSlate,
+                              : theme.tarefasSubTituloCardColor,
                           size: 30,
                         ),
                       ),

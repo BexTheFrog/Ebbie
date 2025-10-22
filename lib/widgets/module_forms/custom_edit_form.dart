@@ -5,9 +5,11 @@ import 'package:ebbie/widgets/custom_msg_dialog.dart';
 import 'package:ebbie/widgets/module_forms/custom_description.dart';
 import 'package:ebbie/widgets/module_forms/custom_form_task.dart';
 import 'package:ebbie/widgets/module_forms/custom_ok.dart';
+import 'package:ebbie/widgets/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:provider/provider.dart';
 
 class CustomEditForm extends StatefulWidget {
   final int tarefaId;
@@ -100,6 +102,7 @@ class _CustomEditFormState extends State<CustomEditForm> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.watch<ThemeController>();
     return Dialog(
       backgroundColor: const Color(0xFFF7EDE2),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -114,7 +117,7 @@ class _CustomEditFormState extends State<CustomEditForm> {
               // Cabeçalho
               Container(
                 decoration: BoxDecoration(
-                  color: AppColors.tealBlue,
+                  color: theme.overlayColor,
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(16),
                     topRight: Radius.circular(16),
@@ -178,28 +181,28 @@ class _CustomEditFormState extends State<CustomEditForm> {
                         label: Text(
                           'Módulo',
                           style: TextStyle(
-                            color: AppColors.tealBlue,
+                            color: theme.overlayColor,
                             fontFamily: 'CerebriSansPro',
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: AppColors.tealBlue,
+                            color: theme.overlayColor,
                             width: 3,
                           ),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         border: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: AppColors.tealBlue,
+                            color: theme.overlayColor,
                             width: 3,
                           ),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: AppColors.tealBlue,
+                            color: theme.overlayColor,
                             width: 3,
                           ),
                           borderRadius: BorderRadius.circular(20),
@@ -224,28 +227,28 @@ class _CustomEditFormState extends State<CustomEditForm> {
                         label: Text(
                           'Matéria',
                           style: TextStyle(
-                            color: AppColors.tealBlue,
+                            color: theme.overlayColor,
                             fontFamily: 'CerebriSansPro',
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: AppColors.tealBlue,
+                            color: theme.overlayColor,
                             width: 3,
                           ),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         border: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: AppColors.tealBlue,
+                            color: theme.overlayColor,
                             width: 3,
                           ),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: AppColors.tealBlue,
+                            color: theme.overlayColor,
                             width: 3,
                           ),
                           borderRadius: BorderRadius.circular(20),
@@ -260,7 +263,7 @@ class _CustomEditFormState extends State<CustomEditForm> {
                         Expanded(
                           child: DateTimeFormField(
                             style: TextStyle(
-                              color: AppColors.tealBlue,
+                              color: theme.overlayColor,
                               fontFamily: 'CerebriSansPro',
                             ),
                             canClear: false,
@@ -269,17 +272,17 @@ class _CustomEditFormState extends State<CustomEditForm> {
                             dateFormat: DateFormat('dd/MM/yyyy'),
                             onChanged: (date) => selectedDate = date!,
                             decoration: InputDecoration(
-                              focusColor: AppColors.tealBlue,
+                              focusColor: theme.overlayColor,
                               suffixIcon: Icon(LucideIcons.calendar),
-                              suffixIconColor: AppColors.tealBlue,
+                              suffixIconColor: theme.overlayColor,
                               labelText: 'Data da revisão',
                               labelStyle: TextStyle(
                                 fontFamily: 'CerebriSansPro',
-                                color: AppColors.tealBlue,
+                                color: theme.overlayColor,
                               ),
                               border: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: AppColors.tealBlue,
+                                  color: theme.overlayColor,
                                   width: 3,
                                 ),
                                 borderRadius: BorderRadius.all(
@@ -288,7 +291,7 @@ class _CustomEditFormState extends State<CustomEditForm> {
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: AppColors.tealBlue,
+                                  color: theme.overlayColor,
                                   width: 3,
                                 ),
                                 borderRadius: BorderRadius.all(

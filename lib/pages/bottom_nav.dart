@@ -222,9 +222,8 @@ class _BottomNavState extends State<BottomNav>
                 onPressed: _toggleFab,
                 backgroundColor: _isFabOpen
                     ? const Color(0xFFED6A5A) // 🔴 Vermelho quando ABERTO
-                    : const Color(
-                        0xFFC0D9D5,
-                      ), // ✅ #C0D9D5 SEMPRE quando FECHADO
+                    : theme
+                          .btnBottomNavColor, // ✅ #C0D9D5 SEMPRE quando FECHADO
                 foregroundColor: const Color(0xFFF4F1BB),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(25),
