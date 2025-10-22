@@ -3,17 +3,20 @@ import 'package:ebbie/pages/accessibility_page.dart';
 import 'package:ebbie/pages/email_page.dart';
 import 'package:ebbie/pages/name_page.dart';
 import 'package:ebbie/pages/password_page.dart';
+import 'package:ebbie/widgets/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:ebbie/widgets/custom_appbar_no_icon.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:provider/provider.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.watch<ThemeController>();
     final borderColor = const Color(0xFFF4F1BB);
-    final backgroundColor = const Color(0xFF9BC1BC);
+    final backgroundColor = theme.optionSettingsColor;
     final appBackgroundColor = const Color(0xFFF7EDE2);
 
     return Scaffold(
@@ -31,7 +34,7 @@ class SettingsPage extends StatelessWidget {
                 child: Text(
                   "Conta",
                   style: TextStyle(
-                    color: const Color(0xFF5D576B),
+                    color: theme.appbarColor,
                     fontWeight: FontWeight.bold,
                     fontSize: 23,
                     fontFamily: 'CerebriSansPro',
@@ -178,7 +181,7 @@ class SettingsPage extends StatelessWidget {
                 child: Text(
                   "Preferências do Aplicativo",
                   style: TextStyle(
-                    color: const Color(0xFF5D576B),
+                    color: theme.appbarColor,
                     fontWeight: FontWeight.bold,
                     fontSize: 23,
                     fontFamily: 'CerebriSansPro',
@@ -310,7 +313,7 @@ class SettingsPage extends StatelessWidget {
                 child: Text(
                   "Extras",
                   style: TextStyle(
-                    color: const Color(0xFF5D576B),
+                    color: theme.appbarColor,
                     fontWeight: FontWeight.bold,
                     fontSize: 23,
                     fontFamily: 'CerebriSansPro',

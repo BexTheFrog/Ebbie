@@ -161,7 +161,12 @@ class _CustomReviewCardState extends State<CustomReviewCard> {
                     style: TextStyle(
                       fontFamily: 'CerebriSansPro',
                       fontSize: 16,
-                      color: const Color(0xFF78624D).withAlpha(200),
+                      color: const Color.fromARGB(
+                        255,
+                        228,
+                        111,
+                        1,
+                      ).withAlpha(200),
                     ),
                   ),
                 ),

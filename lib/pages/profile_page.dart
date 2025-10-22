@@ -1,7 +1,9 @@
 import 'package:ebbie/services/database.dart';
 import 'package:ebbie/services/user_service.dart';
 import 'package:ebbie/widgets/custom_appbar.dart';
+import 'package:ebbie/widgets/theme_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../widgets/module_profile.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -118,14 +120,15 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget _buildProfileHeader() {
+    final theme = context.watch<ThemeController>();
     return Stack(
       alignment: Alignment.center,
       clipBehavior: Clip.none,
       children: [
         Container(
           height: 70,
-          decoration: const BoxDecoration(
-            color: Color(0xFFED6A5A),
+          decoration: BoxDecoration(
+            color: theme.profileColor,
             borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
           ),
         ),
@@ -135,8 +138,8 @@ class _ProfilePageState extends State<ProfilePage> {
             padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: const Color.fromARGB(255, 223, 213, 213),
-              border: Border.all(color: const Color(0xFFED6A5A), width: 10),
+              color: Color.fromARGB(255, 223, 213, 213),
+              border: Border.all(color: theme.profileColor, width: 10),
             ),
             child: const CircleAvatar(
               radius: 50,
@@ -150,22 +153,25 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget _buildUserName() {
+    final theme = context.watch<ThemeController>();
     return Text(
       userData != null ? userData!['nome'] ?? 'Usuário' : 'Não encontrado',
-      style: const TextStyle(
+      style: TextStyle(
         fontWeight: FontWeight.bold,
         fontFamily: "CerebriSansPro",
         fontSize: 18,
-        color: Color(0xFF5D576B),
+        color: theme.dadosProfileColor,
       ),
     );
   }
 
   Widget _buildDivider() {
-    return Container(height: 2, width: 350, color: const Color(0xFFF4F1BB));
+    final theme = context.watch<ThemeController>();
+    return Container(height: 2, width: 350, color: theme.lineDividerColor);
   }
 
   Widget _buildStatsRow() {
+    final theme = context.watch<ThemeController>();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Row(
@@ -175,22 +181,22 @@ class _ProfilePageState extends State<ProfilePage> {
             "REALIZOU",
             userStats != null ? "${userStats!['realizou']}" : "0",
             "REVISÕES",
-            const Color(0xFFED6A5A),
-            const Color(0xFF9BC1BC),
+            theme.metaSelectProfileColor,
+            theme.revisaoMetaProfileColor,
           ),
           _buildStat(
             "PULOU",
             userStats != null ? "${userStats!['pulou']}" : "0",
             "REVISÕES",
-            Colors.orange.shade700,
-            const Color(0xFF9BC1BC),
+            theme.metasProfileColor,
+            theme.revisaoMetaProfileColor,
           ),
           _buildStat(
             "MEMORIZOU",
             userStats != null ? "${userStats!['memorizou']}" : "0",
             "TÓPICOS",
-            Colors.orange.shade700,
-            const Color(0xFF9BC1BC),
+            theme.metasProfileColor,
+            theme.revisaoMetaProfileColor,
           ),
         ],
       ),
@@ -204,6 +210,7 @@ class _ProfilePageState extends State<ProfilePage> {
     Color titleColor,
     Color subtitleColor,
   ) {
+    final theme = context.watch<ThemeController>();
     return Column(
       children: [
         Text(
@@ -218,10 +225,10 @@ class _ProfilePageState extends State<ProfilePage> {
         const SizedBox(height: 4),
         Text(
           value,
-          style: const TextStyle(
+          style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,
-            color: Colors.black,
+            color: theme.dadosProfileColor,
             fontFamily: 'CerebriSansPro',
           ),
         ),

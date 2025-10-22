@@ -125,7 +125,7 @@ class _CustomDialogRevieweFormState extends State<CustomDialogRevieweForm> {
               // Cabeçalho
               Container(
                 decoration: BoxDecoration(
-                  color: theme.msgDialogColor,
+                  color: theme.overlayColor,
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(16),
                     topRight: Radius.circular(16),
@@ -182,34 +182,34 @@ class _CustomDialogRevieweFormState extends State<CustomDialogRevieweForm> {
                       hint: Text(
                         'Selecione um módulo',
                         style: TextStyle(
-                          color: theme.msgDialogColor,
+                          color: theme.overlayColor,
                           fontFamily: 'CerebriSansPro',
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       icon: Icon(
                         LucideIcons.circleArrowDown,
-                        color: theme.msgDialogColor,
+                        color: theme.overlayColor,
                       ),
                       value: selectedModuleId,
                       decoration: InputDecoration(
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: const Color.fromARGB(255, 3, 36, 31),
+                            color: theme.overlayColor,
                             width: 3,
                           ),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: theme.msgDialogColor,
+                            color: theme.overlayColor,
                             width: 3,
                           ),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         border: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: theme.msgDialogColor,
+                            color: theme.overlayColor,
                             width: 3,
                           ),
                           borderRadius: BorderRadius.circular(20),
@@ -244,31 +244,34 @@ class _CustomDialogRevieweFormState extends State<CustomDialogRevieweForm> {
                       hint: Text(
                         'Selecione a matéria',
                         style: TextStyle(
-                          color: AppColors.tealBlue,
+                          color: theme.overlayColor,
                           fontFamily: 'CerebriSansPro',
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       icon: Icon(LucideIcons.circleArrowDown),
-                      iconEnabledColor: AppColors.tealBlue,
-                      iconDisabledColor: Colors.grey,
+                      iconEnabledColor: theme.overlayColor,
+                      iconDisabledColor: theme.overlayColor,
                       value: selectedSubjectId,
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: AppColors.tealBlue,
+                            color: theme.overlayColor,
                             width: 3,
                           ),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         disabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey, width: 3),
+                          borderSide: BorderSide(
+                            color: theme.overlayColor,
+                            width: 3,
+                          ),
                           borderRadius: BorderRadius.circular(20),
                         ),
 
                         border: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: AppColors.tealBlue,
+                            color: theme.overlayColor,
                             width: 3,
                           ),
                           borderRadius: BorderRadius.circular(20),
@@ -297,8 +300,9 @@ class _CustomDialogRevieweFormState extends State<CustomDialogRevieweForm> {
                       children: [
                         Expanded(
                           child: DateTimeFormField(
+                            autofocus: false,
                             style: TextStyle(
-                              color: AppColors.tealBlue,
+                              color: theme.overlayColor,
                               fontFamily: 'CerebriSansPro',
                             ),
                             canClear: false,
@@ -306,17 +310,17 @@ class _CustomDialogRevieweFormState extends State<CustomDialogRevieweForm> {
                             initialValue: selectedDate,
                             mode: DateTimeFieldPickerMode.date,
                             dateFormat: DateFormat('dd/MM/yyyy'),
-                            decoration: const InputDecoration(
-                              focusColor: AppColors.tealBlue,
-                              suffixIconColor: AppColors.tealBlue,
+                            decoration: InputDecoration(
+                              focusColor: theme.overlayColor,
+                              suffixIconColor: theme.overlayColor,
                               labelText: 'Data da revisão',
                               labelStyle: TextStyle(
                                 fontFamily: 'CerebriSansPro',
-                                color: AppColors.tealBlue,
+                                color: theme.overlayColor,
                               ),
                               border: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: AppColors.tealBlue,
+                                  color: theme.overlayColor,
                                   width: 3,
                                 ),
                                 borderRadius: BorderRadius.all(
@@ -325,7 +329,7 @@ class _CustomDialogRevieweFormState extends State<CustomDialogRevieweForm> {
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: AppColors.tealBlue,
+                                  color: theme.overlayColor,
                                   width: 3,
                                 ),
                                 borderRadius: BorderRadius.all(
@@ -334,7 +338,16 @@ class _CustomDialogRevieweFormState extends State<CustomDialogRevieweForm> {
                               ),
                               disabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
-                                  color: Colors.grey,
+                                  color: theme.overlayColor,
+                                  width: 3,
+                                ),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(20),
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: theme.overlayColor,
                                   width: 3,
                                 ),
                                 borderRadius: BorderRadius.all(

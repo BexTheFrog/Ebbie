@@ -1,6 +1,8 @@
 import 'package:ebbie/config/app_colors.dart';
+import 'package:ebbie/widgets/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:provider/provider.dart';
 
 class CustomProgressBar extends StatefulWidget {
   const CustomProgressBar({
@@ -21,6 +23,7 @@ class CustomProgressBar extends StatefulWidget {
 class _CustomProgressBarState extends State<CustomProgressBar> {
   @override
   Widget build(BuildContext context) {
+    final theme = context.watch<ThemeController>();
     return Container(
       decoration: BoxDecoration(
         color: AppColors.pastelYellow,
@@ -31,7 +34,7 @@ class _CustomProgressBarState extends State<CustomProgressBar> {
       alignment: Alignment.center,
       child: LinearPercentIndicator(
         width: 250,
-        progressColor: AppColors.tealBlue,
+        progressColor: theme.layoutPetColor,
         backgroundColor: AppColors.darkSlate.withAlpha(50),
         lineHeight: 25,
         percent: widget.progression,

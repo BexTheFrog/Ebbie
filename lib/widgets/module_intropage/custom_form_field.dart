@@ -53,17 +53,17 @@ class _CustomFormFieldState extends State<CustomFormField> {
                   },
                   child: Icon(
                     _obscureText ? Icons.visibility_off : Icons.visibility,
-                    color: theme.msgDialogColor,
+                    color: theme.overlayColor,
                   ),
                 )
               : null,
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(15)),
-            borderSide: BorderSide(color: theme.msgDialogColor, width: 3),
+            borderSide: BorderSide(color: theme.overlayColor, width: 3),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(15)),
-            borderSide: BorderSide(color: theme.msgDialogColor, width: 3),
+            borderSide: BorderSide(color: theme.selectOverlayColor, width: 3),
           ),
         ),
       ),

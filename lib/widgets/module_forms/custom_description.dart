@@ -1,5 +1,7 @@
 import 'package:ebbie/config/app_colors.dart';
+import 'package:ebbie/widgets/theme_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CustomDescription extends StatefulWidget {
   final TextEditingController controller;
@@ -13,13 +15,14 @@ class CustomDescription extends StatefulWidget {
 class _CustomDescriptionState extends State<CustomDescription> {
   @override
   Widget build(BuildContext context) {
+    final theme = context.watch<ThemeController>();
     return TextField(
       controller: widget.controller,
       maxLines: 3,
       decoration: InputDecoration(
         hintText: 'Descrição...',
-        hintStyle: const TextStyle(
-          color: AppColors.tealBlue,
+        hintStyle: TextStyle(
+          color: theme.overlayColor,
           fontFamily: 'CerebriSansPro',
           fontWeight: FontWeight.bold,
         ),
@@ -27,11 +30,11 @@ class _CustomDescriptionState extends State<CustomDescription> {
         fillColor: AppColors.pastelBeige,
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(15)),
-          borderSide: BorderSide(color: AppColors.tealBlue, width: 3),
+          borderSide: BorderSide(color: theme.overlayColor, width: 3),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(15)),
-          borderSide: BorderSide(color: AppColors.tealBlue, width: 3),
+          borderSide: BorderSide(color: theme.overlayColor, width: 3),
         ),
       ),
     );

@@ -33,7 +33,7 @@ class _CustomMsgDialogState extends State<CustomMsgDialog> {
           // Cabeçalho com título e botão fechar
           Container(
             decoration: BoxDecoration(
-              color: theme.msgDialogColor,
+              color: theme.overlayColor,
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(16),
                 topRight: Radius.circular(16),
@@ -82,7 +82,7 @@ class _CustomMsgDialogState extends State<CustomMsgDialog> {
                   widget.content,
                   style: TextStyle(
                     fontFamily: 'CerebriSansPro',
-                    color: theme.msgDialogColor,
+                    color: theme.overlayColor,
                   ),
                 ),
                 const SizedBox(height: 10),

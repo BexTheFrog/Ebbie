@@ -1,7 +1,9 @@
 import 'package:ebbie/widgets/custom_appbar_no_icon.dart';
+import 'package:ebbie/widgets/theme_controller.dart';
 import 'package:ebbie/widgets/widget_salvar/widget_salvar.dart';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class EmailPage extends StatefulWidget {
   const EmailPage({super.key});
@@ -11,10 +13,10 @@ class EmailPage extends StatefulWidget {
 }
 
 class _EmailPageState extends State<EmailPage> {
-  final borderColor = const Color(0xFF5E586B);
+  // final borderColor = const Color(0xFF5E586B); Não esta em uso!!
+  // final textColor = const Color(0xFF5D576B); Não esta em uso!!
   final backgroundColor = const Color(0xFFF7EDE2);
   final appBackgroundColor = const Color(0xFFF7EDE2);
-  final textColor = const Color(0xFF5D576B);
 
   final TextEditingController _emailController = TextEditingController();
 
@@ -38,6 +40,7 @@ class _EmailPageState extends State<EmailPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.watch<ThemeController>();
     return Scaffold(
       appBar: CustomAppbarNoIcon(segment: 'Email'),
       backgroundColor: appBackgroundColor,
@@ -48,14 +51,14 @@ class _EmailPageState extends State<EmailPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Título do campo
-              const Padding(
+              Padding(
                 padding: EdgeInsets.only(left: 12.0, bottom: 8),
                 child: Text(
                   "Email",
                   style: TextStyle(
                     fontSize: 26,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF5D576B),
+                    color: theme.appbarColor,
                     fontFamily: 'CerebriSansPro',
                   ),
                 ),
@@ -66,7 +69,7 @@ class _EmailPageState extends State<EmailPage> {
                 decoration: BoxDecoration(
                   color: backgroundColor,
                   borderRadius: BorderRadius.circular(18),
-                  border: Border.all(color: borderColor, width: 2.5),
+                  border: Border.all(color: theme.appbarColor, width: 2.5),
                 ),
                 child: TextField(
                   controller: _emailController,
@@ -74,7 +77,7 @@ class _EmailPageState extends State<EmailPage> {
                   decoration: InputDecoration(
                     hintText: "User@mail.com User already saved...",
                     hintStyle: TextStyle(
-                      color: borderColor.withOpacity(0.7),
+                      color: theme.appbarColor.withOpacity(0.7),
                       fontFamily: 'CerebriSansPro',
                     ),
                     contentPadding: const EdgeInsets.symmetric(
@@ -90,7 +93,10 @@ class _EmailPageState extends State<EmailPage> {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: backgroundColor,
-                              border: Border.all(color: borderColor, width: 2),
+                              border: Border.all(
+                                color: theme.appbarColor,
+                                width: 2,
+                              ),
                             ),
                             child: IconButton(
                               padding: EdgeInsets.zero,
@@ -98,7 +104,7 @@ class _EmailPageState extends State<EmailPage> {
                               icon: Icon(
                                 Icons.clear,
                                 size: iconSize,
-                                color: borderColor,
+                                color: theme.appbarColor,
                               ),
                               onPressed: () {
                                 _emailController.clear();
@@ -108,7 +114,7 @@ class _EmailPageState extends State<EmailPage> {
                         : null,
                   ),
                   style: TextStyle(
-                    color: borderColor,
+                    color: theme.appbarColor,
                     fontFamily: 'CerebriSansPro',
                   ),
                 ),
