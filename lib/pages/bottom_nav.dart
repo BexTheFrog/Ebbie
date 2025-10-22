@@ -1,4 +1,9 @@
+import 'package:ebbie/pages/homepage.dart';
 import 'package:ebbie/pages/pet_page.dart';
+import 'package:ebbie/pages/pomodoro_page.dart';
+import 'package:ebbie/pages/profile_page.dart';
+import 'package:ebbie/pages/search_page.dart';
+import 'package:ebbie/pages/settings_page.dart';
 import 'package:ebbie/services/database.dart';
 import 'package:ebbie/services/user_service.dart';
 import 'package:ebbie/widgets/custom_msg_dialog.dart';
@@ -10,13 +15,6 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-
-// Importando suas páginas
-import 'package:ebbie/pages/search_page.dart';
-import 'package:ebbie/pages/pomodoro_page.dart';
-import 'package:ebbie/pages/profile_page.dart';
-import 'package:ebbie/pages/settings_page.dart';
-import 'package:ebbie/pages/homepage.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key});
@@ -72,8 +70,10 @@ class _BottomNavState extends State<BottomNav>
       SystemUiOverlayStyle(
         systemNavigationBarColor: theme.appbarColor,
         systemNavigationBarIconBrightness: Brightness.light,
+        systemNavigationBarDividerColor: Colors.transparent,
         statusBarColor: Colors.transparent,
         statusBarIconBrightness: Brightness.light,
+        statusBarBrightness: Brightness.light,
         systemStatusBarContrastEnforced: true,
         systemNavigationBarContrastEnforced: true,
       ),
@@ -83,6 +83,7 @@ class _BottomNavState extends State<BottomNav>
   @override
   void dispose() {
     _animationController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -101,15 +102,13 @@ class _BottomNavState extends State<BottomNav>
     return [
       const MyHomePage(),
       const SearchPage(),
-      Container(),
+      Container(), // Placeholder para o FAB central
       const PomodoroPage(),
       const ProfilePage(),
     ];
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
-    final theme = context.read<ThemeController>();
-
     return [
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.home, size: 24),
@@ -128,7 +127,6 @@ class _BottomNavState extends State<BottomNav>
         title: "",
         activeColorPrimary: Colors.transparent,
         inactiveColorPrimary: Colors.transparent,
-        onPressed: (context) => false,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(LucideIcons.timer, size: 24),
@@ -173,71 +171,56 @@ class _BottomNavState extends State<BottomNav>
     );
   }
 
-  // ✅ ALTURA SIMPLIFICADA - EVITA OVERFLOW
-  double _getTotalBottomBarHeight(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
-    return 60 + mediaQuery.viewPadding.bottom;
+  Widget _buildMainContent() {
+    final theme = context.watch<ThemeController>();
+
+    return PersistentTabView(
+      context,
+      controller: _controller,
+      screens: _buildScreens(),
+      items: _navBarsItems(),
+      confineToSafeArea: true,
+      backgroundColor: theme.appbarColor,
+      handleAndroidBackButtonPress: true,
+      resizeToAvoidBottomInset: true,
+      stateManagement: true,
+      navBarHeight: 60,
+      margin: EdgeInsets.zero,
+      padding: const EdgeInsets.only(bottom: 8),
+      navBarStyle: NavBarStyle.style3,
+      decoration: const NavBarDecoration(
+        borderRadius: BorderRadius.zero,
+        colorBehindNavBar: Colors.transparent,
+      ),
+      onItemSelected: (index) {
+        if (_isFabOpen && index != 2) {
+          _toggleFab();
+        }
+      },
+    );
   }
 
-  // Widget customizado que inclui a navbar E o FAB integrado
-  Widget _buildCustomBottomBar(BuildContext context) {
-    final theme = context.watch<ThemeController>();
-    final mediaQuery = MediaQuery.of(context);
-    final screenWidth = MediaQuery.of(context).size.width;
-
-    return Container(
-      height: _getTotalBottomBarHeight(context),
-      color: theme.appbarColor,
-      child: Stack(
-        children: [
-          // Navbar padrão do persistent_bottom_nav_bar
-          PersistentTabView(
-            context,
-            controller: _controller,
-            screens: _buildScreens(),
-            items: _navBarsItems(),
-            confineToSafeArea: true,
-            backgroundColor: theme.appbarColor,
-            handleAndroidBackButtonPress: true,
-            resizeToAvoidBottomInset: true,
-            stateManagement: true,
-            navBarHeight: 60,
-            navBarStyle: NavBarStyle.style3,
-            margin: EdgeInsets.zero,
-            padding: EdgeInsets.zero,
-            decoration: const NavBarDecoration(
-              borderRadius: BorderRadius.zero,
-              colorBehindNavBar: Colors.transparent,
-            ),
-          ),
-
-          // FAB INTEGRADO NO CENTRO DA NAVBAR
-          Positioned(
-            bottom: mediaQuery.viewPadding.bottom + 8,
-            left: screenWidth / 2 - 25,
-            child: Container(
-              height: 50,
-              width: 50,
-              child: FloatingActionButton(
-                onPressed: _toggleFab,
-                backgroundColor: _isFabOpen
-                    ? const Color(0xFFED6A5A) // 🔴 Vermelho quando ABERTO
-                    : theme
-                          .btnBottomNavColor, // ✅ #C0D9D5 SEMPRE quando FECHADO
-                foregroundColor: const Color(0xFFF4F1BB),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                elevation: 4,
-                child: AnimatedRotation(
-                  turns: _isFabOpen ? 0.125 : 0.0,
-                  duration: const Duration(milliseconds: 250),
-                  child: Icon(_isFabOpen ? Icons.close : Icons.add, size: 24),
-                ),
-              ),
-            ),
-          ),
-        ],
+  // ✅ FAB CENTRAL - POSIÇÃO CORRIGIDA
+  Widget _buildCustomFloatingActionButton() {
+    return Positioned(
+      // ✅ POSIÇÃO PERFEITA: acima da navbar mas abaixo dos botões filhos
+      bottom: 25, // Voltou para a posição original
+      left: MediaQuery.of(context).size.width / 2 - 25,
+      child: FloatingActionButton(
+        onPressed: _toggleFab,
+        backgroundColor: _isFabOpen
+            ? const Color(0xFFED6A5A)
+            : const Color(0xFFC0D9D5),
+        foregroundColor: const Color(0xFFF4F1BB),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(25),
+        ),
+        elevation: 8,
+        child: AnimatedRotation(
+          turns: _isFabOpen ? 0.125 : 0.0,
+          duration: const Duration(milliseconds: 250),
+          child: Icon(_isFabOpen ? Icons.close : Icons.add, size: 24),
+        ),
       ),
     );
   }
@@ -246,54 +229,44 @@ class _BottomNavState extends State<BottomNav>
   Widget build(BuildContext context) {
     final theme = context.watch<ThemeController>();
     final screenWidth = MediaQuery.of(context).size.width;
-    final mediaQuery = MediaQuery.of(context);
 
-    return Scaffold(
-      extendBody: true,
-      body: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle(
-          systemNavigationBarColor: theme.appbarColor,
-          systemNavigationBarIconBrightness: Brightness.light,
-          statusBarColor: Colors.transparent,
-          statusBarIconBrightness: Brightness.light,
-          systemStatusBarContrastEnforced: true,
-          systemNavigationBarContrastEnforced: true,
-        ),
-        child: Stack(
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(
+        systemNavigationBarColor: theme.appbarColor,
+        systemNavigationBarIconBrightness: Brightness.light,
+        systemNavigationBarDividerColor: Colors.transparent,
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.light,
+        statusBarBrightness: Brightness.light,
+        systemStatusBarContrastEnforced: true,
+        systemNavigationBarContrastEnforced: true,
+      ),
+      child: Scaffold(
+        extendBody: true,
+        body: Stack(
           children: [
-            // Conteúdo das páginas - COM RESIZE TO AVOID BOTTOM INSET
-            PersistentTabView(
-              context,
-              controller: _controller,
-              screens: _buildScreens(),
-              items: _navBarsItems(),
-              confineToSafeArea: true,
-              backgroundColor: Colors.transparent,
-              handleAndroidBackButtonPress: true,
-              resizeToAvoidBottomInset: true,
-              stateManagement: true,
-              navBarHeight: 0,
-              decoration: const NavBarDecoration(
-                borderRadius: BorderRadius.zero,
-                colorBehindNavBar: Colors.transparent,
-              ),
-            ),
+            // CONTEÚDO PRINCIPAL
+            _buildMainContent(),
 
-            // Overlay para quando FAB estiver aberto
-            if (_isFabOpen)
+            // ✅ FAB CENTRAL - AGORA FICA ACIMA DO OVERLAY
+            _buildCustomFloatingActionButton(),
+
+            // ✅ OVERLAY E BOTÕES FAB - ORDEM CORRIGIDA
+            if (_isFabOpen) ...[
+              // Overlay escuro - FICA ATRÁS DO FAB
               GestureDetector(
                 onTap: _toggleFab,
                 child: Container(
                   width: double.infinity,
                   height: double.infinity,
-                  color: Colors.black.withOpacity(0.5),
+                  color: Colors.black.withOpacity(0.3),
                 ),
               ),
 
-            // Botões filhos do FAB - POSIÇÃO MAIS SEGURA
-            if (_isFabOpen)
+              // Botões filhos do FAB - FICAM ACIMA DO OVERLAY E DO FAB
               Positioned(
-                bottom: _getTotalBottomBarHeight(context) + 60,
+                // ✅ POSIÇÃO CORRIGIDA: acima do FAB central
+                bottom: 100, // Acima do FAB (que está em bottom: 25 + altura do FAB)
                 left: 0,
                 right: 0,
                 child: AnimatedContainer(
@@ -301,9 +274,10 @@ class _BottomNavState extends State<BottomNav>
                   height: 80,
                   child: Stack(
                     children: [
+                      // Botão Esquerdo - Adicionar Revisão
                       Positioned(
-                        top: 30,
-                        left: screenWidth / 2 - 110,
+                        top: 20,
+                        left: screenWidth / 2 - 120,
                         child: AnimatedBuilder(
                           animation: _animationController,
                           builder: (context, child) {
@@ -325,6 +299,8 @@ class _BottomNavState extends State<BottomNav>
                             icon: Icons.note_add,
                             onTap: () async {
                               _toggleFab();
+                              if (userId == null) return;
+                              
                               final modulos = await dbHelper.query(
                                 'modulo',
                                 where: 'idUsuario = ?',
@@ -332,7 +308,6 @@ class _BottomNavState extends State<BottomNav>
                               );
 
                               if (modulos.isEmpty) {
-                                // Mostra aviso e sai
                                 if (mounted) {
                                   showDialog(
                                     context: context,
@@ -349,8 +324,7 @@ class _BottomNavState extends State<BottomNav>
                                 return;
                               }
 
-                              // Abre diálogo de review
-                              final result = await showDialog(
+                              await showDialog(
                                 context: context,
                                 builder: (BuildContext dialogContext) {
                                   return CustomDialogRevieweForm(
@@ -364,8 +338,9 @@ class _BottomNavState extends State<BottomNav>
                         ),
                       ),
 
+                      // Botão Central - Pet (AGORA É O PET QUE FICA MAIS ALTO)
                       Positioned(
-                        top: 15,
+                        top: 0, // ✅ Este fica mais alto que os outros
                         left: screenWidth / 2 - 25,
                         child: AnimatedBuilder(
                           animation: _animationController,
@@ -390,7 +365,7 @@ class _BottomNavState extends State<BottomNav>
                               _toggleFab();
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) => PetPage(),
+                                  builder: (context) => const PetPage(),
                                 ),
                               );
                             },
@@ -398,9 +373,10 @@ class _BottomNavState extends State<BottomNav>
                         ),
                       ),
 
+                      // Botão Direito - Configurações
                       Positioned(
-                        top: 30,
-                        right: screenWidth / 2 - 110,
+                        top: 20,
+                        right: screenWidth / 2 - 120,
                         child: AnimatedBuilder(
                           animation: _animationController,
                           builder: (context, child) {
@@ -424,7 +400,7 @@ class _BottomNavState extends State<BottomNav>
                               _toggleFab();
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) => SettingsPage(),
+                                  builder: (context) => const SettingsPage(),
                                 ),
                               );
                             },
@@ -435,14 +411,7 @@ class _BottomNavState extends State<BottomNav>
                   ),
                 ),
               ),
-
-            // Navbar customizada com FAB integrado
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: _buildCustomBottomBar(context),
-            ),
+            ],
           ],
         ),
       ),
