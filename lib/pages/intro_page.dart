@@ -27,32 +27,7 @@ class _IntroPageState extends State<IntroPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.pastelBeige,
-      appBar: AppBar(
-        backgroundColor: AppColors.pastelBeige,
-        title: Text(''),
-        actions: [
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => BottomNav()),
-              );
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(right: 16, top: 15),
-              child: Text(
-                "",
-                //"Continuar sem Acesso",
-                style: TextStyle(
-                  fontFamily: 'CerebriSansPro',
-                  fontSize: 18,
-                  color: AppColors.tealBlue,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
+      appBar: AppBar(),
       body: SingleChildScrollView(
         child: Stack(
           clipBehavior: Clip.none,
