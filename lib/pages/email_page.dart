@@ -111,7 +111,7 @@ class _EmailPageState extends State<EmailPage> {
         content: 'E-mail atualizado com sucesso!',
         ok: CustomOk(
           function: () {
-            userController.email;
+            userController.setEmail(email);
             Navigator.pop(context); // fecha o diálogo
             Navigator.pop(context); // volta para a tela anterior
           },

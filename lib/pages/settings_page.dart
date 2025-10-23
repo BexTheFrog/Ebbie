@@ -4,6 +4,7 @@ import 'package:ebbie/pages/email_page.dart';
 import 'package:ebbie/pages/name_page.dart';
 import 'package:ebbie/pages/password_page.dart';
 import 'package:ebbie/services/database.dart';
+import 'package:ebbie/services/user_controller.dart';
 import 'package:ebbie/services/user_service.dart';
 import 'package:ebbie/widgets/module_profile.dart';
 import 'package:ebbie/widgets/theme_controller.dart';
@@ -55,6 +56,7 @@ class _SettingsPageState extends State<SettingsPage> {
     final borderColor = const Color(0xFFF4F1BB);
     final backgroundColor = theme.optionSettingsColor;
     final appBackgroundColor = const Color(0xFFF7EDE2);
+    final userController = context.watch<UserController>();
 
     return Scaffold(
       appBar: const CustomAppbarNoIcon(coinCount: 15, segment: 'Configurações'),
@@ -153,7 +155,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           ),
                         ),
                         trailing: Text(
-                          userData?['nome'] ?? 'Não encontrado',
+                          userController.nome ?? "Usuário não encontrado",
                           style: TextStyle(
                             fontSize: 14,
                             color: borderColor,
