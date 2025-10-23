@@ -145,7 +145,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       ),
                       child: ListTile(
                         title: Text(
-                          "Name",
+                          "Nome",
                           style: TextStyle(
                             color: borderColor,
                             fontWeight: FontWeight.w500,
