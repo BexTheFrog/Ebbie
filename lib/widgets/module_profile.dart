@@ -316,7 +316,7 @@ class _ModuleProfileState extends State<ModuleProfile> {
                 width: double.infinity,
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: theme.appbarColor,
+                  color: theme.profileColor,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10),
