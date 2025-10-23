@@ -1,7 +1,6 @@
 name: ebbie
 description: "A new Flutter project."
-
-publish_to: 'none' 
+publish_to: 'none'
 
 version: 1.0.0+1
 
@@ -13,10 +12,8 @@ dependencies:
     sdk: flutter
   flutter_speed_dial: ^7.0.0
   curved_navigation_bar: ^1.0.6
-
   cupertino_icons: ^1.0.8
   shared_preferences: ^2.5.3
-
   flutter_launcher_icons: ^0.14.4
   dropdown_button2: ^2.3.9
   table_calendar: ^3.2.0
@@ -33,18 +30,18 @@ dependencies:
   path: ^1.9.1
   date_field: ^6.0.3+1
   gif: ^2.3.0
-  
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
   flutter_lints: ^5.0.0
 
 flutter_icons:
   android: true
   ios: true
   image_path: "assets/icon/app_icon.png"
+  adaptive_icon_background: "#5D576B"
+  adaptive_icon_foreground: "assets/icon/app_icon.png"
 
 flutter:
   uses-material-design: true
@@ -54,7 +51,6 @@ flutter:
     - assets/images/cortex/cortex_idle.gif
     - assets/images/cortex/cortex_eating.gif
     - assets/images/cortex/cortex_shower.gif
-
 
   fonts:
     - family: CerebriSansPro
