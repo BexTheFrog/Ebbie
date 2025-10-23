@@ -51,6 +51,8 @@ flutter:
     - assets/images/cortex/cortex_idle.gif
     - assets/images/cortex/cortex_eating.gif
     - assets/images/cortex/cortex_shower.gif
+    - assets/images/cortex/cortex_workout.gif
+    - assets/images/cortex/cortex_buff.gif
 
   fonts:
     - family: CerebriSansPro

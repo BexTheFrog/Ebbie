@@ -103,7 +103,7 @@ class _PetPageState extends State<PetPage> {
         );
       }
 
-      Timer(const Duration(milliseconds: 1500), () {
+      Timer(const Duration(milliseconds: 2000), () {
         if (mounted) setState(() => currentGif = idleGif);
       });
     } else {
