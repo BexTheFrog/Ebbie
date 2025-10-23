@@ -38,7 +38,9 @@ class _PomodoroPageState extends State<PomodoroPage> {
   void initState() {
     super.initState();
     _focoController = TextEditingController(text: focusMinutes.toString());
-    _curtaController = TextEditingController(text: shortBreakMinutes.toString());
+    _curtaController = TextEditingController(
+      text: shortBreakMinutes.toString(),
+    );
     _longaController = TextEditingController(text: longBreakMinutes.toString());
     _updateTotalSeconds();
   }
@@ -130,11 +132,11 @@ class _PomodoroPageState extends State<PomodoroPage> {
                         Checkbox(
                           value: autoStartBreak,
                           onChanged: (value) {
-                            setState(() {
-                              autoStartBreak = value ?? false;
-                            });
+                            autoStartBreak = value ?? false;
+                            _overlayEntry?.markNeedsBuild();
                           },
                         ),
+
                         Text(
                           "Iniciar pausa automaticamente",
                           style: TextStyle(
@@ -169,15 +171,18 @@ class _PomodoroPageState extends State<PomodoroPage> {
                             Row(
                               children: [
                                 Checkbox(
-                                  value: selectedBreakType == PomodoroMode.pausaCurta,
+                                  value:
+                                      selectedBreakType ==
+                                      PomodoroMode.pausaCurta,
                                   onChanged: (value) {
                                     if (value == true) {
-                                      setState(() {
-                                        selectedBreakType = PomodoroMode.pausaCurta;
-                                      });
+                                      selectedBreakType =
+                                          PomodoroMode.pausaCurta;
+                                      _overlayEntry?.markNeedsBuild();
                                     }
                                   },
                                 ),
+
                                 Text(
                                   "Pausa Curta",
                                   style: TextStyle(
@@ -186,15 +191,18 @@ class _PomodoroPageState extends State<PomodoroPage> {
                                 ),
                                 const SizedBox(width: 20),
                                 Checkbox(
-                                  value: selectedBreakType == PomodoroMode.pausaLonga,
+                                  value:
+                                      selectedBreakType ==
+                                      PomodoroMode.pausaLonga,
                                   onChanged: (value) {
                                     if (value == true) {
-                                      setState(() {
-                                        selectedBreakType = PomodoroMode.pausaLonga;
-                                      });
+                                      selectedBreakType =
+                                          PomodoroMode.pausaLonga;
+                                      _overlayEntry?.markNeedsBuild();
                                     }
                                   },
                                 ),
+
                                 Text(
                                   "Pausa Longa",
                                   style: TextStyle(
@@ -212,11 +220,11 @@ class _PomodoroPageState extends State<PomodoroPage> {
                         Checkbox(
                           value: autoStartFocus,
                           onChanged: (value) {
-                            setState(() {
-                              autoStartFocus = value ?? false;
-                            });
+                            autoStartFocus = value ?? false;
+                            _overlayEntry?.markNeedsBuild();
                           },
                         ),
+
                         Text(
                           "Iniciar foco automaticamente",
                           style: TextStyle(
@@ -235,10 +243,7 @@ class _PomodoroPageState extends State<PomodoroPage> {
                           onPressed: _hideOverlay,
                           child: const Text(
                             "Cancelar",
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 16,
-                            ),
+                            style: TextStyle(color: Colors.grey, fontSize: 16),
                           ),
                         ),
                         ElevatedButton(
@@ -250,9 +255,15 @@ class _PomodoroPageState extends State<PomodoroPage> {
                           ),
                           onPressed: () {
                             setState(() {
-                              focusMinutes = int.tryParse(_focoController.text) ?? focusMinutes;
-                              shortBreakMinutes = int.tryParse(_curtaController.text) ?? shortBreakMinutes;
-                              longBreakMinutes = int.tryParse(_longaController.text) ?? longBreakMinutes;
+                              focusMinutes =
+                                  int.tryParse(_focoController.text) ??
+                                  focusMinutes;
+                              shortBreakMinutes =
+                                  int.tryParse(_curtaController.text) ??
+                                  shortBreakMinutes;
+                              longBreakMinutes =
+                                  int.tryParse(_longaController.text) ??
+                                  longBreakMinutes;
 
                               _updateTotalSeconds();
                               isRunning = false;
@@ -353,7 +364,7 @@ class _PomodoroPageState extends State<PomodoroPage> {
 
   void _showOverlay() {
     if (_overlayEntry != null) return;
-    
+
     _overlayEntry = _createOverlayEntry(context);
     Overlay.of(context).insert(_overlayEntry!);
   }
@@ -444,8 +455,8 @@ class _PomodoroPageState extends State<PomodoroPage> {
                         color: currentMode == PomodoroMode.foco
                             ? theme.primaryColor
                             : currentMode == PomodoroMode.pausaCurta
-                                ? theme.secondaryColor
-                                : theme.accentColor,
+                            ? theme.secondaryColor
+                            : theme.accentColor,
                         borderRadius: BorderRadius.circular(30),
                       ),
                       child: Row(
@@ -455,8 +466,8 @@ class _PomodoroPageState extends State<PomodoroPage> {
                             currentMode == PomodoroMode.foco
                                 ? Icons.psychology
                                 : currentMode == PomodoroMode.pausaCurta
-                                    ? Icons.local_cafe
-                                    : Icons.coffee,
+                                ? Icons.local_cafe
+                                : Icons.coffee,
                             color: theme.textColor,
                             size: 30,
                           ),
@@ -465,8 +476,8 @@ class _PomodoroPageState extends State<PomodoroPage> {
                             currentMode == PomodoroMode.foco
                                 ? "Foco"
                                 : currentMode == PomodoroMode.pausaCurta
-                                    ? "Pausa Curta"
-                                    : "Pausa Longa",
+                                ? "Pausa Curta"
+                                : "Pausa Longa",
                             style: TextStyle(
                               color: theme.textColor,
                               fontWeight: FontWeight.bold,

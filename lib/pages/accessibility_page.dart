@@ -29,7 +29,7 @@ class AccessibilityPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              _colorOption(context, 'Normal', themeController, const [
+              _colorOption(context, 'Original', themeController, const [
                 Color(0xFFEA6D5A),
                 Color(0xFFD3D0A0),
                 Color(0xFF9BC1BC),
@@ -90,7 +90,8 @@ class AccessibilityPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeColor = context.watch<ThemeController>().primaryColor;
+    final themeController = context.watch<ThemeController>();
+    final themeColor = themeController.primaryColor;
 
     return Scaffold(
       appBar: const CustomAppbarNoIcon(segment: "Acessibilidade"),
@@ -104,7 +105,7 @@ class AccessibilityPage extends StatelessWidget {
               onTap: () => _showColorOptions(context),
               borderRadius: BorderRadius.circular(5),
               child: Container(
-                width: 400,
+                width: MediaQuery.of(context).size.width * 0.9,
                 height: 90,
                 decoration: BoxDecoration(
                   color: themeColor,
@@ -123,7 +124,7 @@ class AccessibilityPage extends StatelessWidget {
                       Icon(Icons.visibility, color: themeColor),
                       const SizedBox(width: 8),
                       Text(
-                        'Opções de Daltonismo',
+                        'Acessibilidade de cores ${themeController.daltonismMode}',
                         style: TextStyle(
                           color: themeColor,
                           fontSize: 18,
@@ -138,7 +139,6 @@ class AccessibilityPage extends StatelessWidget {
           ],
         ),
       ),
-      
     );
   }
 }
