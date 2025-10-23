@@ -16,7 +16,7 @@ dependencies:
 
   cupertino_icons: ^1.0.8
   shared_preferences: ^2.5.3
-
+  webview_flutter: ^4.2.1
   flutter_launcher_icons: ^0.14.4
   dropdown_button2: ^2.3.9
   table_calendar: ^3.2.0
@@ -33,6 +33,7 @@ dependencies:
   path: ^1.9.1
   date_field: ^6.0.3+1
   gif: ^2.3.0
+  
   
 
 dev_dependencies:

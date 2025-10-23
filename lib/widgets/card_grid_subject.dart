@@ -124,13 +124,13 @@ class _CardGridPageState extends State<CardGridPage> {
                         ListTile(
                           leading: Icon(
                             LucideIcons.squarePen,
-                            color: theme.profileColor,
+                            color: theme.editarBtnColor,
                           ),
                           title: Text(
                             'Editar',
                             style: TextStyle(
                               fontFamily: 'CerebriSansPro',
-                              color: theme.profileColor,
+                              color: theme.editarBtnColor,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -142,13 +142,13 @@ class _CardGridPageState extends State<CardGridPage> {
                         ListTile(
                           leading: Icon(
                             LucideIcons.circleX,
-                            color: theme.profileColor,
+                            color: theme.excluirBtnColor,
                           ),
                           title: Text(
                             'Excluir',
                             style: TextStyle(
                               fontFamily: 'CerebriSansPro',
-                              color: theme.profileColor,
+                              color: theme.excluirBtnColor,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -192,7 +192,7 @@ class CustomCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         side: const BorderSide(color: Color(0xFFF4F1BB), width: 3),
       ),
-      color: theme.profileColor,
+      color: theme.addCardModuloColor,
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
         onTap: onTap,
@@ -243,7 +243,7 @@ class CustomCardAdd extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         side: const BorderSide(color: Color(0xFFF4F1BB), width: 3),
       ),
-      color: theme.profileColor,
+      color: theme.addCardModuloColor,
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
         onTap: onTap,
