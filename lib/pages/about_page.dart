@@ -150,14 +150,8 @@ class AboutUsPage extends StatelessWidget {
   }
 
   Future<void> _launchGithubUrl(BuildContext context, String url) async {
-    try {
-      final uri = Uri.parse(url);
-      if (await canLaunchUrl(uri)) {
-        await launchUrl(uri);
-      } else {
-        _showErrorSnackbar(context);
-      }
-    } catch (e) {
+    final uri = Uri.parse(url);
+    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
       _showErrorSnackbar(context);
     }
   }

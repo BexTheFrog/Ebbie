@@ -29,6 +29,7 @@ class ThemeController extends ChangeNotifier {
   Color _overlayColor = Color(0xFF9BC1BC);
   Color _selectOverlayColor = Color(0xFF5D576B);
   Color _btnBottomNavColor = Color(0xFFC0D9D5);
+  Color _editarBtnColor = Color(0xFFC0D9D5);
   Color _excluirBtnColor = Color(0xFFED6A5A);
 
   // Cor Home
@@ -65,6 +66,7 @@ class ThemeController extends ChangeNotifier {
   Color _metaSelectProfileColor = Color(0xFFED6A5A);
   Color _metasProfileColor = Colors.orange.shade700;
   Color _revisaoMetaProfileColor = Color(0xFF9BC1BC);
+  Color _addCardModuloColor = Color(0xFF9BC1BC);
 
   // Cor Pet
   Color _fundPetColor = Color(0xFFED6A5A).withAlpha(25);
@@ -98,6 +100,7 @@ class ThemeController extends ChangeNotifier {
   Color get textOverlayColor => _textOverlayColor;
   Color get timePersonalizedColor => _timePersonalizedColor;
   Color get pointsColor => _pointsColor;
+  Color get editarBtnColor => _editarBtnColor;
   Color get excluirBtnColor => _excluirBtnColor;
   Color get botomPlayColor => _botomPlayColor;
   Color get btnBottomNavColor => _btnBottomNavColor;
@@ -126,6 +129,7 @@ class ThemeController extends ChangeNotifier {
   Color get optionSettingsColor => _optionSettingsColor;
   Color get aboutPageColor => _aboutPageColor;
   Color get btnAboutPageColor => _btnAboutPageColor;
+  Color get addCardModuloColor => _addCardModuloColor;
 
   String get daltonismMode => _daltonismMode;
 
@@ -141,7 +145,8 @@ class ThemeController extends ChangeNotifier {
         _pointsColor = const Color(0xFFB56576); // Cor pontos do pet geral
         _overlayColor = Color(0xFFE56B6F); // Cor overlay geral
         _selectOverlayColor = Color(0xFFB56576);
-        _excluirBtnColor = Color(0xFF2e2e2e);
+        _editarBtnColor = Color(0xFF2e2e2e);
+        _excluirBtnColor = Color(0xFFE56B6F);
 
         // Cor Homepage
         _tablecalendarColor = Color(0xFF4B3A4B);
@@ -178,6 +183,7 @@ class ThemeController extends ChangeNotifier {
         _metaSelectProfileColor = Color(0xFF3C2F3C);
         _metasProfileColor = Color(0xFFB56576);
         _revisaoMetaProfileColor = Color(0x80EAAC8B);
+        _addCardModuloColor = Color(0xFFE56B6F);
 
         // Cor Pet
         _fundPetColor = Color(0xFFE56B6F).withAlpha(30);
@@ -199,6 +205,7 @@ class ThemeController extends ChangeNotifier {
         _pointsColor = const Color(0xFFEAAC8B); // Cor pontos do pet geral
         _overlayColor = Color(0xFFB56576); // Cor overlay geral
         _selectOverlayColor = Color(0xFF6D597A);
+        _editarBtnColor = Color(0xFF3D303D);
         _excluirBtnColor = Color(0xFFB56576);
 
         // Cor Homepage
@@ -236,6 +243,7 @@ class ThemeController extends ChangeNotifier {
         _metaSelectProfileColor = Color(0xFFB56576);
         _metasProfileColor = Color(0xFFEAAC8B);
         _revisaoMetaProfileColor = Color(0x806D597A);
+        _addCardModuloColor = Color(0xFF3D303D);
 
         // Cor Pet
         _fundPetColor = Color(0xFFB56576).withAlpha(30);
@@ -257,7 +265,8 @@ class ThemeController extends ChangeNotifier {
         _pointsColor = const Color(0xFFB56576); // Cor pontos do pet geral
         _overlayColor = Color(0xFF6D597A); // Cor overlay geral
         _selectOverlayColor = Color(0xFFB56576);
-        _excluirBtnColor = Color(0xFF6D597A);
+        _editarBtnColor = Color(0xFF2F3B50);
+        _excluirBtnColor = Color(0xFFB56576);
 
         // Cor Homepage
         _tablecalendarColor = Color(0xFF2F3B50);
@@ -294,6 +303,7 @@ class ThemeController extends ChangeNotifier {
         _metaSelectProfileColor = Color(0xFF3B4A66);
         _metasProfileColor = Color(0xFF6D597A);
         _revisaoMetaProfileColor = Color(0x80B56576);
+        _addCardModuloColor = Color(0xFFB56576);
 
         // Cor Pet
         _fundPetColor = Color(0xFF2F3B50).withAlpha(25);
@@ -320,6 +330,7 @@ class ThemeController extends ChangeNotifier {
         ); // Cor pontos do pet geral
         _overlayColor = Color(0xFF9BC1BC); // Cor overlay geral
         _selectOverlayColor = Color.fromARGB(255, 54, 123, 114);
+        _editarBtnColor = Color(0xBF9BC1BC);
         _excluirBtnColor = Color(0xFFED6A5A);
 
         // Cor Homepage
@@ -360,6 +371,7 @@ class ThemeController extends ChangeNotifier {
         _metaSelectProfileColor = Color(0xFFED6A5A);
         _metasProfileColor = Colors.orange.shade700;
         _revisaoMetaProfileColor = Color(0xFF9BC1BC);
+        _addCardModuloColor = Color(0xFF9BC1BC);
 
         // Cor Pet
         _fundPetColor = Color(0xFFED6A5A).withAlpha(25);
