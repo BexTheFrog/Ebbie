@@ -1,4 +1,5 @@
 import 'package:ebbie/services/database.dart';
+import 'package:ebbie/services/user_controller.dart';
 import 'package:ebbie/services/user_service.dart';
 import 'package:ebbie/widgets/custom_appbar.dart';
 import 'package:ebbie/widgets/theme_controller.dart';
