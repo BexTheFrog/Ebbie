@@ -102,7 +102,7 @@ class _BottomNavState extends State<BottomNav>
     return [
       const MyHomePage(),
       const SearchPage(),
-      Container(), // Placeholder para o FAB central
+      Container(), // Placeholder para o botão Mais (não navega)
       const PomodoroPage(),
       const ProfilePage(),
     ];
@@ -123,10 +123,14 @@ class _BottomNavState extends State<BottomNav>
         inactiveColorPrimary: Colors.grey,
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(Icons.circle, color: Colors.transparent, size: 24),
-        title: "",
-        activeColorPrimary: Colors.transparent,
-        inactiveColorPrimary: Colors.transparent,
+        icon: Icon(
+          _isFabOpen ? Icons.close : Icons.add,
+          color: _isFabOpen ? const Color(0xFFED6A5A) : const Color(0xFF9BC1BC),
+          size: 28,
+        ),
+        title: "Mais",
+        activeColorPrimary: const Color(0xFF9BC1BC),
+        inactiveColorPrimary: Colors.grey,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(LucideIcons.timer, size: 24),
@@ -184,44 +188,29 @@ class _BottomNavState extends State<BottomNav>
       handleAndroidBackButtonPress: true,
       resizeToAvoidBottomInset: true,
       stateManagement: true,
-      navBarHeight: 60,
+      navBarHeight: 70,
       margin: EdgeInsets.zero,
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: EdgeInsets.zero,
       navBarStyle: NavBarStyle.style3,
       decoration: const NavBarDecoration(
         borderRadius: BorderRadius.zero,
         colorBehindNavBar: Colors.transparent,
       ),
       onItemSelected: (index) {
-        if (_isFabOpen && index != 2) {
+        if (index == 2) {
+          // Botão Mais - apenas abre/fecha os botões, não navega
+          _toggleFab();
+          // Volta para a tela anterior
+          Future.delayed(Duration.zero, () {
+            if (_controller.index == 2) {
+              _controller.index = 0;
+            }
+          });
+        } else if (_isFabOpen) {
+          // Se clicar em outro item e o FAB estiver aberto, fecha
           _toggleFab();
         }
       },
-    );
-  }
-
-  // ✅ FAB CENTRAL - POSIÇÃO CORRIGIDA
-  Widget _buildCustomFloatingActionButton() {
-    return Positioned(
-      // ✅ POSIÇÃO PERFEITA: acima da navbar mas abaixo dos botões filhos
-      bottom: 25, // Voltou para a posição original
-      left: MediaQuery.of(context).size.width / 2 - 25,
-      child: FloatingActionButton(
-        onPressed: _toggleFab,
-        backgroundColor: _isFabOpen
-            ? const Color(0xFFED6A5A)
-            : const Color(0xFFC0D9D5),
-        foregroundColor: const Color(0xFFF4F1BB),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(25),
-        ),
-        elevation: 8,
-        child: AnimatedRotation(
-          turns: _isFabOpen ? 0.125 : 0.0,
-          duration: const Duration(milliseconds: 250),
-          child: Icon(_isFabOpen ? Icons.close : Icons.add, size: 24),
-        ),
-      ),
     );
   }
 
@@ -242,18 +231,14 @@ class _BottomNavState extends State<BottomNav>
         systemNavigationBarContrastEnforced: true,
       ),
       child: Scaffold(
-        extendBody: true,
         body: Stack(
           children: [
             // CONTEÚDO PRINCIPAL
             _buildMainContent(),
 
-            // ✅ FAB CENTRAL - AGORA FICA ACIMA DO OVERLAY
-            _buildCustomFloatingActionButton(),
-
-            // ✅ OVERLAY E BOTÕES FAB - ORDEM CORRIGIDA
+            // ✅ OVERLAY E BOTÕES DO BOTÃO "MAIS"
             if (_isFabOpen) ...[
-              // Overlay escuro - FICA ATRÁS DO FAB
+              // Overlay escuro
               GestureDetector(
                 onTap: _toggleFab,
                 child: Container(
@@ -263,10 +248,9 @@ class _BottomNavState extends State<BottomNav>
                 ),
               ),
 
-              // Botões filhos do FAB - FICAM ACIMA DO OVERLAY E DO FAB
+              // Botões filhos
               Positioned(
-                // ✅ POSIÇÃO CORRIGIDA: acima do FAB central
-                bottom: 100, // Acima do FAB (que está em bottom: 25 + altura do FAB)
+                bottom: 80, // Posicionado acima da navbar
                 left: 0,
                 right: 0,
                 child: AnimatedContainer(
@@ -338,9 +322,9 @@ class _BottomNavState extends State<BottomNav>
                         ),
                       ),
 
-                      // Botão Central - Pet (AGORA É O PET QUE FICA MAIS ALTO)
+                      // Botão Central - Pet
                       Positioned(
-                        top: 0, // ✅ Este fica mais alto que os outros
+                        top: 0,
                         left: screenWidth / 2 - 25,
                         child: AnimatedBuilder(
                           animation: _animationController,
