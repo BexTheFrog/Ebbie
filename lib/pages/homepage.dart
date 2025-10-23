@@ -52,17 +52,17 @@ class _MyHomePageState extends State<MyHomePage> {
     for (var tarefa in tarefas) {
       DateTime dataRevisao =
           DateTime.tryParse(tarefa['dataRevisao']?.toString() ?? '') ??
-              DateTime.now();
+          DateTime.now();
       DateTime tarefaDia = DateTime(
         dataRevisao.year,
         dataRevisao.month,
         dataRevisao.day,
       );
 
-      if (tarefaDia.isBefore(somenteHoje) && tarefa['wasReviewd'] != 1) {
+      if (tarefaDia.isBefore(somenteHoje) && tarefa['status'] != 'memorizado') {
         await dbHelper.update(
           'tarefa',
-          {'dataRevisao': somenteHoje.toIso8601String(), 'wasSkipped': 1},
+          {'dataRevisao': somenteHoje.toIso8601String(), 'status': 'pulada'},
           'id = ?',
           [tarefa['id']],
         );
@@ -77,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
           final usuario = userData[0];
           await dbHelper.update(
             'user',
-            {'revisoesPuladas': (usuario['revisoesPuladas'] ?? 0) + 1},
+            {'totalPuladas': (usuario['totalPuladas'] ?? 0) + 1},
             'id = ?',
             [tarefa['idUsuario']],
           );
@@ -332,7 +332,9 @@ class _MyHomePageState extends State<MyHomePage> {
                           color: theme.calendarFimSemanaColor,
                         ),
                         dowTextFormatter: (date, locale) {
-                          String day = DateFormat.E(locale).format(date).toUpperCase();
+                          String day = DateFormat.E(
+                            locale,
+                          ).format(date).toUpperCase();
                           if (day.endsWith('.')) {
                             day = day.substring(0, day.length - 1);
                           }
@@ -425,415 +427,442 @@ class _MyHomePageState extends State<MyHomePage> {
             _loading
                 ? const Center(child: CircularProgressIndicator())
                 : reviews.isEmpty
-                    ? Center(
-                        child: Text(
-                          'Nenhuma review para ${_periodoSelecionado.toLowerCase()}',
-                          style: TextStyle(
-                            fontFamily: 'CerebriSansPro',
-                            color: theme.tableCalendarColor,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      )
-                    : Column(
-                        children: [
-                          const SizedBox(height: 20),
-                          ...reviews.map((t) {
-                            final data =
-                                DateTime.tryParse(t['dataRevisao'] ?? '') ??
-                                    DateTime.now();
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 20),
-                              child: CustomReviewCard(
-                                materia: t['materiaNome'],
-                                modulo: t['moduloNome'],
-                                reviewName: t['topico'],
-                                reviewDesc: '${t['descricao']}',
-                                wasReviewd: t['wasReviewd'] == 1,
-                                dataReview: data,
-                                hasStudy: (String? selectedMood) async {
-                                  // ... (código do hasStudy mantido igual)
-                                  final tarefaId = t['id'];
-                                  if (userId == null || selectedMood == null) return;
-
-                                  final tarefaData = await dbHelper.query(
-                                    'tarefa',
-                                    where: 'id = ?',
-                                    whereArgs: [tarefaId],
-                                  );
-                                  if (tarefaData.isEmpty) return;
-                                  final tarefa = tarefaData[0];
-
-                                  DateTime dataRevisao =
-                                      DateTime.tryParse(tarefa['dataRevisao'] ?? '') ??
-                                          DateTime.now();
-                                  DateTime hoje = DateTime.now();
-                                  DateTime tarefaDia = DateTime(
-                                    dataRevisao.year,
-                                    dataRevisao.month,
-                                    dataRevisao.day,
-                                  );
-                                  DateTime somenteHoje = DateTime(
-                                    hoje.year,
-                                    hoje.month,
-                                    hoje.day,
-                                  );
-
-                                  if (tarefaDia != somenteHoje) {
-                                    if (mounted) {
-                                      showDialog(
-                                        context: context,
-                                        builder: (_) => CustomMsgDialog(
-                                          title: 'Atenção',
-                                          content:
-                                              'Você só pode marcar esta revisão no dia da tarefa.',
-                                          ok: CustomOk(
-                                            function: () => Navigator.pop(context),
-                                          ),
-                                        ),
-                                      );
-                                    }
-                                    return;
-                                  }
-
-                                  final lastReview = await dbHelper.query(
-                                    'review_stats',
-                                    where: 'idTarefa = ?',
-                                    whereArgs: [tarefaId],
-                                    orderBy: 'id DESC',
-                                    limit: 1,
-                                  );
-
-                                  int repeticoes = 0;
-                                  double easiness = 2.5;
-                                  int intervalo = 1;
-
-                                  if (lastReview.isNotEmpty) {
-                                    repeticoes = lastReview[0]['repeticoes'] ?? 0;
-                                    easiness = lastReview[0]['easiness'] ?? 2.5;
-                                    intervalo = lastReview[0]['intervalo'] ?? 1;
-                                  }
-
-                                  int nota = 3;
-                                  switch (selectedMood) {
-                                    case 'mal':
-                                      nota = 1;
-                                      break;
-                                    case 'ok':
-                                      nota = 3;
-                                      break;
-                                    case 'bem':
-                                      nota = 5;
-                                      break;
-                                  }
-
-                                  if (nota < 3) {
-                                    repeticoes = 0;
-                                    intervalo = 1;
-                                    easiness = (easiness - 0.2).clamp(1.3, 2.5);
-                                  } else {
-                                    repeticoes++;
-                                    if (repeticoes == 1)
-                                      intervalo = 1;
-                                    else if (repeticoes == 2)
-                                      intervalo = 3;
-                                    else
-                                      intervalo = (intervalo * easiness).round();
-
-                                    easiness =
-                                        easiness +
-                                            0.1 -
-                                            (5 - nota) * (0.08 + (5 - nota) * 0.02);
-                                    if (easiness < 1.3) easiness = 1.3;
-                                  }
-
-                                  bool memorizado =
-                                      repeticoes >= 5 && selectedMood == 'bem';
-
-                                  final userData = await dbHelper.query(
-                                    'user',
-                                    where: 'id = ?',
-                                    whereArgs: [userId],
-                                  );
-                                  if (userData.isEmpty) return;
-                                  final usuario = userData[0];
-
-                                  if (memorizado) {
-                                    await dbHelper.update(
-                                      'tarefa',
-                                      {'status': 'memorizado', 'dataRevisao': null},
-                                      'id = ?',
-                                      [tarefaId],
-                                    );
-
-                                    final carteiraAtual = usuario['carteira'] ?? 0;
-                                    final bonus = 10;
-
-                                    await dbHelper.update(
-                                      'user',
-                                      {
-                                        'carteira': carteiraAtual + bonus,
-                                        'totalMemorizadas':
-                                            (usuario['totalMemorizadas'] ?? 0) + 1,
-                                        'totalEstudadas':
-                                            (usuario['totalEstudadas'] ?? 0) + 1,
-                                      },
-                                      'id = ?',
-                                      [userId],
-                                    );
-                                    if (coinNotifier != null) {
-                                      coinNotifier.value = carteiraAtual + bonus;
-                                    }
-
-                                    if (mounted) {
-                                      showDialog(
-                                        context: context,
-                                        builder: (dialogContext) => CustomMsgDialog(
-                                          title: 'Concluído 🎉',
-                                          content:
-                                              'Você dominou "${tarefa['topico']}"! Esta revisão foi marcada como memorizada.',
-                                          ok: CustomOk(
-                                            function: () =>
-                                                Navigator.pop(dialogContext),
-                                          ),
-                                        ),
-                                      );
-                                    }
-
-                                    if (mounted) {
-                                      _loadReviews(_periodoSelecionado);
-                                      _loadStats();
-                                    }
-                                    return;
-                                  }
-
-                                  final proximaData = hoje.add(
-                                    Duration(days: intervalo),
-                                  );
-                                  int moedas = selectedMood == 'mal'
-                                      ? 1
-                                      : selectedMood == 'ok'
-                                          ? 2
-                                          : 3;
-
-                                  await dbHelper.update(
-                                    'user',
-                                    {
-                                      'carteira': (usuario['carteira'] ?? 0) + moedas,
-                                      'totalEstudadas': (usuario['totalEstudadas'] ?? 0) + 1,
-                                    },
-                                    'id = ?',
-                                    [userId],
-                                  );
-                                  if (coinNotifier != null) {
-                                    coinNotifier.value = (usuario['carteira'] ?? 0) + moedas;
-                                  }
-
-                                  await dbHelper.update(
-                                    'tarefa',
-                                    {
-                                      'status': selectedMood,
-                                      'dataRevisao': proximaData.toIso8601String(),
-                                    },
-                                    'id = ?',
-                                    [tarefaId],
-                                  );
-
-                                  await dbHelper.insert('review_stats', {
-                                    'idUsuario': tarefa['idUsuario'],
-                                    'idTarefa': tarefaId,
-                                    'status': selectedMood,
-                                    'data': hoje.toIso8601String(),
-                                    'intervalo': intervalo,
-                                    'easiness': easiness,
-                                    'repeticoes': repeticoes,
-                                  });
-
-                                  if (mounted) {
-                                    showDialog(
-                                      context: context,
-                                      builder: (dialogContext) => CustomMsgDialog(
-                                        title: 'Próxima Revisão',
-                                        content:
-                                            'A próxima revisão de "${tarefa['topico']}" será em ${DateFormat('dd/MM/yyyy').format(proximaData)}.',
-                                        ok: CustomOk(
-                                          function: () => Navigator.pop(dialogContext),
-                                        ),
-                                      ),
-                                    );
-                                  }
-
-                                  if (mounted) {
-                                    _loadReviews(_periodoSelecionado);
-                                    _loadStats();
-                                  }
-                                },
-                                onPressed: () {
-  // ✅ CORREÇÃO: BottomSheet COLADO na navbar
-  showModalBottomSheet(
-    context: context,
-    isScrollControlled: true, // ✅ Mantém o controle da altura
-    backgroundColor: Colors.transparent,
-    builder: (context) {
-      return Container(
-        // ✅ REMOVIDO: margin - Agora fica colado na navbar
-        decoration: BoxDecoration(
-          color: const Color(0xFFF7EDE2),
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.2),
-              blurRadius: 10,
-              spreadRadius: 2,
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // ✅ Header do BottomSheet
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: const Color(0xFFF7EDE2),
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                ),
-              ),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.more_vert,
-                    color: theme.tableCalendarColor,
-                  ),
-                  const SizedBox(width: 10),
-                  Text(
-                    'Opções da Review',
-                    style: TextStyle(
-                      fontFamily: 'CerebriSansPro',
-                      color: theme.tableCalendarColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
+                ? Center(
+                    child: Text(
+                      'Nenhuma review para ${_periodoSelecionado.toLowerCase()}',
+                      style: TextStyle(
+                        fontFamily: 'CerebriSansPro',
+                        color: theme.tableCalendarColor,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            // ✅ Opções
-            ListTile(
-              leading: Icon(
-                LucideIcons.squarePen,
-                color: AppColors.tealBlue,
-              ),
-              title: Text(
-                'Editar',
-                style: TextStyle(
-                  fontFamily: 'CerebriSansPro',
-                  color: AppColors.tealBlue,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              onTap: () {
-                Navigator.pop(context);
-                showDialog(
-                  context: context,
-                  builder: (context) => CustomEditForm(
-                    dataReview: DateTime.tryParse(
-                              t['dataRevisao'] ?? '',
-                            ) ??
-                            DateTime.now(),
-                    userId: userId!,
-                    topico: t['topico'],
-                    descricao: t['descricao'],
-                    selectedModuleId: t['idModulo'],
-                    selectedSubjectId: t['idMateria'],
-                    tarefaId: t['id'],
-                  ),
-                ).then((updated) {
-                  if (updated == true) {
-                    _loadReviews(_periodoSelecionado);
-                  }
-                });
-              },
-            ),
-            ListTile(
-              leading: Icon(
-                LucideIcons.circleX,
-                color: AppColors.coral,
-              ),
-              title: Text(
-                'Excluir',
-                style: TextStyle(
-                  fontFamily: 'CerebriSansPro',
-                  color: AppColors.coral,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              onTap: () async {
-                Navigator.pop(context);
-                final confirm = await showDialog<bool>(
-                  context: context,
-                  builder: (BuildContext dialogContext) {
-                    return CustomMsgDialog(
-                      title: 'Excluindo Review',
-                      content:
-                          "Deseja realmente deletar ${t['topico']}?",
-                      ok: CustomOk(
-                        function: () => Navigator.pop(
-                          dialogContext,
-                          true,
-                        ),
-                      ),
-                    );
-                  },
-                );
+                  )
+                : Column(
+                    children: [
+                      const SizedBox(height: 20),
+                      ...reviews.map((t) {
+                        final data =
+                            DateTime.tryParse(t['dataRevisao'] ?? '') ??
+                            DateTime.now();
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 20),
+                          child: CustomReviewCard(
+                            materia: t['materiaNome'],
+                            modulo: t['moduloNome'],
+                            reviewName: t['topico'],
+                            reviewDesc: '${t['descricao']}',
+                            dataReview: data,
+                            hasStudy: (String? selectedMood) async {
+                              final tarefaId = t['id'];
+                              if (userId == null || selectedMood == null)
+                                return;
 
-                if (confirm == true) {
-                  final id = t['id'];
-                  try {
-                    await dbHelper.delete(
-                      'tarefa',
-                      'id = ?',
-                      [id],
-                    );
-                    _loadReviews(_periodoSelecionado);
-                  } catch (e) {
-                    if (mounted) {
-                      showDialog<bool>(
-                        context: context,
-                        builder: (BuildContext dialogContext) {
-                          return CustomMsgDialog(
-                            title: 'Erro',
-                            content: "Erro ao deletar: $e",
-                            ok: CustomOk(
-                              function: () => Navigator.pop(dialogContext),
-                            ),
-                          );
-                        },
-                      );
-                    }
-                  }
-                }
-              },
-            ),
-            // ✅ ESPAÇO EXTRA para não ficar colado demais
-            const SizedBox(height: 10),
-          ],
-        ),
-      );
-    },
-  );
-},
-                                function: () {},
-                              ),
-                            );
-                          }).toList(),
-                        ],
-                      ),
+                              final tarefaData = await dbHelper.query(
+                                'tarefa',
+                                where: 'id = ?',
+                                whereArgs: [tarefaId],
+                              );
+                              if (tarefaData.isEmpty) return;
+                              final tarefa = tarefaData[0];
+
+                              DateTime dataRevisao =
+                                  DateTime.tryParse(
+                                    tarefa['dataRevisao'] ?? '',
+                                  ) ??
+                                  DateTime.now();
+                              DateTime hoje = DateTime.now();
+                              DateTime tarefaDia = DateTime(
+                                dataRevisao.year,
+                                dataRevisao.month,
+                                dataRevisao.day,
+                              );
+                              DateTime somenteHoje = DateTime(
+                                hoje.year,
+                                hoje.month,
+                                hoje.day,
+                              );
+
+                              if (tarefaDia != somenteHoje) {
+                                if (mounted) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (_) => CustomMsgDialog(
+                                      title: 'Atenção',
+                                      content:
+                                          'Você só pode marcar esta revisão no dia da tarefa.',
+                                      ok: CustomOk(
+                                        function: () => Navigator.pop(context),
+                                      ),
+                                    ),
+                                  );
+                                }
+                                return;
+                              }
+
+                              final lastReview = await dbHelper.query(
+                                'review_stats',
+                                where: 'idTarefa = ?',
+                                whereArgs: [tarefaId],
+                                orderBy: 'id DESC',
+                                limit: 1,
+                              );
+
+                              int repeticoes = 0;
+                              double easiness = 2.5;
+                              int intervalo = 1;
+
+                              if (lastReview.isNotEmpty) {
+                                repeticoes = lastReview[0]['repeticoes'] ?? 0;
+                                easiness = lastReview[0]['easiness'] ?? 2.5;
+                                intervalo = lastReview[0]['intervalo'] ?? 1;
+                              }
+
+                              int nota = 3;
+                              switch (selectedMood) {
+                                case 'mal':
+                                  nota = 1;
+                                  break;
+                                case 'ok':
+                                  nota = 3;
+                                  break;
+                                case 'bem':
+                                  nota = 5;
+                                  break;
+                              }
+
+                              if (nota < 3) {
+                                repeticoes = 0;
+                                intervalo = 1;
+                                easiness = (easiness - 0.2).clamp(1.3, 2.5);
+                              } else {
+                                repeticoes++;
+                                if (repeticoes == 1)
+                                  intervalo = 1;
+                                else if (repeticoes == 2)
+                                  intervalo = 3;
+                                else
+                                  intervalo = (intervalo * easiness).round();
+
+                                easiness =
+                                    easiness +
+                                    0.1 -
+                                    (5 - nota) * (0.08 + (5 - nota) * 0.02);
+                                if (easiness < 1.3) easiness = 1.3;
+                              }
+
+                              bool memorizado =
+                                  repeticoes >= 5 && selectedMood == 'bem';
+
+                              final userData = await dbHelper.query(
+                                'user',
+                                where: 'id = ?',
+                                whereArgs: [userId],
+                              );
+                              if (userData.isEmpty) return;
+                              final usuario = userData[0];
+
+                              if (memorizado) {
+                                await dbHelper.update(
+                                  'tarefa',
+                                  {'status': 'memorizado', 'dataRevisao': null},
+                                  'id = ?',
+                                  [tarefaId],
+                                );
+
+                                final carteiraAtual = usuario['carteira'] ?? 0;
+                                final bonus = 10;
+
+                                await dbHelper.update(
+                                  'user',
+                                  {
+                                    'carteira': carteiraAtual + bonus,
+                                    'totalMemorizadas':
+                                        (usuario['totalMemorizadas'] ?? 0) + 1,
+                                    'totalEstudadas':
+                                        (usuario['totalEstudadas'] ?? 0) + 1,
+                                  },
+                                  'id = ?',
+                                  [userId],
+                                );
+                                if (coinNotifier != null) {
+                                  coinNotifier.value = carteiraAtual + bonus;
+                                }
+
+                                if (mounted) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (dialogContext) => CustomMsgDialog(
+                                      title: 'Concluído 🎉',
+                                      content:
+                                          'Você dominou "${tarefa['topico']}"! Esta revisão foi marcada como memorizada.',
+                                      ok: CustomOk(
+                                        function: () =>
+                                            Navigator.pop(dialogContext),
+                                      ),
+                                    ),
+                                  );
+                                }
+
+                                if (mounted) {
+                                  _loadReviews(_periodoSelecionado);
+                                  _loadStats();
+                                }
+                                return;
+                              }
+
+                              final proximaData = hoje.add(
+                                Duration(days: intervalo),
+                              );
+                              int moedas = selectedMood == 'mal'
+                                  ? 1
+                                  : selectedMood == 'ok'
+                                  ? 2
+                                  : 3;
+
+                              await dbHelper.update(
+                                'user',
+                                {
+                                  'carteira':
+                                      (usuario['carteira'] ?? 0) + moedas,
+                                  'totalEstudadas':
+                                      (usuario['totalEstudadas'] ?? 0) + 1,
+                                },
+                                'id = ?',
+                                [userId],
+                              );
+                              if (coinNotifier != null) {
+                                coinNotifier.value =
+                                    (usuario['carteira'] ?? 0) + moedas;
+                              }
+
+                              await dbHelper.update(
+                                'tarefa',
+                                {
+                                  'status': selectedMood,
+                                  'dataRevisao': proximaData.toIso8601String(),
+                                },
+                                'id = ?',
+                                [tarefaId],
+                              );
+
+                              await dbHelper.insert('review_stats', {
+                                'idUsuario': tarefa['idUsuario'],
+                                'idTarefa': tarefaId,
+                                'status': selectedMood,
+                                'data': hoje.toIso8601String(),
+                                'intervalo': intervalo,
+                                'easiness': easiness,
+                                'repeticoes': repeticoes,
+                              });
+
+                              if (mounted) {
+                                showDialog(
+                                  context: context,
+                                  builder: (dialogContext) => CustomMsgDialog(
+                                    title: 'Próxima Revisão',
+                                    content:
+                                        'A próxima revisão de "${tarefa['topico']}" será em ${DateFormat('dd/MM/yyyy').format(proximaData)}.',
+                                    ok: CustomOk(
+                                      function: () =>
+                                          Navigator.pop(dialogContext),
+                                    ),
+                                  ),
+                                );
+                              }
+
+                              if (mounted) {
+                                _loadReviews(_periodoSelecionado);
+                                _loadStats();
+                              }
+                            },
+                            onPressed: () {
+                              // ✅ CORREÇÃO: BottomSheet COLADO na navbar
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled:
+                                    true, // ✅ Mantém o controle da altura
+                                backgroundColor: Colors.transparent,
+                                builder: (context) {
+                                  return Container(
+                                    // ✅ REMOVIDO: margin - Agora fica colado na navbar
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFF7EDE2),
+                                      borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(20),
+                                        topRight: Radius.circular(20),
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.2),
+                                          blurRadius: 10,
+                                          spreadRadius: 2,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        // ✅ Header do BottomSheet
+                                        Container(
+                                          padding: const EdgeInsets.all(16),
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xFFF7EDE2),
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                                  topLeft: Radius.circular(20),
+                                                  topRight: Radius.circular(20),
+                                                ),
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                Icons.more_vert,
+                                                color: theme.tableCalendarColor,
+                                              ),
+                                              const SizedBox(width: 10),
+                                              Text(
+                                                'Opções da Review',
+                                                style: TextStyle(
+                                                  fontFamily: 'CerebriSansPro',
+                                                  color:
+                                                      theme.tableCalendarColor,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 16,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        // ✅ Opções
+                                        ListTile(
+                                          leading: Icon(
+                                            LucideIcons.squarePen,
+                                            color: AppColors.tealBlue,
+                                          ),
+                                          title: Text(
+                                            'Editar',
+                                            style: TextStyle(
+                                              fontFamily: 'CerebriSansPro',
+                                              color: AppColors.tealBlue,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          onTap: () {
+                                            Navigator.pop(context);
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) =>
+                                                  CustomEditForm(
+                                                    dataReview:
+                                                        DateTime.tryParse(
+                                                          t['dataRevisao'] ??
+                                                              '',
+                                                        ) ??
+                                                        DateTime.now(),
+                                                    userId: userId!,
+                                                    topico: t['topico'],
+                                                    descricao: t['descricao'],
+                                                    selectedModuleId:
+                                                        t['idModulo'],
+                                                    selectedSubjectId:
+                                                        t['idMateria'],
+                                                    tarefaId: t['id'],
+                                                  ),
+                                            ).then((updated) {
+                                              if (updated == true) {
+                                                _loadReviews(
+                                                  _periodoSelecionado,
+                                                );
+                                              }
+                                            });
+                                          },
+                                        ),
+                                        ListTile(
+                                          leading: Icon(
+                                            LucideIcons.circleX,
+                                            color: AppColors.coral,
+                                          ),
+                                          title: Text(
+                                            'Excluir',
+                                            style: TextStyle(
+                                              fontFamily: 'CerebriSansPro',
+                                              color: AppColors.coral,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          onTap: () async {
+                                            Navigator.pop(context);
+                                            final confirm = await showDialog<bool>(
+                                              context: context,
+                                              builder:
+                                                  (BuildContext dialogContext) {
+                                                    return CustomMsgDialog(
+                                                      title: 'Excluindo Review',
+                                                      content:
+                                                          "Deseja realmente deletar ${t['topico']}?",
+                                                      ok: CustomOk(
+                                                        function: () =>
+                                                            Navigator.pop(
+                                                              dialogContext,
+                                                              true,
+                                                            ),
+                                                      ),
+                                                    );
+                                                  },
+                                            );
+
+                                            if (confirm == true) {
+                                              final id = t['id'];
+                                              try {
+                                                await dbHelper.delete(
+                                                  'tarefa',
+                                                  'id = ?',
+                                                  [id],
+                                                );
+                                                _loadReviews(
+                                                  _periodoSelecionado,
+                                                );
+                                              } catch (e) {
+                                                if (mounted) {
+                                                  showDialog<bool>(
+                                                    context: context,
+                                                    builder:
+                                                        (
+                                                          BuildContext
+                                                          dialogContext,
+                                                        ) {
+                                                          return CustomMsgDialog(
+                                                            title: 'Erro',
+                                                            content:
+                                                                "Erro ao deletar: $e",
+                                                            ok: CustomOk(
+                                                              function: () =>
+                                                                  Navigator.pop(
+                                                                    dialogContext,
+                                                                  ),
+                                                            ),
+                                                          );
+                                                        },
+                                                  );
+                                                }
+                                              }
+                                            }
+                                          },
+                                        ),
+                                        // ✅ ESPAÇO EXTRA para não ficar colado demais
+                                        const SizedBox(height: 10),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                            function: () {},
+                          ),
+                        );
+                      }).toList(),
+                    ],
+                  ),
           ],
         ),
       ),
