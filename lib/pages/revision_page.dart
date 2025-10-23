@@ -26,32 +26,42 @@ class _RevisionPageState extends State<RevisionPage> {
   }
 
   Future<void> _loadRevisions() async {
-    final data = await dbHelper.query(
-      'tarefa',
-      where: 'idMateria = ?',
-      whereArgs: [widget.subjectId],
+    // Pega todas as tarefas da matéria + contagem de revisões "bom"
+    final data = await dbHelper.rawQuery(
+      '''
+    SELECT 
+      t.*, 
+      COUNT(rs.id) AS repeticoes
+    FROM tarefa t
+    LEFT JOIN review_stats rs 
+      ON rs.idTarefa = t.id 
+      AND rs.status = 'bem'
+    WHERE t.idMateria = ?
+    GROUP BY t.id
+  ''',
+      [widget.subjectId],
     );
 
-    if (data.isNotEmpty) {
-      // Pega o nome da matéria
-      final materiaData = await dbHelper.query(
-        'materia',
-        where: 'id = ?',
-        whereArgs: [widget.subjectId],
-      );
-      subjectName = materiaData.isNotEmpty ? materiaData[0]['nome'] ?? '' : '';
+    if (data.isEmpty) return;
 
-      // Calcula quantas revisões faltam para memorizar
-      final revisionsWithProgress = data.map((t) {
-        int repeticoes = t['repeticoes'] ?? 0;
-        int faltam = (5 - repeticoes).clamp(0, 5);
-        return {...t, 'faltamMemorizar': faltam};
-      }).toList();
+    // Pega o nome da matéria
+    final materiaData = await dbHelper.query(
+      'materia',
+      where: 'id = ?',
+      whereArgs: [widget.subjectId],
+    );
+    subjectName = materiaData.isNotEmpty ? materiaData[0]['nome'] ?? '' : '';
 
-      setState(() {
-        revisions = revisionsWithProgress;
-      });
-    }
+    // Calcula faltamMemorizar
+    final revisionsWithProgress = data.map((t) {
+      int repeticoes = t['repeticoes'] ?? 0;
+      int faltam = (5 - repeticoes).clamp(0, 5);
+      return {...t, 'faltamMemorizar': faltam};
+    }).toList();
+
+    setState(() {
+      revisions = revisionsWithProgress;
+    });
   }
 
   @override

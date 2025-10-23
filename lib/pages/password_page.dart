@@ -152,127 +152,120 @@ class _PasswordPageState extends State<PasswordPage> {
               ),
               Form(
                 key: _formKey,
-                child: Container(
-                  margin: const EdgeInsets.only(bottom: 16),
-                  decoration: BoxDecoration(
-                    color: backgroundColor,
-                    borderRadius: BorderRadius.circular(18),
-                    border: Border.all(color: theme.appbarColor, width: 2.5),
-                  ),
-                  child: TextFormField(
-                    controller: _senhaController,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'A senha é obrigatória';
-                      }
-
-                      if (value.length < 8) {
-                        return 'A senha deve ter pelo menos 8 caracteres';
-                      }
-
-                      if (!RegExp(r'[A-Z]').hasMatch(value) ||
-                          !RegExp(r'[0-9]').hasMatch(value) ||
-                          !RegExp(r'[!@#\$&*~.,;:?]').hasMatch(value)) {
-                        return 'Use pelo menos 1 letra maiúscula, 1 número e 1 caractere especial';
-                      }
-
-                      return null;
-                    },
-                    obscureText: _obscureNewPassword,
-                    decoration: InputDecoration(
-                      hintText: "Nova senha...",
-                      hintStyle: TextStyle(
-                        color: theme.appbarColor.withOpacity(0.7),
-                        fontFamily: 'CerebriSansPro',
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 16,
-                      ),
-                      border: InputBorder.none,
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _obscureNewPassword
-                              ? Icons.visibility_off
-                              : Icons.visibility,
+                child: Column(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 16),
+                      decoration: BoxDecoration(
+                        color: backgroundColor,
+                        borderRadius: BorderRadius.circular(18),
+                        border: Border.all(
                           color: theme.appbarColor,
+                          width: 2.5,
                         ),
-                        onPressed: () {
-                          setState(() {
-                            _obscureNewPassword = !_obscureNewPassword;
-                          });
+                      ),
+                      child: TextFormField(
+                        controller: _senhaController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'A senha é obrigatória';
+                          }
+                          if (value.length < 8) {
+                            return 'A senha deve ter pelo menos 8 caracteres';
+                          }
+                          if (!RegExp(r'[A-Z]').hasMatch(value) ||
+                              !RegExp(r'[0-9]').hasMatch(value) ||
+                              !RegExp(r'[!@#\$&*~.,;:?]').hasMatch(value)) {
+                            return 'Use pelo menos 1 letra maiúscula, 1 número e 1 caractere especial';
+                          }
+                          return null;
                         },
-                      ),
-                    ),
-                    style: TextStyle(
-                      color: theme.appbarColor,
-                      fontFamily: 'CerebriSansPro',
-                    ),
-                  ),
-                ),
-              ),
-
-              // Campo Confirmar Senha
-              Padding(
-                padding: const EdgeInsets.only(left: 12.0, bottom: 8),
-                child: Text(
-                  "Confirmar senha",
-                  style: TextStyle(
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
-                    color: theme.appbarColor,
-                    fontFamily: 'CerebriSansPro',
-                  ),
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(bottom: 24),
-                decoration: BoxDecoration(
-                  color: backgroundColor,
-                  borderRadius: BorderRadius.circular(18),
-                  border: Border.all(color: theme.appbarColor, width: 2.5),
-                ),
-                child: Form(
-                  key: _formKey,
-                  child: TextFormField(
-                    controller: _confirmarSenhaController,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Confirme sua senha';
-                      }
-                      return null;
-                    },
-                    obscureText: _obscureConfirmPassword,
-                    decoration: InputDecoration(
-                      hintText: "Confirmar senha...",
-                      hintStyle: TextStyle(
-                        color: theme.appbarColor.withOpacity(0.7),
-                        fontFamily: 'CerebriSansPro',
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 16,
-                      ),
-                      border: InputBorder.none,
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _obscureConfirmPassword
-                              ? Icons.visibility_off
-                              : Icons.visibility,
+                        obscureText: _obscureNewPassword,
+                        decoration: InputDecoration(
+                          hintText: "Nova senha...",
+                          hintStyle: TextStyle(
+                            color: theme.appbarColor.withOpacity(0.7),
+                            fontFamily: 'CerebriSansPro',
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 16,
+                          ),
+                          border: InputBorder.none,
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _obscureNewPassword
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                              color: theme.appbarColor,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _obscureNewPassword = !_obscureNewPassword;
+                              });
+                            },
+                          ),
+                        ),
+                        style: TextStyle(
                           color: theme.appbarColor,
+                          fontFamily: 'CerebriSansPro',
                         ),
-                        onPressed: () {
-                          setState(() {
-                            _obscureConfirmPassword = !_obscureConfirmPassword;
-                          });
-                        },
                       ),
                     ),
-                    style: TextStyle(
-                      color: theme.appbarColor,
-                      fontFamily: 'CerebriSansPro',
+
+                    // Campo Confirmar Senha
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 24),
+                      decoration: BoxDecoration(
+                        color: backgroundColor,
+                        borderRadius: BorderRadius.circular(18),
+                        border: Border.all(
+                          color: theme.appbarColor,
+                          width: 2.5,
+                        ),
+                      ),
+                      child: TextFormField(
+                        controller: _confirmarSenhaController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Confirme sua senha';
+                          }
+                          return null;
+                        },
+                        obscureText: _obscureConfirmPassword,
+                        decoration: InputDecoration(
+                          hintText: "Confirmar senha...",
+                          hintStyle: TextStyle(
+                            color: theme.appbarColor.withOpacity(0.7),
+                            fontFamily: 'CerebriSansPro',
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 16,
+                          ),
+                          border: InputBorder.none,
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _obscureConfirmPassword
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                              color: theme.appbarColor,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _obscureConfirmPassword =
+                                    !_obscureConfirmPassword;
+                              });
+                            },
+                          ),
+                        ),
+                        style: TextStyle(
+                          color: theme.appbarColor,
+                          fontFamily: 'CerebriSansPro',
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ),
               const Spacer(),

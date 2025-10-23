@@ -82,7 +82,9 @@ class _EbbieState extends State<Ebbie> {
             ),
           ),
           // Página inicial decide pelo userId
-          home: userId != null ? SafeArea(child: const BottomNav()) : const IntroPage(),
+          home: userId != null
+              ? SafeArea(child: const BottomNav())
+              : const IntroPage(),
         );
       },
     );
