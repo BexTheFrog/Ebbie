@@ -129,7 +129,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => EmailPage(userId: userId!),
+                              builder: (context) => EmailPage(),
                             ),
                           );
                         },

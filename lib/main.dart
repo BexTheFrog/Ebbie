@@ -1,5 +1,6 @@
 import 'package:ebbie/app.dart';
 import 'package:ebbie/services/database.dart';
+import 'package:ebbie/services/user_controller.dart';
 import 'package:ebbie/services/user_service.dart';
 import 'package:ebbie/services/wallet.dart';
 import 'package:ebbie/widgets/theme_controller.dart';
@@ -27,6 +28,12 @@ void main() async {
   }
 
   runApp(
-    ChangeNotifierProvider(create: (_) => ThemeController(), child: Ebbie()),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ThemeController()),
+        ChangeNotifierProvider(create: (_) => UserController()),
+      ],
+      child: const Ebbie(),
+    ),
   );
 }
