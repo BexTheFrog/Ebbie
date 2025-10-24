@@ -658,13 +658,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                         ListTile(
                                           leading: Icon(
                                             LucideIcons.squarePen,
-                                            color: AppColors.tealBlue,
+                                            color: theme.editarBtnColor,
                                           ),
                                           title: Text(
                                             'Editar',
                                             style: TextStyle(
                                               fontFamily: 'CerebriSansPro',
-                                              color: AppColors.tealBlue,
+                                              color: theme.editarBtnColor,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -701,13 +701,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                         ListTile(
                                           leading: Icon(
                                             LucideIcons.circleX,
-                                            color: AppColors.coral,
+                                            color: theme.excluirBtnColor,
                                           ),
                                           title: Text(
                                             'Excluir',
                                             style: TextStyle(
                                               fontFamily: 'CerebriSansPro',
-                                              color: AppColors.coral,
+                                              color: theme.excluirBtnColor,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),

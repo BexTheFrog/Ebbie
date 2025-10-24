@@ -26,7 +26,7 @@ class _PetPageState extends State<PetPage> {
   final TextEditingController nameController = TextEditingController();
   int? userId;
 
-  String nome = 'CortexTeste';
+  String nome = 'Cortex';
   double fome = 0.3;
   double fit = 0.1;
   double higiene = 0.2;

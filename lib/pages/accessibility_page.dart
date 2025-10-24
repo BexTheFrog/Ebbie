@@ -21,7 +21,7 @@ class AccessibilityPage extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               const Text(
-                'Selecione o modo de daltonismo:',
+                'Selecione o modo de daltonismo: ',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
@@ -122,9 +122,10 @@ class AccessibilityPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(Icons.visibility, color: themeColor),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: 40),
                       Text(
-                        'Acessibilidade de cores ${themeController.daltonismMode}',
+                        'Acessibilidade de cores \n${themeController.daltonismMode}',
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                           color: themeColor,
                           fontSize: 18,

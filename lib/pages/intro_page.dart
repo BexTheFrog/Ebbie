@@ -28,17 +28,20 @@ class _IntroPageState extends State<IntroPage> {
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
-        systemNavigationBarColor: AppColors.pastelBeige, // Cor da barra de navegação
+        systemNavigationBarColor:
+            AppColors.pastelBeige, // Cor da barra de navegação
         systemNavigationBarIconBrightness: Brightness.dark, // Ícones escuros
         systemNavigationBarDividerColor: Colors.transparent,
         statusBarColor: Colors.transparent, // Status bar transparente
-        statusBarIconBrightness: Brightness.dark, // Ícones do status bar escuros
+        statusBarIconBrightness:
+            Brightness.dark, // Ícones do status bar escuros
         statusBarBrightness: Brightness.light,
       ),
       child: Scaffold(
         backgroundColor: AppColors.pastelBeige,
         appBar: null, // Remove o AppBar completamente
-        body: SafeArea( // Adiciona SafeArea como widget principal
+        body: SafeArea(
+          // Adiciona SafeArea como widget principal
           child: SingleChildScrollView(
             child: Stack(
               clipBehavior: Clip.none,
@@ -47,7 +50,10 @@ class _IntroPageState extends State<IntroPage> {
                   top: 325,
                   right: 45,
                   width: 700,
-                  child: Image.asset('assets/images/pedaco.png', fit: BoxFit.cover),
+                  child: Image.asset(
+                    'assets/images/pedaco.png',
+                    fit: BoxFit.cover,
+                  ),
                 ),
 
                 Column(
@@ -140,7 +146,8 @@ class _IntroPageState extends State<IntroPage> {
                                           context: context,
                                           builder: (_) => CustomMsgDialog(
                                             title: 'Erro',
-                                            content: 'Email ou senha incorretos',
+                                            content:
+                                                'Email ou senha incorretos',
                                             ok: CustomOk(
                                               function: () {
                                                 Navigator.pop(context);
