@@ -17,9 +17,9 @@
 
 | Nome      | Perfil GitHub |
 |------------|----------------|
-| Lucas      | [@](https://github.com/) |
-| Beatriz    | [@](https://github.com/) |
-| Ryan       | [@](https://github.com/) |
+| Beatriz    | [@](https://github.com/BexTheFrog) |
+| Lucas      | [@](https://github.com/lcsvaa) |
+| Ryan       | [@](https://github.com/Ryanslx) |
 
 ---
 
@@ -42,7 +42,7 @@
 - 🔔 **Notificações Locais:** flutter_local_notifications  
 - 📅 **Calendário:** table_calendar  
 - 💾 **Armazenamento local:** Shared Preferences  
-- 💬 **Animações:** Lottie  
+- 💬 **Animações:** After Effects  
 
 Exemplo de dependências:
 
