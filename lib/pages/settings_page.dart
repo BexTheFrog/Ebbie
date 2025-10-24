@@ -28,19 +28,24 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Future<void> _loadUserIdData() async {
     int? id = await UserService.getUserId();
-    setState(() => userId = id);
     if (id != null) {
-      final userData = await dbHelper.query(
+      final userDataList = await dbHelper.query(
         'user',
         where: 'id = ?',
         whereArgs: [id],
       );
-      setState(() {
-        dados = userData;
-        if (userData.isNotEmpty) {
-          this.userData = userData.first;
-        }
-      });
+      if (userDataList.isNotEmpty) {
+        final userData = userDataList.first;
+        final userController = context.read<UserController>();
+        userController.setEmail(userData['email']);
+        userController.setNome(userData['nome']);
+
+        setState(() {
+          this.userData = userData;
+          dados = userDataList;
+          userId = id;
+        });
+      }
     }
   }
 
@@ -120,7 +125,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           ),
                         ),
                         trailing: Text(
-                          userData?['email'] ?? 'Não encontrado',
+                          userController.email ?? "...",
                           style: TextStyle(
                             fontSize: 14,
                             color: borderColor,
@@ -155,7 +160,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           ),
                         ),
                         trailing: Text(
-                          userController.nome ?? "Usuário não encontrado",
+                          userController.nome ?? "...",
                           style: TextStyle(
                             fontSize: 14,
                             color: borderColor,

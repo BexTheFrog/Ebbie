@@ -1,4 +1,3 @@
-import 'package:ebbie/config/app_colors.dart';
 import 'package:ebbie/services/database.dart';
 import 'package:ebbie/widgets/custom_msg_dialog.dart';
 import 'package:ebbie/widgets/module_forms/custom_dialog_add_section.dart';
@@ -163,7 +162,7 @@ class _CardGridPageState extends State<CardGridPage> {
                 );
               },
             );
-          }).toList(),
+          }),
           CustomCardAdd(label: 'Adicionar', onTap: _addSubject),
         ],
       ),

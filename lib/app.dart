@@ -1,9 +1,5 @@
-import 'package:ebbie/pages/accessibility_page.dart';
 import 'package:ebbie/pages/bottom_nav.dart';
-import 'package:ebbie/pages/homepage.dart';
 import 'package:ebbie/pages/intro_page.dart';
-import 'package:ebbie/pages/profile_page.dart';
-import 'package:ebbie/pages/settings_page.dart';
 import 'package:ebbie/services/user_service.dart';
 import 'package:ebbie/widgets/theme_controller.dart';
 import 'package:flutter/material.dart';

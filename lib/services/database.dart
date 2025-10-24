@@ -95,18 +95,19 @@ class DatabaseHelper {
   ''');
 
     await db.execute('''
-  CREATE TABLE review_stats(
+CREATE TABLE review_stats(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     idUsuario INTEGER NOT NULL,
     idTarefa INTEGER NOT NULL,
-    status TEXT NOT NULL,
-    data TEXT NOT NULL,
+    status TEXT,
+    mood TEXT,           
+    data TEXT NOT NULL,   
     intervalo INTEGER NOT NULL DEFAULT 1,
     easiness REAL NOT NULL DEFAULT 2.5,
     repeticoes INTEGER NOT NULL DEFAULT 0,
     FOREIGN KEY(idUsuario) REFERENCES user(id) ON DELETE CASCADE,
     FOREIGN KEY(idTarefa) REFERENCES tarefa(id) ON DELETE CASCADE
-  )
+);
 ''');
   }
 
@@ -172,27 +173,24 @@ class DatabaseHelper {
   Future<Map<String, int>> getUserStats(int userId) async {
     final db = await database;
 
-    // Contar revisões realizadas
     final realizado =
         Sqflite.firstIntValue(
           await db.rawQuery(
             'SELECT COUNT(*) FROM review_stats WHERE idUsuario = ? AND status = ?',
-            [userId, 'realizado'],
+            [userId, 'revisado'], // usar o status correto
           ),
         ) ??
         0;
 
-    // Contar revisões puladas
     final pulou =
         Sqflite.firstIntValue(
           await db.rawQuery(
             'SELECT COUNT(*) FROM review_stats WHERE idUsuario = ? AND status = ?',
-            [userId, 'pulou'],
+            [userId, 'pulado'], // padronizado
           ),
         ) ??
         0;
 
-    // Contar tópicos memorizados
     final memorizou =
         Sqflite.firstIntValue(
           await db.rawQuery(

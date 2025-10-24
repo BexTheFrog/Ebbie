@@ -27,9 +27,9 @@ class _PetPageState extends State<PetPage> {
   int? userId;
 
   String nome = 'CortexTeste';
-  double fome = 0.5;
-  double fit = 0.5;
-  double higiene = 0.5;
+  double fome = 0.3;
+  double fit = 0.1;
+  double higiene = 0.2;
 
   String idleGif = 'assets/images/cortex/cortex_idle.gif';
   String currentGif = 'assets/images/cortex/cortex_idle.gif';
@@ -79,7 +79,7 @@ class _PetPageState extends State<PetPage> {
 
   void performAction(
     Function action, {
-    int cost = 1,
+    int cost = 3,
     required String gifPath,
   }) async {
     if (coinNotifier.value >= cost) {
@@ -103,7 +103,7 @@ class _PetPageState extends State<PetPage> {
         );
       }
 
-      Timer(const Duration(milliseconds: 2000), () {
+      Timer(const Duration(milliseconds: 6000), () {
         if (mounted) setState(() => currentGif = idleGif);
       });
     } else {
@@ -249,7 +249,7 @@ class _PetPageState extends State<PetPage> {
                                 onTap: () => performAction(
                                   () => fit = (fit + 0.1).clamp(0.0, 1.0),
                                   gifPath:
-                                      'assets/images/cortex/cortex_workout.gif',
+                                      'assets/images/cortex/cortex_buff.gif',
                                 ),
                               ),
                               const SizedBox(width: 20),
