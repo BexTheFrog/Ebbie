@@ -1,6 +1,6 @@
 # 🧠 EBBIE
 
-[![Projeto Acadêmico](https://img.shields.io/badge/Projeto%20Acadêmico-Senac-orange)]() [![Linguagem](https://img.shields.io/badge/Linguagem-Dart-blue)]() [![Framework](https://img.shields.io/badge/Framework-Flutter-02569B)]() [![Plataforma](https://img.shields.io/badge/Plataforma-Mobile-lightgrey)]() [![Status](https://img.shields.io/badge/Status-Desenvolvido-bright-green)]()
+[![Projeto Acadêmico](https://img.shields.io/badge/Projeto%20Acadêmico-Senac-orange)]() [![Linguagem](https://img.shields.io/badge/Linguagem-Dart-blue)]() [![Framework](https://img.shields.io/badge/Framework-Flutter-02569B)]() [![Plataforma](https://img.shields.io/badge/Plataforma-Mobile-lightgrey)]() [![Status](https://img.shields.io/badge/Status-Desenvolvido-brightgreen)]()
 
 ---
 
