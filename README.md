@@ -93,11 +93,19 @@ Simplicidade • Organização • Crescimento pessoal
 
 > Visualize os slides da apresentação do projeto diretamente pelo GitHub:
 
-[📎 **Visualizar PDF da Apresentação**](./pi_slide_ebbie.pdf)
+<p align="center">
+  <a href="./pdfs/pi_slide_ebbie.pdf">
+    <img src="https://img.icons8.com/ios-filled/100/000000/pdf.png" alt="Visualizar PDF da Apresentação"/>
+  </a>
+</p>
 
 > Assista ao vídeo de apresentação/Promoção do projeto:
 
-[![Assista ao vídeo](https://img.youtube.com/vi/WIRVUGP0OcQ/0.jpg)](https://www.youtube-nocookie.com/embed/WIRVUGP0OcQ?si=0sWY5lxXFGk01fV7)
+<p align="center">
+  <a href="https://www.youtube-nocookie.com/embed/WIRVUGP0OcQ?si=0sWY5lxXFGk01fV7">
+    <img src="https://img.youtube.com/vi/WIRVUGP0OcQ/0.jpg" alt="Assista ao vídeo" style="border: 2px solid #02569B; border-radius: 8px; max-width: 100%;"/>
+  </a>
+</p>
 
 ---
 
