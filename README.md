@@ -91,16 +91,13 @@ Simplicidade • Organização • Crescimento pessoal
 
 ## 📽 Apresentação
 
-> Abaixo você pode assistir à apresentação do projeto:
+> Visualize os slides da apresentação do projeto diretamente pelo GitHub:
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/WIRVUGP0OcQ?si=0sWY5lxXFGk01fV7" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+[📎 **Visualizar PDF da Apresentação**](./pi_slide_ebbie.pdf)
 
-> Também é possível visualizar os slides da apresentação diretamente pelo GitHub.  
-> *(Para funcionar, adicione o arquivo `slides_apresentacao.pdf` na pasta raiz do repositório.)*
+> Assista ao vídeo de apresentação/Promoção do projeto:
 
-<embed src="./pi_slide_ebbie.pdf" type="application/pdf" width="100%" height="600px" />
-
-> 📎 Caso o PDF não carregue, [clique aqui para abrir a apresentação completa](./pi_slide_ebbie.pdf).
+[![Assista ao vídeo](https://img.youtube.com/vi/WIRVUGP0OcQ/0.jpg)](https://www.youtube-nocookie.com/embed/WIRVUGP0OcQ?si=0sWY5lxXFGk01fV7)
 
 ---
 
