@@ -42,7 +42,7 @@
 - 🔔 **Notificações Locais:** flutter_local_notifications  
 - 📅 **Calendário:** table_calendar  
 - 💾 **Armazenamento local:** Shared Preferences  
-- 💬 **Animações:** Lottie  
+- 💬 **Animações do Cortex** After Effects  
 
 ---
 
